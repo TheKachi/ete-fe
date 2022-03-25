@@ -1,0 +1,27 @@
+<template>
+  <button
+    type="Submit"
+    class="bg-purple hover:bg-white text-white hover:text-purple border border-purple hover:border-purple rounded px-36 py-12"
+  >
+    <!-- bg-transparent hover:bg-white hover:text-purple border-purple
+    hover:border-purple -->
+
+    <slot></slot>
+  </button>
+</template>
+
+<script>
+export default {
+  name: 'SubmitBtn',
+  // props: {
+  // externalClass: {
+  //   type: Array,
+  // },
+  // url: {
+  //   type: String,
+  // },
+  // },
+}
+</script>
+
+<style></style>
