@@ -1,15 +1,22 @@
 <template>
   <div>
-    <modal v-if="isAcctModalActive === true">
+    <!-- Add account modal  -->
+    <modal
+      v-if="acctModal.isModalActive"
+      @close="acctModal.isModalActive = false"
+    >
+      <!-- :isModalActive="acctModal.isModalActive" -->
+
       <h5 class="text-lg lg:text-2xl font-bold text-black" slot="header">
         Add New Bank Account
       </h5>
 
-      <div v-for="(acct, i) in accounts" :key="i">
-        <!-- Bank name and Account number  -->
+      <div slot="body">
+        <!-- <div v-for="(acct, i) in accounts" :key="i"> -->
+        <!-- Bank name   -->
         <div>
           <label for="bank-name">Bank name</label>
-          <select v-model="acct.bank" class="form-select">
+          <select v-model="bank" class="form-select">
             <option disabled selected :value="{}">Select Bank</option>
             <option v-for="(bank, i) in banks" :key="i" :value="bank">
               {{ bank.name }}
@@ -22,11 +29,11 @@
           <label for="acct-no">Account number</label>
           <input
             type="text"
-            class="lg:w-50"
+            class=""
             id="acct-no"
             placeholder="Enter Account number"
             aria-label="Account number"
-            v-model.number="acct.acctNo"
+            v-model="acctNo"
           />
         </div>
 
@@ -36,12 +43,14 @@
           <input
             type="text"
             id="acct-name"
-            placeholder="Enter Account name"
+            placeholder="Account name"
             aria-label="Account name"
-            v-model.number="acct.acctName"
-            disable
+            v-model="acctName"
+            disabled
           />
         </div>
+
+        <submit-btn @click="create" class="float-right my-40">Save</submit-btn>
       </div>
     </modal>
     <div class="grid lg:grid-cols-12 gap-y-32 gap-x-60 justify-between">
@@ -85,6 +94,7 @@
           </div>
 
           <hr class="text-medium-grey mb-24" />
+
           <h3 class="text-base lg:text-lg font-bold text-black">
             Receiving account
           </h3>
@@ -118,7 +128,7 @@
 
             <button
               class="lg:col-span-3 text-purple"
-              @click.prevent="isAcctModalActive = !isAcctModalActive"
+              @click.prevent="acctModal.isModalActive = true"
             >
               +Add Account
             </button>
@@ -158,14 +168,17 @@ import {
 } from 'vuelidate/lib/validators'
 
 import SubmitBtn from '~/components/SubmitBtn.vue'
-import Modal from '../../components/utils/Modal.vue'
+import Modal from '~/components/utils/Modal.vue'
 export default {
   components: { SubmitBtn, fieldErrors },
   layout: 'dashboard',
 
   data: () => ({
-    isAcctModalActive: false,
-    isStakeholderModalActive: false,
+    acctModal: {
+      isModalActive: false,
+    },
+
+    // isStakeholderModalActive: false,
     bankAcctShowing: false,
     title: '',
     description: '',
@@ -178,12 +191,22 @@ export default {
     ],
 
     bank: {},
+    acctNo: '',
+    acctName: '',
     banks: [
       {
         name: 'GT Bank',
       },
       {
         name: 'Eco Bank',
+      },
+    ],
+
+    accounts: [
+      {
+        acctNo: '',
+        acctName: '',
+        bank: {},
       },
     ],
   }),
@@ -196,6 +219,9 @@ export default {
 
     toggleDropdown() {
       alert('toogle active')
+    },
+    toggleModal(modal) {
+      modal.isModalActive = !modal.isModalActive
     },
 
     addAcct() {

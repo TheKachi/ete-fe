@@ -14,19 +14,31 @@
             </button>
           </div>
 
-          <slot />
+          <hr class="text-medium-grey my-24" />
+
+          <slot name="body" />
 
           <slot name="footer" />
         </div>
       </div>
     </div>
-    <div class="absolute inset-0 z-40 bg-black w-screen h-screen"></div>
+    <!-- <div class="absolute inset-0 z-40 bg-black w-screen h-screen"></div> -->
   </transition>
 </template>
 
 <script>
 export default {
-  props: {},
+  props: {
+    // isModalActive: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+  },
+  methods: {
+    // close() {
+    //   this.$emit('close')
+    // },
+  },
 }
 </script>
 
