@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-12 gap-0">
+  <div class="grid grid-cols-12 gap-0" keep-alive>
     <side-bar class="lg:col-span-3" />
     <div class="lg:col-span-9">
       <header-bar />

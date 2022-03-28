@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="fixed top-0 z-[1000] inset-x-0 h-64 flex items-center justify-end lg:px-64"
+    class="fixed top-0 z-40 inset-x-0 h-64 flex items-center justify-end lg:px-64"
   >
     <!-- Notification -->
     <button @click="toggleDropdown(notifications)" class="mr-48">

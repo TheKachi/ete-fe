@@ -1,12 +1,25 @@
 <template>
-  <transition name="modal">
+  <!-- This example requires Tailwind CSS v2.0+ -->
+  <div
+    class="fixed top-56 z-10 inset-0 overflow-y-auto"
+    aria-labelledby="modal-title"
+    role="dialog"
+    aria-modal="true"
+  >
     <div
-      class="fixed z-50 overflow-x-hidden overflow-y-auto inset-0 flex justify-center items-center"
+      class="flex items-end justify-center min-h-screen pt-24 px-24 pb-20 text-center sm:block sm:p-0"
     >
-      <div class="relative mx-auto w-[567px] min-h-[570px]">
-        <div
-          class="bg-white p-40 w-[567px] min-h-[570px] shadow-[0_4px_50px_rgba(0,0,0,0.1)]"
-        >
+      <div class="fixed inset-0" aria-hidden="true"></div>
+      <span
+        class="hidden sm:inline-block sm:align-middle sm:h-screen"
+        aria-hidden="true"
+        >&#8203;</span
+      >
+      <div
+        class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-[0_4px_50px_rgba(0,0,0,0.1)] transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+      >
+        <div class="bg-white px-16 pt-20 pb-24 sm:p-24 sm:pb-16">
+          <!-- Header  -->
           <div class="flex justify-between items-center">
             <slot name="header"> default header </slot>
             <button @click="$emit('close')">
@@ -16,14 +29,16 @@
 
           <hr class="text-medium-grey my-24" />
 
+          <!-- Body  -->
           <slot name="body" />
 
-          <slot name="footer" />
+          <div class="flex flex-row-reverse">
+            <slot name="footer"></slot>
+          </div>
         </div>
       </div>
     </div>
-    <!-- <div class="absolute inset-0 z-40 bg-black w-screen h-screen"></div> -->
-  </transition>
+  </div>
 </template>
 
 <script>

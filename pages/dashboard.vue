@@ -65,9 +65,9 @@
       >
         <div class="flex flex-col gap-y-4">
           <h5 class="text-base font-bold text-black">Create Service</h5>
-          <h2 class="text-sm lg:text-base font-medium text-grey">
+          <h6 class="text-sm lg:text-base font-medium text-grey">
             Begin your transaction settlement by creating a service
-          </h2>
+          </h6>
         </div>
 
         <LgBtn url="/services/create">Create Services</LgBtn>
