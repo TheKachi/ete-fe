@@ -322,7 +322,7 @@
       <div slot="body">
         <!-- Group Name -->
         <!-- <div :class="{ 'form-group--error': $v.stakeholder.groupName.$error }"> -->
-        <div>
+        <div class="mb-24">
           <label :for="grp.groupName">Group name</label>
           <input
             :id="grp.groupName"
@@ -402,6 +402,7 @@
           <!-- Bank Name -->
           <div>
             <label for="bank-name">Bank name</label>
+
             <select v-model="grp.bank" class="form-select">
               <option disabled selected :value="{}">Select Bank</option>
               <option v-for="(bank, i) in banks" :key="i" :value="bank">
@@ -494,6 +495,7 @@
             /> -->
           </div>
         </div>
+
         <slot name="footer">
           <submit-btn @click="addStakeholder">Add stakeholder</submit-btn>
         </slot>
@@ -549,6 +551,7 @@
           <h3 class="text-base lg:text-lg font-bold text-black">
             Receiving account
           </h3>
+
           <h4 class="text-sm font-medium text-grey">
             Enter account details to recieve money
           </h4>

@@ -45,7 +45,8 @@ export default {
   ],
 
   axios: {
-    baseURL: 'http://13.36.233.47:4500',
+    baseURL:
+      'http://a3b8e4e5c9deb4f1c8f8ee6ae905ee0f-1513708545.eu-west-3.elb.amazonaws.com/',
   },
 
   auth: {

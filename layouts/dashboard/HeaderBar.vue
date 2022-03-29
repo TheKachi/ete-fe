@@ -3,7 +3,7 @@
     class="fixed top-0 z-40 inset-x-0 h-64 flex items-center justify-end lg:px-64"
   >
     <!-- Notification -->
-    <button @click="toggleDropdown(notifications)" class="mr-48">
+    <button @click="toggleDropdown(notifList)" class="mr-48">
       <i class="fas fa-bell"></i>
     </button>
 
@@ -13,70 +13,138 @@
         <i class="fas fa-user-plus rounded-full p-12 bg-medium-grey"></i>
 
         <div
-          class="flex items-center gap-x-8 ml-16 cursor-pointer"
-          @click="toggleDropdown"
+          class="flex items-center gap-x-8 ml-48 cursor-pointer"
+          @click="toggleDropdown(menuList)"
         >
           <!-- User name  -->
-          <span class="text-base text-black"> Lorem Ipsum</span>
+          <span class="text-base text-black"> David Henry</span>
 
           <i class="fas fa-chevron-down"></i>
         </div>
       </div>
 
+      <!-- Menu List dropdown  -->
       <ul
-        v-if="dropdownList.isOpen"
-        class="absolute top-56 -inset-x-56 bg-white px-12 py-48 cursor-pointer w-300 rounded shadow"
+        v-if="menuList[0].isOpen"
+        class="menu-list absolute top-56 right-[10px] bg-white flex flex-col cursor-pointer w-[295px] rounded-md shadow"
       >
-        <li
-          v-for="item in dropdownList"
-          :key="item"
-          class="text-black dark:text-white px-12 py-4 flex flex-col gap-20"
-        >
-          <nuxt-link :to="item.link"> {{ item.name }}</nuxt-link>
+        <!-- My Profile  -->
+        <li>
+          <nuxt-link
+            @click="notifList[0].isOpen = false"
+            to="/settings"
+            class="flex items-center gap-x-16"
+          >
+            <svg-loader path="img/nav" icon="profile" />
+
+            <span>My Profile</span>
+          </nuxt-link>
         </li>
-        <!-- @click="isOpen = false" -->
+
+        <!-- Switch Account  -->
+        <li class="">
+          <button
+            class="flex items-center gap-x-16"
+            @click.prevent="toggleDropdown(switchAcctList)"
+          >
+            <svg-loader path="img/nav" icon="switch" />
+
+            <span>Switch Account</span>
+          </button>
+          <ul v-if="switchAcctList[0].isOpen" class="">
+            <li class="pl-32"><button>David Henry Creation</button></li>
+          </ul>
+        </li>
+
+        <!-- Logout  -->
+        <li>
+          <button
+            class="flex items-center gap-x-16"
+            @click.prevent="logoutModal.isActive = true"
+          >
+            <SvgLoader path="img/nav" icon="logout" />
+            <span>Logout</span>
+          </button>
+        </li>
       </ul>
 
-      <ul
-        v-if="notifications.isOpen"
-        class="absolute top-56 -inset-x-56 bg-white px-12 py-48 cursor-pointer w-300 rounded shadow"
+      <!-- Notifications dropdown  -->
+      <div
+        class="absolute top-56 right-[10px] bg-white flex flex-col cursor-pointer w-[435px] rounded-md shadow"
+        v-if="notifList[0].isOpen"
       >
-        <li
-          v-for="item in notifications"
-          :key="item"
-          class="text-black dark:text-white px-12 py-4 flex flex-col gap-20"
-        >
-          <nuxt-link :to="item.link"> {{ item.title }}</nuxt-link>
-        </li>
-        <!-- @click="isOpen = false" -->
-      </ul>
+        <div class="flex justify-between items-baseline p-20">
+          <div class="flex gap-x-16">
+            <h5 class="text-lg lg:text-2xl font-bold text-black">
+              Notification
+            </h5>
+
+            <!-- <span class="rounded-full px-24 py-8 bg-[#E5DAF9] text-[#7445C7]">
+              2 unread
+            </span> -->
+          </div>
+          <button @click="notifList[0].isOpen = false">
+            <i class="fas fa-times text-black w-16 h-16"></i>
+          </button>
+        </div>
+
+        <hr class="text-medium-grey" />
+
+        <div class="p-20"></div>
+      </div>
+
+      <!-- Logout modal  -->
+      <modal v-if="logoutModal.isActive" @close="logoutModal.isActive = false">
+        <h5 class="text-lg lg:text-2xl font-bold text-black" slot="header">
+          Logout
+        </h5>
+
+        <div slot="body">
+          <p class="text-grey text-center mt-120">
+            Are you sure you want to logout?
+          </p>
+
+          <div class="flex justify-end gap-32 mt-120">
+            <nuxt-link
+              to="/"
+              class="bg-purple hover:bg-white text-white hover:text-purple border border-purple hover:border-purple rounded px-36 py-12"
+            >
+              Logout
+            </nuxt-link>
+            <nuxt-link
+              to="/"
+              class="bg-white hover:bg-purple text-purple hover:text-white border border-purple hover:border-purple rounded px-36 py-12"
+            >
+              Cancel
+            </nuxt-link>
+          </div>
+        </div>
+      </modal>
     </div>
   </nav>
 </template>
 
 <script>
+import SvgLoader from '~/components/utils/SvgLoader.vue'
+import Modal from '~/components/utils/Modal.vue'
+import SubmitBtn from '~/components/SubmitBtn.vue'
 export default {
   data: () => ({
-    dropdownList: [
+    logoutModal: {
+      isActive: false,
+    },
+
+    notifModal: {
+      isActive: false,
+    },
+
+    menuList: [
       {
         isOpen: false,
       },
-
-      {
-        name: 'My Profile',
-        link: '/',
-      },
-      {
-        name: 'Switch Account',
-        link: '/',
-      },
-      {
-        name: 'Logout',
-        link: '/',
-      },
     ],
 
-    notifications: [
+    notifList: [
       {
         isOpen: false,
       },
@@ -91,28 +159,50 @@ export default {
           'Netus faucibus pulvinar tempus scelerisque vestibulum vel, massa imperdiet iaculis',
       },
     ],
+
+    switchAcctList: [
+      { isOpen: false },
+      // {
+      //   name: 'My Profile',
+      //   link: '/',
+      //   icon: 'profile',
+      // },
+      // {
+      //   name: 'My Profile',
+      //   link: '/',
+      //   icon: 'profile',
+      // },
+    ],
   }),
 
   methods: {
     toggleDropdown(list) {
-      list.isOpen = !this.isOpen
+      list[0].isOpen = !list[0].isOpen
     },
-    // pageName() {
-    //   return this.ucFirst(this.$route.name);
-    // },
-    // ucFirst(str) {
-    //   return str.charAt(0).toUpperCase() + str.toLowerCase().slice(1);
-    // },
+
+    logout() {
+      alert('Log out successful')
+    },
   },
 
   components: {
-    // svgLoader,
+    SvgLoader,
+    Modal,
+    SubmitBtn,
   },
 }
 </script>
 
-<style scoped>
+<style lang="postcss" scoped>
 nav {
   box-shadow: 0 4px 50px rgba(0, 0, 0, 0.07);
+}
+
+.menu-list li {
+  @apply text-black text-base bg-white hover:bg-tab w-full;
+}
+.menu-list li button,
+.menu-list li a {
+  @apply text-base bg-white hover:bg-tab px-32 py-20 w-full;
 }
 </style>

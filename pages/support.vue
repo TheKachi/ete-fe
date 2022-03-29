@@ -4,7 +4,7 @@
       class="grid lg:grid-cols-12 gap-y-32 gap-x-60 justify-between py-60 lg:pt-120 px-20 lg:px-90 lg:relative"
     >
       <div class="lg:col-span-5">
-        <h1 class="text-2xl lg:text-3xl text-black font-bold">Contact us</h1>
+        <h1 class="text-2xl lg:text-3xl text-black font-bold">Need Help?</h1>
         <p class="text-base text-grey">
           Do you need help with anything? Kindly drop a message and it would be
           responded to within the next 48 hours.
@@ -15,7 +15,7 @@
         class="lg:col-span-7 lg:col-end-13 lg:py-60 lg:px-68 card lg:bg-white lg:absolute z-50 top-60 inset-x-0 lg:shadow-[0_4px_50px_rgba(0,0,0,0.1)]"
       >
         <h5 class="text-lg lg:text-2xl text-black mb-24 lg:mb-40 font-bold">
-          Send us a message
+          What are your concerns?
         </h5>
 
         <form class="flex flex-col gap-y-24">

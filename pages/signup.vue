@@ -50,20 +50,20 @@
       </div>
 
       <!-- Email -->
-      <div class="mb-12" :class="{ 'form-group--error': $v.id.$error }">
+      <div class="mb-12" :class="{ 'form-group--error': $v.email.$error }">
         <label for="email">Email Address</label>
         <input
           type="text"
           class="form-control"
           placeholder="Enter your email address"
           aria-label="Email"
-          v-model="id"
+          v-model="email"
         />
 
         <field-errors
-          v-if="$v.id.$error"
-          :field="$v.id"
-          alt="Please enter a valid Phone no or email"
+          v-if="$v.email.$error"
+          :field="$v.email"
+          alt="Please enter a valid email"
         />
 
         <!-- <field-errors
@@ -74,8 +74,7 @@
       </div>
 
       <!-- Phone number -->
-
-      <!-- <div class="mb-12">
+      <div class="mb-12" :class="{ 'form-group--error': $v.phone.$error }">
         <label for="phone">Phone number</label>
         <input
           type="number"
@@ -86,11 +85,11 @@
         />
 
         <field-errors
-          v-if="$v.id.$error"
-          :field="$v.id"
-          alt="Please enter a valid Phone no or email"
+          v-if="$v.phone.$error"
+          :field="$v.phone"
+          alt="Please enter a valid Phone number"
         />
-      </div> -->
+      </div>
 
       <!-- Company name  -->
       <div>
@@ -237,14 +236,15 @@ export default {
   data() {
     return {
       // isModalActive: false,
-      id: '',
+      // id: '',
       firstname: '',
       lastname: '',
-      intlPhone: '',
+      phone: '',
+      email: '',
+      // intlPhone: '',
       companyname: '',
       password: '',
       cPassword: '',
-      password: '',
       hidePassword: true,
 
       isLoading: false,
@@ -261,13 +261,66 @@ export default {
     showCPassword() {
       this.hideCPassword = this.hideCPassword ? false : true
     },
-    create() {
-      this.$router.push('/dashboard')
+
+    async create() {
+      this.$v.$touch()
+      if (this.$v.$pending || this.$v.$error) return
+
+      try {
+        this.isLoading = true
+        await this.$axios.$post('/account/register', {
+          firstname: this.firstname,
+          lastname: this.lastname,
+          email: this.email,
+          phone: this.phone,
+          companyname: this.companyname,
+          password: this.password,
+          // id: this.id,
+          // phone: this.phone,
+          // bvn: this.bvn,
+        })
+
+        let res = await this.$auth.loginWith('local', {
+          data: {
+            userId: this.userId,
+            password: this.password,
+            // device: {
+            //    os: platform.os,
+            //    name: platform.name,
+            //    version: platform.version,
+            //    product: platform.product,
+            //    manufacturer: platform.manufacturer,
+            //    layout: platform.layout,
+            //    description: platform.description
+            // }
+          },
+        })
+
+        this.$store.commit('add', res.data.user)
+        this.$store.commit('login', true)
+
+        // redirect
+        this.$router.push('/dashboard')
+        this.message = ''
+      } catch (error) {
+        this.isLoading = false
+        this.messageState = true
+
+        if (error.hasOwnProperty('response')) {
+          let errData = error.response.data
+          this.status(errData.message, 'error')
+          this.errorBag = errData.errors
+        } else {
+          this.status(error, 'error')
+        }
+
+        console.log({ error })
+      }
     },
   },
 
   validations: {
-    id: { required },
+    email: { required },
 
     firstname: { required, minLength: minLength(2) },
 

@@ -1,5 +1,4 @@
 <template>
-  <!-- This example requires Tailwind CSS v2.0+ -->
   <div
     class="fixed top-56 z-10 inset-0 overflow-y-auto"
     aria-labelledby="modal-title"
@@ -42,19 +41,7 @@
 </template>
 
 <script>
-export default {
-  props: {
-    // isModalActive: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-  },
-  methods: {
-    // close() {
-    //   this.$emit('close')
-    // },
-  },
-}
+export default {}
 </script>
 
 <style></style>
