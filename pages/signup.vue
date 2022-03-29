@@ -91,19 +91,6 @@
         />
       </div>
 
-      <!-- Company name  -->
-      <div>
-        <label for="company">Company name (optional)</label>
-        <input
-          type="text"
-          id="companyName"
-          class="form-control"
-          v-model.trim="companyname"
-          placeholder="Enter the name of your company"
-          aria-label="Company name"
-        />
-      </div>
-
       <!-- Password -->
       <div class="my-12" :class="{ 'form-group--error': $v.password.$error }">
         <label for="password">Password</label>
@@ -321,6 +308,7 @@ export default {
 
   validations: {
     email: { required },
+    phone: { required },
 
     firstname: { required, minLength: minLength(2) },
 
