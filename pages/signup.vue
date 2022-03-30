@@ -431,13 +431,13 @@ export default {
 
         let res = await this.$auth.loginWith('local', {
           data: {
-            email: this.email,
+            userId: this.email,
             password: this.password,
           },
         })
 
-        this.$store.commit('add', res.data.user)
-        this.$store.commit('login', true)
+        // this.$store.commit('add', res.data.user)
+        // this.$store.commit('login', true)
 
         // redirect
         this.$router.push('/dashboard')

@@ -37,45 +37,49 @@
       <!-- Password -->
       <div class="my-12" :class="{ 'form-group--error': $v.password.$error }">
         <label for="password">Password</label>
-        <div>
-          <!-- Hidden -->
+        <!-- Hidden -->
+        <div class="flex items-center" v-if="hidePassword">
           <input
             type="password"
             id="password"
             placeholder="Enter password"
             aria-label="Password"
             v-model="password"
-            v-if="hidePassword"
             @keyup.enter="login"
           />
 
-          <!-- Showing  -->
+          <!-- Show password button  -->
+          <a
+            class="eye py-[9px] px-8"
+            type="button"
+            @click="showPassword"
+            v-show="hidePassword"
+          >
+            <span class="hidden">Show</span>
+            <span><i class="fas fa-eye"></i></span>
+          </a>
+        </div>
+
+        <!-- Showing  -->
+        <div class="flex items-center" v-else>
           <input
-            type="text"
+            type="password"
             id="password"
             placeholder="Enter password"
             aria-label="Password"
             v-model="password"
             @keyup.enter="login"
-            v-else
           />
 
+          <!-- Hide password button  -->
           <a
-            class=""
-            href="#"
-            type="button"
-            @click="showPassword"
-            v-show="hidePassword"
-          >
-            <span><i class="fas fa-eye"></i></span>
-          </a>
-          <a
-            class=""
-            href="#"
+            class="eye py-[9px] px-8"
             type="button"
             @click="showPassword"
             v-show="!hidePassword"
           >
+            <span class="hidden">Hide</span>
+
             <span><i class="fas fa-eye-slash"></i></span>
           </a>
         </div>
@@ -121,7 +125,7 @@ export default {
       // isModalActive: false,
       userId: '',
       password: '',
-      // hidePassword: true,
+      hidePassword: true,
 
       // isLoading: false,
       // message: '',
@@ -147,6 +151,7 @@ export default {
             password: this.password,
           },
         })
+
         this.$router.push('/dashboard')
         console.log(res)
       } catch (error) {
@@ -158,10 +163,6 @@ export default {
         // this.status(this.message, 'error')
       }
     },
-
-    // login() {
-    //   this.$router.push('/dashboard')
-    // },
   },
 
   validations: {
@@ -184,5 +185,13 @@ export default {
 <style lang="postcss" scoped>
 h2 {
   @apply font-bold text-black text-2xl lg:text-3xl;
+}
+
+[type='password'] {
+  @apply border-r-0 rounded-r-none;
+}
+
+.eye {
+  @apply border border-l-0 border-medium-grey rounded-r-md;
 }
 </style>

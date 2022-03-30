@@ -42,7 +42,7 @@
         </li>
 
         <!-- Switch Account  -->
-        <li class="">
+        <li>
           <button
             class="flex items-center gap-x-16"
             @click.prevent="toggleDropdown(switchAcctList)"
@@ -51,21 +51,46 @@
 
             <span>Switch Account</span>
           </button>
-          <ul v-if="switchAcctList[0].isOpen" class="">
-            <li class=""><button>David Henry Creation</button></li>
+          <ul v-if="switchAcctList[0].isOpen">
+            <li><button>Account to switch to</button></li>
           </ul>
         </li>
 
         <!-- Logout  -->
         <li>
-          <button
-            class="flex items-center gap-x-16"
-            @click.prevent="logoutModal.isActive = true"
-          >
+          <button class="flex items-center gap-x-16" @click="$auth.logout()">
             <SvgLoader path="img/nav" icon="logout" />
             <span>Logout</span>
           </button>
         </li>
+
+        <!-- Logout modal  -->
+        <!-- <modal v-if="logoutModal.isActive" @close="logoutModal.isActive = false">
+        <h5 class="text-lg lg:text-2xl font-bold text-black" slot="header">
+          Logout
+        </h5>
+
+        <div slot="body">
+          <p class="text-grey text-center mt-120">
+            Are you sure you want to logout?
+          </p>
+
+          <div class="flex justify-end gap-32 mt-120">
+            <button
+              @click="$auth.logout()"
+              class="bg-purple hover:bg-white text-white hover:text-purple border border-purple hover:border-purple rounded px-36 py-12"
+            >
+              Logout
+            </button>
+            <button
+              @click="logoutModal.isActive = false"
+              class="bg-white hover:bg-purple text-purple hover:text-white border border-purple hover:border-purple rounded px-36 py-12"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </modal> -->
       </ul>
 
       <!-- Notifications dropdown  -->
@@ -92,34 +117,6 @@
 
         <div class="p-20"></div>
       </div>
-
-      <!-- Logout modal  -->
-      <modal v-if="logoutModal.isActive" @close="logoutModal.isActive = false">
-        <h5 class="text-lg lg:text-2xl font-bold text-black" slot="header">
-          Logout
-        </h5>
-
-        <div slot="body">
-          <p class="text-grey text-center mt-120">
-            Are you sure you want to logout?
-          </p>
-
-          <div class="flex justify-end gap-32 mt-120">
-            <button
-              @click="$auth.logout()"
-              class="bg-purple hover:bg-white text-white hover:text-purple border border-purple hover:border-purple rounded px-36 py-12"
-            >
-              Logout
-            </button>
-            <button
-              @click="logoutModal.isActive = false"
-              class="bg-white hover:bg-purple text-purple hover:text-white border border-purple hover:border-purple rounded px-36 py-12"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </modal>
     </div>
   </nav>
 </template>
