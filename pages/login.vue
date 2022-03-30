@@ -11,20 +11,20 @@
     <form>
       <h2 class="lg:pt-120">Login</h2>
 
-      <!-- User name/Phone Number -->
-      <div class="mb-12" :class="{ 'form-group--error': $v.id.$error }">
-        <label for="id">User name</label>
+      <!-- Email/Phone Number -->
+      <div class="mb-12" :class="{ 'form-group--error': $v.userId.$error }">
+        <label for="user-id">Email or phone number</label>
         <input
           type="text"
-          placeholder="Enter user name or phone number"
-          id="id"
-          v-model="id"
+          placeholder="Enter Email or phone number"
+          id="user-id"
+          v-model="userId"
         />
 
         <field-errors
-          v-if="$v.id.$error"
-          :field="$v.id"
-          alt="Please enter a valid user name or phone number"
+          v-if="$v.userId.$error"
+          :field="$v.userId"
+          alt="Please enter a valid Email or phone number"
         />
         <!--
           <field-errors
@@ -119,14 +119,14 @@ export default {
   data() {
     return {
       // isModalActive: false,
-      id: '',
+      userId: '',
       password: '',
-      hidePassword: true,
+      // hidePassword: true,
 
-      isLoading: false,
-      message: '',
-      messageState: '',
-      userData: {},
+      // isLoading: false,
+      // message: '',
+      // messageState: '',
+      // userData: {},
     }
   },
 
@@ -135,30 +135,37 @@ export default {
       this.hidePassword = this.hidePassword ? false : true
     },
 
-    // async login() {
-    //   this.$v.$touch()
-    //   if (this.$v.$pending || this.$v.$error) return
+    async login() {
+      this.$v.$touch()
+      if (this.$v.$pending || this.$v.$error) return
 
-    //   try {
-    //     this.isLoading = true
-    //     this.$router.push({ name: 'dashboard' })
-    //   } catch (error) {
-    //     this.isLoading = false
-    //     this.messageState = true
-    //     this.message = 'Invalid login credentials'
-    //     this.status(this.message, 'error')
-    //   }
-    // },
+      try {
+        this.isLoading = true
+        let res = await this.$auth.loginWith('local', {
+          data: {
+            userId: this.userId,
+            password: this.password,
+          },
+        })
+        this.$router.push('/dashboard')
+        console.log(res)
+      } catch (error) {
+        console.log({ error })
 
-    login() {
-      this.$router.push('/dashboard')
-
-      // alert('You are now logged in')
+        // this.isLoading = false
+        // this.messageState = true
+        // this.message = 'Invalid login credentials'
+        // this.status(this.message, 'error')
+      }
     },
+
+    // login() {
+    //   this.$router.push('/dashboard')
+    // },
   },
 
   validations: {
-    id: { required },
+    userId: { required },
 
     password: {
       required,

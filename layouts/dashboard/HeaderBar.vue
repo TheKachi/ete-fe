@@ -3,7 +3,7 @@
     class="fixed top-0 z-40 inset-x-0 h-64 flex items-center justify-end lg:px-64"
   >
     <!-- Notification -->
-    <button @click="toggleDropdown(notifList)" class="mr-48">
+    <button @click="isVisible = !isVisible" class="mr-48">
       <i class="fas fa-bell"></i>
     </button>
 
@@ -17,7 +17,7 @@
           @click="toggleDropdown(menuList)"
         >
           <!-- User name  -->
-          <span class="text-base text-black"> David Henry</span>
+          <span class="text-base text-black">{{ username }}</span>
 
           <i class="fas fa-chevron-down"></i>
         </div>
@@ -26,7 +26,7 @@
       <!-- Menu List dropdown  -->
       <ul
         v-if="menuList[0].isOpen"
-        class="menu-list absolute top-56 right-[10px] bg-white flex flex-col cursor-pointer w-[295px] rounded-md shadow"
+        class="dl menu-list absolute top-56 right-[10px] bg-white flex flex-col cursor-pointer w-[295px] rounded-md shadow py-20"
       >
         <!-- My Profile  -->
         <li>
@@ -52,7 +52,7 @@
             <span>Switch Account</span>
           </button>
           <ul v-if="switchAcctList[0].isOpen" class="">
-            <li class="pl-32"><button>David Henry Creation</button></li>
+            <li class=""><button>David Henry Creation</button></li>
           </ul>
         </li>
 
@@ -70,8 +70,8 @@
 
       <!-- Notifications dropdown  -->
       <div
-        class="absolute top-56 right-[10px] bg-white flex flex-col cursor-pointer w-[435px] rounded-md shadow"
-        v-if="notifList[0].isOpen"
+        class="dl absolute top-56 right-[10px] bg-white flex flex-col cursor-pointer w-[435px] rounded-md shadow"
+        v-if="isVisible"
       >
         <div class="flex justify-between items-baseline p-20">
           <div class="flex gap-x-16">
@@ -105,18 +105,18 @@
           </p>
 
           <div class="flex justify-end gap-32 mt-120">
-            <nuxt-link
-              to="/"
+            <button
+              @click="$auth.logout()"
               class="bg-purple hover:bg-white text-white hover:text-purple border border-purple hover:border-purple rounded px-36 py-12"
             >
               Logout
-            </nuxt-link>
-            <nuxt-link
-              to="/"
+            </button>
+            <button
+              @click="logoutModal.isActive = false"
               class="bg-white hover:bg-purple text-purple hover:text-white border border-purple hover:border-purple rounded px-36 py-12"
             >
               Cancel
-            </nuxt-link>
+            </button>
           </div>
         </div>
       </modal>
@@ -130,6 +130,7 @@ import Modal from '~/components/utils/Modal.vue'
 import SubmitBtn from '~/components/SubmitBtn.vue'
 export default {
   data: () => ({
+    isVisible: false,
     logoutModal: {
       isActive: false,
     },
@@ -180,8 +181,17 @@ export default {
       list[0].isOpen = !list[0].isOpen
     },
 
-    logout() {
-      alert('Log out successful')
+    logout() {},
+
+    close() {
+      //  this.$emit("on-close", false);
+      this.isVisible = false
+    },
+  },
+
+  computed: {
+    username() {
+      return this.$auth.user.firstname + ' ' + this.$auth.user.lastname
     },
   },
 
@@ -189,6 +199,21 @@ export default {
     SvgLoader,
     Modal,
     SubmitBtn,
+  },
+
+  mounted() {
+    let _that = this
+    // this.checkActive()
+
+    window.addEventListener('mouseup', (e) => {
+      var el = document.querySelector('.dl')
+      console.log(el)
+      if (el != null) {
+        if (e.target != el && !el.contains(e.target)) {
+          _that.close()
+        }
+      }
+    })
   },
 }
 </script>
@@ -203,6 +228,6 @@ nav {
 }
 .menu-list li button,
 .menu-list li a {
-  @apply text-base bg-white hover:bg-tab px-32 py-20 w-full;
+  @apply text-base bg-white hover:bg-tab px-24 py-12 w-full;
 }
 </style>

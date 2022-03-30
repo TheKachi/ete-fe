@@ -42,32 +42,33 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/svg',
+    '@nuxtjs/auth-next',
   ],
 
   axios: {
     baseURL:
-      'http://a3b8e4e5c9deb4f1c8f8ee6ae905ee0f-1513708545.eu-west-3.elb.amazonaws.com/',
+      'http://a3b8e4e5c9deb4f1c8f8ee6ae905ee0f-1513708545.eu-west-3.elb.amazonaws.com/v1',
   },
 
   auth: {
     strategies: {
       local: {
         token: {
-          property: 'token',
+          property: 'data.token',
         },
         user: {
-          property: 'data',
+          property: 'data.user',
         },
-        logout: { url: '/account/logout', method: 'post' },
+        // logout: { url: '/account/logout', method: 'post' },
         endpoints: {
           login: { url: '/account/login', method: 'post' },
-          logout: { url: '/account/logout', method: 'post' },
+          // logout: { url: '/account/logout', method: 'post' },
           user: { url: '/account/token', method: 'get' },
         },
       },
     },
     redirect: {
-      login: '/signin',
+      login: '/login',
       logout: '/',
       user: '/settings',
       home: '/dashboard',

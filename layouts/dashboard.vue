@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-12 gap-0" keep-alive>
+  <div class="grid grid-cols-12 gap-0">
     <side-bar class="lg:col-span-3" />
     <div class="lg:col-span-9">
       <header-bar />
@@ -13,7 +13,7 @@ import SideBar from './dashboard/SideBar'
 import HeaderBar from './dashboard/HeaderBar'
 
 export default {
-  // middleware: "auth",
+  middleware: 'auth',
 
   components: {
     SideBar,

@@ -2,15 +2,18 @@
   <div>
     <!-- Greeting -->
     <div class="flex items-center gap-x-20">
-      <i
+      <!-- <i
         v-if="user.avatar == undefined"
         class="fas fa-user-plus rounded-full p-12 bg-medium-grey"
-      ></i>
-      <img v-else :src="user.avatarUrl" :alt="`A photo of ${user.firstname}`" />
+      ></i> -->
+      <!-- <img v-else :src="user.avatarUrl" :alt="`A photo of ${user.firstname}`" /> -->
       <div class="flex flex-col gap-y-4">
         <h1 class="text-lg lg:text-2xl font-bold text-black">
-          Hi, {{ username }}
+          {{ username }}
         </h1>
+        <!-- {{ $auth.user.firstname + ' ' + $auth.user.lastname }}  -->
+
+        <!--  Hi, {{ $auth.user.firstname }} -->
         <h2 class="text-sm lg:text-base font-medium text-grey">
           Welcome to your dashboard
         </h2>
@@ -82,19 +85,23 @@ import LgBtn from '~/components/LgBtn.vue'
 export default {
   layout: 'dashboard',
 
-  data: () => ({
-    user: {
-      firstname: 'Lorem',
-      lastname: 'Ipsum',
-      avatarUrl:
-        'https://res.cloudinary.com/thekachi/image/upload/v1597097618/charity-29.jpg',
-    },
-  }),
+  // data: () => ({
+  //   user: {
+  //     firstname: 'Lorem',
+  //     lastname: 'Ipsum',
+  //     avatarUrl:
+  //       'https://res.cloudinary.com/thekachi/image/upload/v1597097618/charity-29.jpg',
+  //   },
+  // }),
 
   computed: {
     username() {
-      return this.user.firstname + ' ' + this.user.lastname
+      return this.$auth.user.firstname + ' ' + this.$auth.user.lastname
     },
+  },
+
+  mounted() {
+    console.log(this.$auth.user)
   },
 
   components: {

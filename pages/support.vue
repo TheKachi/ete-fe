@@ -12,7 +12,7 @@
       </div>
 
       <div
-        class="lg:col-span-7 lg:col-end-13 lg:py-60 lg:px-68 card lg:bg-white lg:absolute z-50 top-60 inset-x-0 lg:shadow-[0_4px_50px_rgba(0,0,0,0.1)]"
+        class="lg:col-span-7 lg:col-end-13 lg:py-60 lg:px-68 card lg:bg-white lg:absolute z-20 top-60 inset-x-0 lg:shadow-[0_4px_50px_rgba(0,0,0,0.1)]"
       >
         <h5 class="text-lg lg:text-2xl text-black mb-24 lg:mb-40 font-bold">
           What are your concerns?
