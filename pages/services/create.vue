@@ -59,16 +59,14 @@
       </h5>
 
       <div slot="body">
-        <!-- Full name and Role  -->
-        <div class="grid grid-cols-2 gap-x-16 mb-8">
+        <!-- Full name and Role - Individual  -->
+        <div
+          class="grid grid-cols-2 gap-x-16 mb-16"
+          v-if="holder.type === 'individual'"
+        >
           <!-- Full Name -->
           <div>
-            <label for="stakeholder-name" v-if="holder.type === 'individual'"
-              >Full name</label
-            >
-            <label for="stakeholder-name" v-if="holder.type === 'group'"
-              >Group name</label
-            >
+            <label for="stakeholder-name">Full name</label>
             <input
               id="stakeholder-name"
               type="text"
@@ -77,7 +75,7 @@
           </div>
 
           <!--Role - Individual -->
-          <div v-if="holder.type === 'individual'">
+          <div>
             <label for="role">Role</label>
             <select id="role" name="role" v-model="holder.role">
               <option value="stakeholder">Stakeholder</option>
@@ -85,45 +83,55 @@
           </div>
         </div>
 
+        <!-- Group Name -->
+        <div v-if="holder.type === 'group'" class="mb-24">
+          <label for="stakeholder-name">Group name</label>
+          <input id="stakeholder-name" type="text" v-model.trim="holder.name" />
+        </div>
+
         <!-- Add members - Group  -->
         <h5
-          class="text-base font-bold text-black"
+          class="text-base font-bold text-black mb-16"
           v-if="holder.type === 'group'"
         >
           Add members
         </h5>
 
         <!-- Email  -->
-        <div class="mb-24">
-          <label for="stakeholder-email">Email</label>
+        <div class="mb-16">
+          <label for="stakeholder-email" v-if="holder.type === 'individual'"
+            >Email</label
+          >
           <input
             type="email"
             id="stakeholder-email"
             name="stakeholder-email"
-            v-model="holder.email"
+            v-model="singleEmail"
+            @change="addEmail"
             v-if="holder.type === 'individual'"
           />
           <input
             type="email"
-            id="stakeholder-email"
-            name="stakeholder-email"
             placeholder="Email, space seperated"
-            v-model="holder.email"
+            aria-label="Email, space seperated"
+            v-model="singleEmail"
             v-if="holder.type === 'group'"
-            @keyup.space="addGroupEmail"
+            @keyup.space="addEmail"
           />
         </div>
 
         <!-- Members emails list - Group  -->
         <div
-          class="flex flex-wrap gap-x-4 gap-y-16"
-          v-if="holder.type === 'group'"
+          class="flex flex-wrap gap-x-4 gap-y-8 mb-24"
+          v-if="holder.type === 'group' && holder.email.length > 0"
         >
           <div
-            class="bg-white flex gap-8 items-center justify-center border border-grey rounded p-8"
+            v-for="i in holder.email"
+            :key="i"
+            class="bg-white justify-center border border-grey rounded p-8 text-xs"
           >
-            <div>{{ holder.email }}</div>
-            <i class="fas fa-times" @click="removeGroupEmail"></i>
+            {{ i }}
+            <i class="fas fa-times ml-12" @click="removeGroupEmail"></i>
           </div>
         </div>
 
@@ -403,8 +411,11 @@
               <h5 class="text-base text-black font-medium">
                 {{ holder.name }}
               </h5>
-              <p class="text-sm text-grey">
-                {{ holder.email }}
+              <p class="text-sm text-grey" v-if="holder.type === 'individual'">
+                {{ holder.email[0] }}
+              </p>
+              <p class="text-sm text-grey" v-if="holder.type === 'group'">
+                {{ holder.email.length }} members
               </p>
             </div>
 
@@ -437,10 +448,10 @@
         </div>
       </div>
     </div>
-
+    <!--
     <click-btn @click="createService" class="float-right mt-48"
       >Create Services</click-btn
-    >
+    > -->
   </div>
 </template>
 
@@ -473,19 +484,20 @@ export default {
     bank_code: '',
     stakeholders: [],
     holder: {
-      email: 'individual@gmail.com',
-      name: 'Kachi Individual',
+      email: [],
+      name: '',
       is_percentage: false,
       is_automated: true,
       share_formular: null,
       type: '',
-      account_no: '0234567890',
-      account_name: 'Kachi Individual',
+      account_no: '',
+      account_name: '',
       bank_name: '',
       bank_code: '737',
       schedule: '',
-      role: 'Stakeholder',
+      role: '',
     },
+    singleEmail: '',
     markUpType: '', // fixed or %
     disbursementType: '', //automated or scheduled
     accounts: [
@@ -553,6 +565,11 @@ export default {
     //   }
     // },
 
+    addEmail() {
+      this.holder.email.push(this.singleEmail)
+      this.singleEmail = ''
+    },
+
     addAcct() {
       this.accounts.push({
         account_no: '',
@@ -577,7 +594,7 @@ export default {
       this.stakeholders.push(this.holder)
 
       this.holder = {
-        email: '',
+        email: [],
         name: '',
         is_percentage: false,
         is_automated: true,
@@ -616,37 +633,6 @@ export default {
       return num.toLocaleString('en-US')
     },
   },
-
-  // validations() {
-  //   let valObj = {
-  //     title: {
-  //       required,
-  //       minLength: minLength(4),
-  //     },
-
-  //     disbursementType: {
-  //       required,
-  //     },
-
-  //     schedule: {
-  //       required,
-  //     },
-
-  //     stakeholder: {
-  //       email: { required },
-  //       name: { required },
-  //       markUpType: { required },
-  //       type: { required },
-  //       share_formular: {
-  //         required,
-  //         numeric,
-  //         minValue: minValue(this.minAmount),
-  //       },
-  //       roles: { required },
-  //     },
-  //   }
-  //   return valObj
-  // },
 
   components: {
     Modal,
