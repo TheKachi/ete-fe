@@ -22,7 +22,7 @@
     </aside>
 
     <div
-      class="w-full lg:w-4/6 px-20 lg:px-0 pt-28 lg:pt-20 pb-40 flex flex-col md:h-full lg:fixed right-0"
+      class="w-full lg:w-4/6 px-20 lg:px-0 pt-28 lg:pt-20 pb-40 flex flex-col md:h-full md:justify-center lg:fixed right-0"
     >
       <slot />
     </div>
@@ -58,6 +58,12 @@ button {
 span {
   @apply mx-auto;
 }
-/*  */
-/**/
+
+[type='password'],
+.password [type='text'] {
+  @apply border-r-0 rounded-r-none;
+}
+.eye {
+  @apply border border-l-0 border-medium-grey rounded-r-md;
+}
 </style>

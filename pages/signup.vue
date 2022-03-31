@@ -36,10 +36,16 @@
         </div>
 
         <!-- Continue Button  -->
-        <button type="button" @click.prevent="sendOtp">Continue</button>
+        <button type="button" @click.prevent="sendOtp" class="mt-24">
+          Continue
+        </button>
       </div>
 
       <div v-if="screen == 'otp'">
+        <label
+          >Enter the code sent to <span>{{ email }}</span> -
+          <span>{{ otp }}</span></label
+        >
         <!-- Input otp here -->
         <div :class="{ 'form-group--error': $v.code.$error }">
           <otp-input
@@ -55,31 +61,32 @@
           <field-errors v-if="$v.code.$error" :field="$v.code" />
         </div>
 
-        <div class="flex gap-16">
+        <div class="float-right mt-12">
           <!-- Resend  -->
-          <p>
-            <span v-if="isTimedout">
-              Didn’t get code?
-              <a
-                class="text-danger fw-bold hover:underline hover:underline-offset-8 text-purple"
-                @click="sendOtp"
-              >
-                Resend
-              </a>
-            </span>
-            <span v-else>
-              <strong style="font-size: 20px">
-                {{ countdown.minutes }}:
-                {{ countdown.seconds }}
-              </strong>
-            </span>
-          </p>
+          <span v-if="isTimedout">
+            Didn’t get code?
+            <a
+              class="text-[danger] fw-bold hover:underline hover:underline-offset-8 text-purple"
+              @click="sendOtp"
+            >
+              Resend
+            </a>
+          </span>
 
-          <!-- Continue  -->
-          <button type="button" @click.prevent="verifyOtp">Continue</button>
+          <!-- Countdown Timer -->
+          <strong v-else class="flex">
+            {{ countdown.minutes }}:
+            {{ countdown.seconds }}
+          </strong>
         </div>
+
+        <!-- Continue  -->
+        <button type="button" @click.prevent="verifyOtp" class="mt-24">
+          Continue
+        </button>
       </div>
 
+      <!-- Register  -->
       <div v-if="screen == 'register'">
         <div class="grid grid-cols-2 gap-x-16 mb-12">
           <!-- First Name -->
@@ -124,9 +131,7 @@
           <label for="email">Email Address</label>
           <input
             type="text"
-            class="form-control"
             placeholder="Enter your email address"
-            aria-label="Email"
             v-model="email"
           />
 
@@ -146,10 +151,11 @@
         <!-- Phone number -->
         <div class="mb-12" :class="{ 'form-group--error': $v.phone.$error }">
           <label for="phone">Phone number</label>
-          <intl-number
+
+          <input
+            type="text"
+            placeholder="Enter your phone number"
             v-model="phone"
-            place="Enter your phone number"
-            @update="onPhone"
           />
 
           <field-errors
@@ -166,105 +172,125 @@
         </div>
 
         <!-- Password -->
-        <div class="my-12" :class="{ 'form-group--error': $v.password.$error }">
+        <div
+          class="my-12"
+          :class="{ 'form-group--error': $v.password.content.$error }"
+        >
           <label for="password">Password</label>
-          <div>
-            <!-- Hidden -->
+          <!-- Hidden -->
+          <div class="flex items-center" v-if="password.hide">
             <input
               type="password"
               id="password"
               placeholder="Enter password"
               aria-label="Password"
-              v-model="password"
-              v-if="hidePassword"
+              v-model="password.content"
               @keyup.enter="create"
             />
 
-            <!-- Showing  -->
+            <!-- Show password button  -->
+            <a
+              class="eye py-[9px] px-8"
+              type="button"
+              @click="show(password)"
+              v-show="password.hide"
+            >
+              <span class="hidden">Show password</span>
+              <span><i class="fas fa-eye"></i></span>
+            </a>
+          </div>
+
+          <!-- Showing  -->
+          <div class="flex items-center password" v-else>
             <input
               type="text"
               id="password"
               placeholder="Enter password"
               aria-label="Password"
-              v-model="password"
+              v-model="password.content"
               @keyup.enter="create"
-              v-else
             />
 
-            <!-- <a
-            class=""
-            href="#"
-            type="button"
-            @click="showPassword"
-            v-show="hidePassword"
-          >
-            <span><i class="fas fa-eye"></i></span>
-          </a>
-          <a
-            class=""
-            href="#"
-            type="button"
-            @click="showPassword"
-            v-show="!hidePassword"
-          >
-            <span><i class="fas fa-eye-slash"></i></span>
-          </a> -->
+            <!-- Hide password button  -->
+            <a
+              class="eye py-[9px] px-8"
+              href="#"
+              type="button"
+              @click="show(password)"
+              v-show="!password.hide"
+            >
+              <span class="hidden">Hide password</span>
+              <span><i class="fas fa-eye-slash"></i></span>
+            </a>
           </div>
 
           <field-errors
-            v-if="$v.password.$error"
-            :field="$v.password"
+            v-if="$v.password.content.$error"
+            :field="$v.password.content"
             alt="Please enter your password"
           />
         </div>
 
         <!-- Confirm Password -->
         <div
-          class="mb-12"
-          :class="{ 'form-group--error': $v.cPassword.$error }"
+          class="my-12"
+          :class="{ 'form-group--error': $v.confirmPassword.content.$error }"
         >
-          <label for="confirm-password">Confirm Password</label>
-          <div class="input-group">
-            <!-- Hidden -->
+          <label for="password">Confirm Password</label>
+          <!-- Hidden -->
+          <div class="flex items-center" v-if="confirmPassword.hide">
             <input
               type="password"
-              class="form-control border-end-0"
-              id=""
-              placeholder="Confirm Password"
-              aria-label="Confirm Password"
-              v-model="cPassword"
-              v-if="hideCPassword"
-            />
-            <!-- Showing  -->
-            <input
-              type="text"
-              class="form-control border-end-0"
-              id=""
-              placeholder="Confirm Password"
-              aria-label="Confirm Password"
-              v-model="cPassword"
-              v-else
+              id="password"
+              placeholder="Enter password"
+              aria-label="Password"
+              v-model="confirmPassword.content"
+              @keyup.enter="create"
             />
 
-            <!-- <button
-            class="btn border border-start-0"
-            type="button"
-            @click="showCPassword"
-          >
-            <span v-if="hideCPassword">
-              ><i class="fas fa-eye-slash ml-8"></i>
-            </span>
-            <span v-else> <i class="fas fa-eye-slash ml-8"></i> </span>
-          </button> -->
+            <!-- Show password button  -->
+            <a
+              class="eye py-[9px] px-8"
+              type="button"
+              @click="show(confirmPassword)"
+              v-show="confirmPassword.hide"
+            >
+              <span class="hidden">Show confirm password</span>
+              <span><i class="fas fa-eye"></i></span>
+            </a>
           </div>
+
+          <!-- Showing  -->
+          <div class="flex items-center password" v-else>
+            <input
+              type="text"
+              id="password"
+              placeholder="Enter password"
+              aria-label="Password"
+              v-model="confirmPassword.content"
+              @keyup.enter="create"
+            />
+
+            <!-- Hide password button  -->
+            <a
+              class="eye py-[9px] px-8"
+              href="#"
+              type="button"
+              @click="show(confirmPassword)"
+              v-show="!confirmPassword.hide"
+            >
+              <span class="hidden">Hide confirm password</span>
+              <span><i class="fas fa-eye-slash"></i></span>
+            </a>
+          </div>
+
           <field-errors
-            v-if="$v.cPassword.$error"
-            :field="$v.cPassword"
-            alt="Please enter password confirmation"
+            v-if="$v.confirmPassword.content.$error"
+            :field="$v.confirmPassword.content"
           />
         </div>
 
-        <p class="text-dark text-sm float-right">
+        <p class="text-dark text-xs reset">
           By clicking “Register” you agree to the
           <nuxt-link to="/legal#terms" class="text-purple"> Terms </nuxt-link>
           and
@@ -273,15 +299,16 @@
           </nuxt-link>
         </p>
 
-        <button type="submit" @click.prevent="create" class="">
+        <button type="submit" @click.prevent="create" class="mt-24">
           <span>Register</span>
         </button>
-
-        <p class="text-center">
-          Already have an account?
-          <nuxt-link to="/login" class="text-purple"> Login</nuxt-link>
-        </p>
       </div>
+
+      <!-- Login redirect  -->
+      <p class="text-center">
+        Already have an account?
+        <nuxt-link to="/login" class="text-purple"> Login</nuxt-link>
+      </p>
     </form>
   </auth-layout>
 </template>
@@ -313,15 +340,26 @@ export default {
       process: ['verifier', 'otp', 'register'],
       countdown: { seconds: 0 },
       code: '',
+      otp: '',
       firstname: '',
       lastname: '',
       phone: '',
       email: '',
       bvn: '1234567890',
-      password: '',
 
-      cPassword: '',
-      hidePassword: true,
+      password: {
+        content: '',
+        hide: true,
+      },
+
+      confirmPassword: {
+        content: '',
+        hide: true,
+      },
+
+      // cPassword: '',
+      // hidePassword: true,
+      // hideCPassword: true,
 
       isLoading: false,
       isTimedout: false,
@@ -346,22 +384,25 @@ export default {
     lastname: { required, minLength: minLength(2) },
 
     password: {
-      required,
-      minLength: minLength(6),
+      content: {
+        required,
+        minLength: minLength(6),
+      },
     },
 
-    cPassword: {
-      required,
-      sameAsPassword: sameAs('password'),
+    confirmPassword: {
+      content: {
+        required,
+        sameAsPassword: sameAs(function () {
+          return this.password.content
+        }),
+      },
     },
   },
 
   methods: {
-    showPassword(password) {
-      password.hidePassword = this.hidePassword ? false : true
-    },
-    showCPassword() {
-      this.hideCPassword = this.hideCPassword ? false : true
+    show(password) {
+      password.hide = password.hide ? false : true
     },
 
     async sendOtp() {
@@ -374,7 +415,9 @@ export default {
         let res = await this.$axios.$post('/account/otp', {
           email: this.email,
         })
-
+        // for now
+        this.otp = res.data.code
+        // console.log(res.data.code)
         this.startTimer(2)
 
         this.screen = this.process[1]
@@ -410,8 +453,6 @@ export default {
         // this.message = "Wrong OTP code. Try again";
         // this.status(this.message, "error");
       }
-
-      // register
     },
 
     async create() {
@@ -424,15 +465,16 @@ export default {
           firstname: this.firstname,
           lastname: this.lastname,
           email: this.email,
-          phone: this.phone.split(' ').join(''),
+          phone: this.phone,
+          // phone: this.phone.split(' ').join(''),
           bvn: this.bvn,
-          password: this.password,
+          password: this.password.content,
         })
 
         let res = await this.$auth.loginWith('local', {
           data: {
             userId: this.email,
-            password: this.password,
+            password: this.password.content,
           },
         })
 
@@ -498,5 +540,9 @@ export default {
 <style lang="postcss" scoped>
 h2 {
   @apply font-bold text-black text-2xl lg:text-3xl;
+}
+
+p.reset {
+  @apply text-xs;
 }
 </style>

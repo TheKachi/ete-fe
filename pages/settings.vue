@@ -38,51 +38,34 @@
           <div class="grid grid-cols-2 gap-x-16 mb-24">
             <!-- First Name -->
             <div>
-              <label for="first-name">First name</label>
-              <input
-                type="text"
-                class="lg:w-50"
-                id="first-name"
-                placeholder="Enter first name"
-                aria-label="first name"
-                v-model.trim="profile.firstname"
-              />
+              <label>First name</label>
+              <div class="form-control lg:w-50">{{ $auth.user.firstname }}</div>
             </div>
 
             <!-- Last Name -->
             <div>
-              <label for="last-name">Last name</label>
-              <input
-                type="text"
-                class="lg:w-50"
-                id="last-name"
-                placeholder="Enter last name"
-                aria-label="Last Name"
-                v-model.trim="profile.lastname"
-              />
+              <label>Last name</label>
+              <div class="form-control lg:w-50">{{ $auth.user.lastname }}</div>
             </div>
           </div>
 
           <!-- Email -->
           <div class="mb-24">
-            <label for="email">Email Address</label>
-            <input
-              type="text"
-              placeholder="Enter your email address"
-              aria-label="Email"
-              v-model="profile.email"
-            />
+            <label>Email Address</label>
+            <div class="form-control">{{ $auth.user.email }}</div>
           </div>
 
           <!-- Phone number -->
           <div class="mb-24">
-            <label for="phone">Phone number</label>
-            <input
+            <label>Phone number</label>
+            <div class="form-control">{{ $auth.user.phone }}</div>
+
+            <!-- <input
               type="number"
               placeholder="Enter your phone number"
               aria-label="Phone number"
               v-model="profile.phone"
-            />
+            /> -->
           </div>
 
           <!-- Gender  -->
@@ -130,6 +113,7 @@
               id="companyName"
               v-model.trim="profile.companyname"
               aria-label="Company name"
+              placeholder="Enter your company name"
             />
           </div>
         </div>
@@ -325,12 +309,12 @@ export default {
     userTab: 'users',
     searchQuery: '',
     profile: {
-      firstname: 'Lorem',
-      lastname: 'Ipsum',
-      email: 'loremipsum@gmail.com',
-      phone: '09076613738',
-      companyname: 'Lorem Ipsum Company',
-      gender: 'Female',
+      firstname: '',
+      lastname: '',
+      email: '',
+      phone: '',
+      companyname: '',
+      gender: '',
     },
     accounts: [
       {
@@ -402,6 +386,8 @@ export default {
         bank: {},
       })
     },
+
+    getProfile() {},
   },
 
   components: {
@@ -421,5 +407,9 @@ export default {
 
 .search [type='text'] {
   @apply bg-[#fafafa] border-[#fafafa] focus:border-none focus:ring-0;
+}
+
+.form-control {
+  @apply py-12 pl-24 w-full rounded-md bg-white border border-medium-grey text-black text-base;
 }
 </style>

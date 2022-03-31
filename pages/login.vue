@@ -9,7 +9,7 @@
     <p slot="cta">Please enter your login details</p>
 
     <form>
-      <h2 class="lg:pt-120">Login</h2>
+      <h2>Login</h2>
 
       <!-- Email/Phone Number -->
       <div class="mb-12" :class="{ 'form-group--error': $v.userId.$error }">
@@ -61,9 +61,9 @@
         </div>
 
         <!-- Showing  -->
-        <div class="flex items-center" v-else>
+        <div class="flex items-center password" v-else>
           <input
-            type="password"
+            type="text"
             id="password"
             placeholder="Enter password"
             aria-label="Password"
@@ -185,13 +185,5 @@ export default {
 <style lang="postcss" scoped>
 h2 {
   @apply font-bold text-black text-2xl lg:text-3xl;
-}
-
-[type='password'] {
-  @apply border-r-0 rounded-r-none;
-}
-
-.eye {
-  @apply border border-l-0 border-medium-grey rounded-r-md;
 }
 </style>
