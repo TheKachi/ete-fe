@@ -3,7 +3,7 @@
     class="fixed top-0 z-40 inset-x-0 h-64 flex items-center justify-end lg:px-64"
   >
     <!-- Notification -->
-    <button @click="isVisible = !isVisible" class="mr-48">
+    <button @click="toggleDropdown(notifList)" class="mr-48">
       <i class="fas fa-bell"></i>
     </button>
 
@@ -96,7 +96,7 @@
       <!-- Notifications dropdown  -->
       <div
         class="dl absolute top-56 right-[10px] bg-white flex flex-col cursor-pointer w-[435px] rounded-md shadow"
-        v-if="isVisible"
+        v-if="notifList[0].isOpen"
       >
         <div class="flex justify-between items-baseline p-20">
           <div class="flex gap-x-16">
@@ -198,33 +198,25 @@ export default {
     SubmitBtn,
   },
 
-  mounted() {
-    let _that = this
-    // this.checkActive()
+  // mounted() {
+  //   let _that = this
+  //   // this.checkActive()
 
-    window.addEventListener('mouseup', (e) => {
-      var el = document.querySelector('.dl')
-      console.log(el)
-      if (el != null) {
-        if (e.target != el && !el.contains(e.target)) {
-          _that.close()
-        }
-      }
-    })
-  },
+  //   window.addEventListener('mouseup', (e) => {
+  //     var el = document.querySelector('.dl')
+  //     console.log(el)
+  //     if (el != null) {
+  //       if (e.target != el && !el.contains(e.target)) {
+  //         _that.close()
+  //       }
+  //     }
+  //   })
+  // },
 }
 </script>
 
 <style lang="postcss" scoped>
 nav {
   box-shadow: 0 4px 50px rgba(0, 0, 0, 0.07);
-}
-
-.menu-list li {
-  @apply text-black text-base bg-white hover:bg-tab w-full;
-}
-.menu-list li button,
-.menu-list li a {
-  @apply text-base bg-white hover:bg-tab px-24 py-12 w-full;
 }
 </style>

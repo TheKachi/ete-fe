@@ -3,7 +3,7 @@
     <side-bar class="lg:col-span-3" />
     <div class="lg:col-span-9">
       <header-bar />
-      <Nuxt class="px-40 py-36 lg:pt-120" />
+      <Nuxt class="px-40 py-36 lg:py-120 -z-0" />
     </div>
   </div>
 </template>

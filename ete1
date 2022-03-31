@@ -1,0 +1,827 @@
+FORMAT: 1A
+HOST: https://polls.apiblueprint.org/
+
+# Ete
+
+An online payment settlement gateway
+
+# Group Authentication
+
+## OTP Verification [/v1/account/otp]
+
+### verify email before onboarding [POST]
+
+user has to verify his/her password
+
+- Request (application/json)
+
+        {
+            "email": "client@gmail.com"
+        }
+
+- Response 200 (application/json)
+
+        {
+            "success": true,
+            "message":"OTP sent "
+        }
+
+## OTP Verification [/v1/account/verify-otp]
+
+### verify OTP Code [POST]
+
+user input otp code to verify email
+
+- Request (application/json)
+
+        {
+            "code": "123456"
+        }
+
+- Response 200 (application/json)
+
+        {
+            "success": true,
+            "message":"OTP verified "
+        }
+
+## Register [/v1/account/register]
+
+### Onboard Client [POST]
+
+- Request (application/json)
+
+        {
+            "firstname": "lord",
+            "lastname": "chief",
+            "email": "chief2@gmail.com",
+            "phone": "09099998690",
+            "password": "12345678"
+        }
+
+- Response 201 (application/json)
+
+        {
+            "status": true,
+            "message": "registered user successfully",
+            "data": {
+                "user": {
+                "firstname": "lord",
+                "lastname": "chief",
+                "email": "chief2@gmail.com",
+                "phone": "09099998690",
+                "bvn": "189898982",
+                "_id": "623c5675b4a4f0e8d7a8c8ff",
+                "__v": 0
+                },
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0bmFtZSI6ImxvcmQiLCJsYXN0bmFtZSI6ImNoaWVmIiwiZW1haWwiOiJjaGllZjJAZ21haWwuY29tIiwicGhvbmUiOiIwOTA5OTk5ODY5MCIsImJ2biI6IjE4OTg5ODk4MiIsIl9pZCI6IjYyM2M1Njc1YjRhNGYwZThkN2E4YzhmZiIsIl9fdiI6MH0sImlhdCI6MTY0ODEyMTQ2MSwiZXhwIjoxNjc5NjU3NDYxfQ.93fE7KGtQJk-Nf72VQtzpisNrvbqjobAWQIC3W1t83k"
+            }
+        }
+
+## Get Token [/v1/account/token]
+
+### get token [GET]
+
+- Request (application/json)
+
+  - Headers
+
+          Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYyM2M1Njc1YjRhNGYwZThkN2E4YzhmZiIsImZpcnN0bmFtZSI6ImxvcmQiLCJsYXN0bmFtZSI6ImNoaWVmIiwiZW1haWwiOiJjaGllZjJAZ21haWwuY29tIiwicGhvbmUiOiIwOTA5OTk5ODY5MCIsImJ2biI6IjE4OTg5ODk4MiIsIl9fdiI6MH0sImlhdCI6MTY0ODEyMTc5NCwiZXhwIjoxNjc5NjU3Nzk0fQ.QJMcRpSsHxewce0icNCEHuN_P5bb5ldwL7Lxf-sAMQk"
+
+- Response 200 (application/json)
+
+        {
+            "status": 200,
+            "message": "fetched token successfully",
+            "data": {
+                "user": {
+                "_id": "623c5675b4a4f0e8d7a8c8ff",
+                "firstname": "lord",
+                "lastname": "chief",
+                "email": "chief2@gmail.com",
+                "phone": "09099998690",
+                "bvn": "189898982",
+                "__v": 0
+                },
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYyM2M1Njc1YjRhNGYwZThkN2E4YzhmZiIsImZpcnN0bmFtZSI6ImxvcmQiLCJsYXN0bmFtZSI6ImNoaWVmIiwiZW1haWwiOiJjaGllZjJAZ21haWwuY29tIiwicGhvbmUiOiIwOTA5OTk5ODY5MCIsImJ2biI6IjE4OTg5ODk4MiIsIl9fdiI6MH0sImlhdCI6MTY0ODEyMTc5NCwiZXhwIjoxNjc5NjU3Nzk0fQ.QJMcRpSsHxewce0icNCEHuN_P5bb5ldwL7Lxf-sAMQk"
+            }
+        }
+
+## Client Login [/v1/account/login]
+
+### User Login [POST]
+
+After successfully registering, user can login
+
+- Request (application/json)
+
+        {
+            "email": "chief2@gmail.com",
+            "password": "12345678",
+
+        }
+
+- Response 201 (application/json)
+
+  - Body
+
+          {
+              "status": true,
+              "message": "user logged in successfully",
+              "data": {
+                  "user": {
+                  "_id": "623c5675b4a4f0e8d7a8c8ff",
+                  "firstname": "lord",
+                  "lastname": "chief",
+                  "email": "chief2@gmail.com",
+                  "phone": "09099998690",
+                  "bvn": "189898982",
+                  "__v": 0
+                  },
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYyM2M1Njc1YjRhNGYwZThkN2E4YzhmZiIsImZpcnN0bmFtZSI6ImxvcmQiLCJsYXN0bmFtZSI6ImNoaWVmIiwiZW1haWwiOiJjaGllZjJAZ21haWwuY29tIiwicGhvbmUiOiIwOTA5OTk5ODY5MCIsImJ2biI6IjE4OTg5ODk4MiIsIl9fdiI6MH0sImlhdCI6MTY0ODEyMTc5NCwiZXhwIjoxNjc5NjU3Nzk0fQ.QJMcRpSsHxewce0icNCEHuN_P5bb5ldwL7Lxf-sAMQk"
+              }
+          }
+
+## Edit [/v1/account/update]
+
+### Edit Client [POST]
+
+client can edit his/her detailsp
+
+- Request (application/json)
+
+        {
+            "firstName":"fname",
+            "lastName":"lname",
+            "middleName":"mname",
+            "email": "client@gmail.com",
+            "bvn": "12345678908",
+            "password": "pword",
+        }
+
+- Response 201 (application/json)
+
+        {
+            "status": true,
+            "message": "updated account successfully",
+            "data": {
+                "user": {
+                "_id": "623c5675b4a4f0e8d7a8c8ff",
+                "firstname": "lords",
+                "lastname": "chief",
+                "email": "chief2@gmail.com",
+                "phone": "09099998690",
+                "bvn": "189898982",
+                "__v": 0
+                },
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYyM2M1Njc1YjRhNGYwZThkN2E4YzhmZiIsImZpcnN0bmFtZSI6ImxvcmRzIiwibGFzdG5hbWUiOiJjaGllZiIsImVtYWlsIjoiY2hpZWYyQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJDZ5cXkzMkZmTHdlSGUuLnloM2hxU2VYS2lsTTZ2QnVHaFNnTzkycm9tM25lLy9NM3lWQjRlIiwicGhvbmUiOiIwOTA5OTk5ODY5MCIsImJ2biI6IjE4OTg5ODk4MiIsIl9fdiI6MH0sImlhdCI6MTY0ODEyMzY1NiwiZXhwIjoxNjc5NjU5NjU2fQ.JnmzKRWuw_WsNkz5dDs4bkiU-Zwp475ZNtCmBGJPbcM"
+            }
+        }
+
+## Forgot password [/v1/account/forgot-password]
+
+### Forgot Paswword [POST]
+
+User can Change their passowrd by first hitting the forgot password endpoint. then an email is sent to the user to reset password.
+
+- Request (application/json)
+
+        {
+            "email":"user@gmail.com or phone number"
+        }
+
+- Response 200 (application/json)
+
+  - Body
+
+          {
+              "success":true,
+              "message": "an email has been sent to you to reset your password"
+          }
+
+## Reset password [/v1/account/reset-password]
+
+### Reset Paswword [POST]
+
+User can reset their passowrd on this endpoint.
+
+- Request (application/json)
+
+        {
+            "email":"user@gmail.com or phone number"
+        }
+
+- Response 200 (application/json)
+
+  - Body
+
+          {
+              "success":true,
+              "message": "password reset successfully"
+          }
+
+# Group Account
+
+## get Account [/v1/user/profile]
+
+### get profile [POST]
+
+users can get their account details as well as their registered services
+
+- Request (application/json)
+
+  - Headers
+
+          Authorization: "auth token"
+
+- Response 200 (application/json)
+
+        {
+            "success": true,
+            "message": "fetched account details successfully",
+            "data": {
+                  "firstname": "Gibs",
+                    "lastname": "Alisson",
+                    "middlename": "swanson",
+                    "email": "allison.gibbs@gmail.com",
+                    "services": ["service1 id", "service2 id", "service3 id"]
+            }
+        }
+
+# Group Service
+
+## Create Service [/v1/services/create]
+
+### Create a service [POST]
+
+- Request (application/json)
+
+  - Headers
+
+          Authorization: "auth token",
+
+  - Body
+
+          {
+              "title": "Alhaji Shetim Gold Services",
+              "description": "Required description of what this service achieves",
+              "account_name":"OGS",
+              "bank_code":"043",
+              "bank_name":"ACCESS BANK",
+              "account_no":"0033456789",
+              "stakeholders":[
+                  {
+                      "email":["stake1@gmail.com"],
+                      "name":"Winner Akoda",
+                      "is_automated": true,
+                      "schedule": "",
+                      "is_percentage": true,
+                      "type":"individual",
+                      "share_formular":"20",
+                      "bank_code":"043",
+                      "bank_name":"ACCESS BANK",
+                      "account_no":"0033456789",
+                      "role": "role_id",
+                  },
+                  {
+                      "email":["winner@gmail.com", "akoda@gmail.com"],
+                      "name":"Stakeholder 2",
+                      "is_automated": false,
+                      "schedule": "7 days",
+                      "is_percentage": false,
+                      "type":"group",
+                      "share_formular":"3000",
+                      "bank_code":"043",
+                      "bank_name":"ACCESS BANK",
+                      "account_no":"0033453229",
+                      "role": "",
+                  }
+              ]
+          }
+
+- Response 201 (application/json)
+
+        {
+            "status": true,
+            "message": "Fetched User Service Successfully",
+            "data": {
+                "id": "3baeb61f-9b84-47cf-abe5-af32f8f6758a",
+                "user": "623c3871b8a4dd71abc43b5b",
+                "amount": "0",
+                "api_public_key": "ete_pkbaa88ca0c6d13a6753941770648baf0e",
+                "api_private_key": "ete_skf5480154d3d59952f1bfb6b0995f919a",
+                "api_public_key_test": "ete_pkd38c3d06a6501ccd32f887089828c115",
+                "api_private_key_test": "ete_sk6dbb5cac2fdc831681c5ae108ce1e5ae",
+                "title": "Alhaji Shetim Gold Services",
+                "automated": true,
+                "schedule": "2022-03-24T09:23:18.98696Z",
+                "account_name": "OGS",
+                "account_bank_code": "043",
+                "account_bank_name": "ACCESS BANK",
+                "account_no": "0033456789",
+                "createdAt": "2022-03-24T09:23:18.987395Z",
+                "updated_at": "2022-03-24T09:23:18.987395Z",
+                "stakeholders": {
+                "id": "50ee80d7-e99c-41a0-a1a5-ddfd198bda68",
+                "service_id": "3baeb61f-9b84-47cf-abe5-af32f8f6758a",
+                "people_pending": [
+                    {
+                    "id": "9d32cf71-8806-41e8-9c94-fe5ab31af948",
+                    "email": "stake1@gmail.com",
+                    "name": "Stakeholder 1",
+                    "is_percentage": true,
+                    "share_formular": "20",
+                    "account_name": "",
+                    "account_bank_code": "043",
+                    "account_bank_name": "ACCESS BANK",
+                    "account_no": "0033456789",
+                    "status": false,
+                    "organization": "",
+                    "role": "id",
+                    "stakeholders_id": "50ee80d7-e99c-41a0-a1a5-ddfd198bda68"
+                    },
+                    {
+                    "id": "5db8b378-9a3b-4c96-84b7-42d0dbd26257",
+                    "email": "stake2@gmail.com",
+                    "name": "Stakeholder 2",
+                    "is_percentage": false,
+                    "share_formular": "3000",
+                    "account_name": "",
+                    "account_bank_code": "043",
+                    "account_bank_name": "ACCESS BANK",
+                    "account_no": "0033453229",
+                    "status": false,
+                    "organization": "",
+                    "role": "id",
+                    "stakeholders_id": "50ee80d7-e99c-41a0-a1a5-ddfd198bda68"
+                    },
+                    {
+                    "id": "a14602b8-d1d9-4a6b-8240-887243e79ec4",
+                    "email": "stake1@gmail.com",
+                    "name": "Stakeholder 1",
+                    "is_percentage": true,
+                    "share_formular": "20",
+                    "account_name": "",
+                    "account_bank_code": "043",
+                    "account_bank_name": "ACCESS BANK",
+                    "account_no": "0033456789",
+                    "status": false,
+                    "organization": "",
+                    "role": "id",
+                    "stakeholders_id": "50ee80d7-e99c-41a0-a1a5-ddfd198bda68"
+                    },
+                    {
+                    "id": "21dc268b-3188-4d0b-813a-fdba6a5ca85a",
+                    "email": "stake2@gmail.com",
+                    "name": "Stakeholder 2",
+                    "is_percentage": false,
+                    "share_formular": "3000",
+                    "account_name": "",
+                    "account_bank_code": "043",
+                    "account_bank_name": "ACCESS BANK",
+                    "account_no": "0033453229",
+                    "status": false,
+                    "organization": "",
+                    "role": "id",
+                    "stakeholders_id": "50ee80d7-e99c-41a0-a1a5-ddfd198bda68"
+                    }
+                ],
+                "people": [],
+                "createdAt": "2022-03-24T09:23:19.070222Z",
+                "updated_at": "2022-03-24T09:23:19.049615Z"
+                }
+            }
+        }
+
+## Get Service [/v1/services/service]
+
+### Get a particular Service [POST]
+
+- Request (application/json)
+
+        Authorization: "auth token"
+
+- Response 200 (application/json)
+
+        {
+            "status": true,
+            "message": "Fetched User Services Successfully",
+            "data": {
+                "merchant_services": [
+                {
+                    "id": "3baeb61f-9b84-47cf-abe5-af32f8f6758a",
+                    "user": "623c3871b8a4dd71abc43b5b",
+                    "amount": "0",
+                    "api_public_key": "ete_pkbaa88ca0c6d13a6753941770648baf0e",
+                    "api_private_key": "ete_skf5480154d3d59952f1bfb6b0995f919a",
+                    "api_public_key_test": "ete_pkd38c3d06a6501ccd32f887089828c115",
+                    "api_private_key_test": "ete_sk6dbb5cac2fdc831681c5ae108ce1e5ae",
+                    "title": "Alhaji Shetim Gold Services",
+                    "automated": true,
+                    "schedule": "2022-03-24T09:23:18.98696Z",
+                    "account_name": "OGS",
+                    "account_bank_code": "043",
+                    "account_bank_name": "ACCESS BANK",
+                    "account_no": "0033456789",
+                    "createdAt": "2022-03-24T09:23:18.987395Z",
+                    "updated_at": "2022-03-24T09:23:18.987395Z",
+                    "stakeholders": {
+                    "id": "50ee80d7-e99c-41a0-a1a5-ddfd198bda68",
+                    "service_id": "3baeb61f-9b84-47cf-abe5-af32f8f6758a",
+                    "people_pending": [
+                        {
+                        "id": "9d32cf71-8806-41e8-9c94-fe5ab31af948",
+                        "email": "stake1@gmail.com",
+                        "name": "Stakeholder 1",
+                        "is_percentage": true,
+                        "share_formular": "20",
+                        "account_name": "",
+                        "account_bank_code": "043",
+                        "account_bank_name": "ACCESS BANK",
+                        "account_no": "0033456789",
+                        "status": false,
+                        "organization": "",
+                        "role": "id",
+                        "stakeholders_id": "50ee80d7-e99c-41a0-a1a5-ddfd198bda68"
+                        },
+                        {
+                        "id": "5db8b378-9a3b-4c96-84b7-42d0dbd26257",
+                        "email": "stake2@gmail.com",
+                        "name": "Stakeholder 2",
+                        "is_percentage": false,
+                        "share_formular": "3000",
+                        "account_name": "",
+                        "account_bank_code": "043",
+                        "account_bank_name": "ACCESS BANK",
+                        "account_no": "0033453229",
+                        "status": false,
+                        "organization": "",
+                        "role": "id",
+                        "stakeholders_id": "50ee80d7-e99c-41a0-a1a5-ddfd198bda68"
+                        },
+                        {
+                        "id": "a14602b8-d1d9-4a6b-8240-887243e79ec4",
+                        "email": "stake1@gmail.com",
+                        "name": "Stakeholder 1",
+                        "is_percentage": true,
+                        "share_formular": "20",
+                        "account_name": "",
+                        "account_bank_code": "043",
+                        "account_bank_name": "ACCESS BANK",
+                        "account_no": "0033456789",
+                        "status": false,
+                        "organization": "",
+                        "role": "id",
+                        "stakeholders_id": "50ee80d7-e99c-41a0-a1a5-ddfd198bda68"
+                        },
+                        {
+                        "id": "21dc268b-3188-4d0b-813a-fdba6a5ca85a",
+                        "email": "stake2@gmail.com",
+                        "name": "Stakeholder 2",
+                        "is_percentage": false,
+                        "share_formular": "3000",
+                        "account_name": "",
+                        "account_bank_code": "043",
+                        "account_bank_name": "ACCESS BANK",
+                        "account_no": "0033453229",
+                        "status": false,
+                        "organization": "",
+                        "role": "id",
+                        "stakeholders_id": "50ee80d7-e99c-41a0-a1a5-ddfd198bda68"
+                        }
+                    ],
+                    "people": [],
+                    "createdAt": "2022-03-24T09:23:19.070222Z",
+                    "updated_at": "2022-03-24T09:23:19.049615Z"
+                    }
+                }
+                ],
+                "stakeholder_services": []
+            }
+        }
+
+## Analytics [/v1/service/mix]
+
+### View Analytics [POST]
+
+- Request (application/json)
+
+  - Headers
+
+          Authorization: "auth token"
+
+  - Body
+
+          {
+              "id": "service id"
+          }
+
+- Response 200 (application/json)
+
+        {
+           "success":true,
+           "message":"fetched service analytics successfully",
+           "data":{
+              "stakeholders":[
+                 {
+                    "email":"stake1@gmail.com",
+                    "name":"Stakeholder 1",
+                    "is_percentage":true,
+                    "type":"individual",
+                    "share_formular":20,
+                    "account_bank_code":"043",
+                    "account_bank_name":"ACCESS BANK",
+                    "account_no":"0033456789",
+                    "role":{
+                       "role":"stakeholder",
+                       "permissions":[
+                          "can edit",
+                          "can view"
+                       ]
+                    }
+                 },
+                 {
+                    "email":"stake2@gmail.com",
+                    "name":"Stakeholder 2",
+                    "is_percentage":false,
+                    "type":"organization",
+                    "share_formular":3000,
+                    "account_bank_code":"043",
+                    "account_bank_name":"ACCESS BANK",
+                    "account_no":"0033453229",
+                    "role":{
+                       "role":"stakeholder",
+                       "permissions":[
+                          "can edit",
+                          "can view"
+                       ]
+                    }
+                 }
+              ]
+           },
+           "transactions":[
+              {
+                 "id":"2333eeeee4dkdc",
+                 "amount":30000,
+                 "service_ref":"1017r8fhu1uf7ji8",
+                 "payment method":"bank transfer",
+                 "status":"pending",
+                 "type":"recieved"
+              },
+              {
+                 "id":"2333eeeee4dkdc",
+                 "amount":10000,
+                 "service_ref":"1017r8fhu1uf7ji8",
+                 "payment method":"bank transfer",
+                 "status":"pending",
+                 "type":"payout"
+              }
+           ]
+        }
+
+## View All stakeholders [/v1/service/stakeholders]
+
+### view all stakeholders [POST]
+
+admin can view all stakeholders
+
+- Request (application/json)
+
+  - Headers
+
+          Authorization: "auth token"
+
+  - Body
+
+          {
+              "page": 1,
+              "limit": 20
+          }
+
+- Response 200 (application/json)
+
+        {
+           "status":true,
+           "message":"fetched settings successfully",
+           "data":{
+              "profile":{
+                 "firstName":"fname",
+                 "lastName":"lname",
+                 "middleName":"mname",
+                 "email":"client@gmail.com",
+                 "bvn":"12345678908",
+                 "password":"pword"
+              },
+              "service":{
+                 "title":"OGS Services",
+                 "schedule":"Date",
+                 "automated":true,
+                 "account_name":"OGS",
+                 "account_bank_code":"043",
+                 "account_bank_name":"ACCESS BANK",
+                 "account_no":"0033456789",
+                 "stakeholders":[
+                    {
+                       "email":"stake1@gmail.com",
+                       "name":"Stakeholder 1",
+                       "is_percentage":true,
+                       "type":"individual",
+                       "share_formular":20,
+                       "account_bank_code":"043",
+                       "account_bank_name":"ACCESS BANK",
+                       "account_no":"0033456789",
+                       "role":[
+                          "can view"
+                       ]
+                    },
+                    {
+                       "email":"stake2@gmail.com",
+                       "name":"Stakeholder 2",
+                       "is_percentage":false,
+                       "type":"organization",
+                       "share_formular":3000,
+                       "account_bank_code":"043",
+                       "account_bank_name":"ACCESS BANK",
+                       "account_no":"0033453229",
+                       "role":[
+                          "can edit",
+                          "can view"
+                       ]
+                    }
+                 ]
+              }
+           }
+        }
+
+## Search Stakeholder [/v1/service/stakeholders/search]
+
+### Search Stakeholder [POST]
+
+admin can search for a particular stakeholder
+
+- Request (application/json)
+
+  - Headers
+
+          Authorization: "auth token"
+
+  - Body
+
+          {
+              "search": "stakeholder 1",
+              "limit": 20
+          }
+
+- Response 200 (application/json)
+
+        {
+            "success": true,
+            "message": "fetched stakeholders successfully",
+            "data": [
+                {
+                    "email": "stake1@gmail.com",
+                    "name": "Stakeholder 1",
+                    "is_percentage": true,
+                    "type": "individual",
+                    "share_formular": 20,
+                    "account_bank_code": "043",
+                    "account_bank_name": "ACCESS BANK",
+                    "account_no": "0033456789",
+                    "role": [
+                    {"role": ["user"], "account": "serice1id", "permissions": ["can view"]},
+                    {"role": ["admin"], "account": "service2id", "permissions": ["can view", "can edit"]},
+                     ]
+                },
+            ],
+
+            "limit": 20
+        }
+
+## Flag Account [/v1/service/stakeholders/flag]
+
+### Flag Stakeholder [POST]
+
+admin can flag a stakehoolder
+
+- Request (application/json)
+
+  - Headers
+
+          Authorization: "auth Token"
+
+  - Body
+
+          {
+              "user": "user ID",
+              "flag": true
+          }
+
+- Response 200 (application/json)
+  - Body
+    {
+    "success": true,
+    "messsage": "flagged user successfulyy"
+    }
+
+## Transactions [/v1/service/transactions]
+
+## view Transcations [POST]
+
+- Request (application/json)
+
+  - Headers
+
+          Authorization: "auth token"
+
+  - Body
+
+          {
+              "page": 1,
+              "limit": 20
+          }
+
+- Response 200 (application/json)
+
+               {
+                   "success":true,
+                   "message":"fetched all transactions successfully",
+                   "data":{
+                      "transactions":[
+                         {
+                            "id":"2333eeeee4dkdc",
+                            "amount":30000,
+                            "service_ref":"1017r8fhu1uf7ji8",
+                            "payment method":"bank transfer",
+                            "status":"pending",
+                            "type":"recieved"
+                         },
+                         {
+                            "id":"2333eeeee4dkdc",
+                            "amount":10000,
+                            "service_ref":"1017r8fhu1uf7ji8",
+                            "payment method":"bank transfer",
+                            "status":"pending",
+                            "type":"payout"
+                        }
+                    ]
+               }
+        }
+
+# Settings [/v1/service/setting]
+
+### Service settings [POST]
+
+- Request (application/json)
+
+  - Headers
+    Authorization: "auth token"
+
+- Response 200 (application/json)
+
+        {
+            "status": true,
+            "message": "fetched settings successfully",
+            "data": {
+                "profile": {
+                    "firstName":"fname",
+                    "lastName":"lname",
+                    "middleName":"mname",
+                    "email": "client@gmail.com",
+                    "bvn": "12345678908",
+                    "password": "pword",
+                },
+                "service": {
+                    "title": "OGS Services",
+                    "schedule": "Date",
+                    "automated": true,
+                    "account_name": "OGS",
+                    "account_bank_code": "043",
+                    "account_bank_name": "ACCESS BANK",
+                    "account_no": "0033456789",
+                    "stakeholders": [
+                        {
+                            "email": "stake1@gmail.com",
+                            "name": "Stakeholder 1",
+                            "is_percentage": true,
+                            "type": "individual",
+                            "share_formular": 20,
+                            "account_bank_code": "043",
+                            "account_bank_name": "ACCESS BANK",
+                            "account_no": "0033456789",
+                            "role": ["can view"]
+                        },
+                        {
+                            "email": "stake2@gmail.com",
+                            "name": "Stakeholder 2",
+                            "is_percentage": false,
+                            "type": "organization",
+                            "share_formular": 3000,
+                            "account_bank_code": "043",
+                            "account_bank_name": "ACCESS BANK",
+                            "account_no": "0033453229",
+                            "role": ["can edit", "can view"]
+                        }
+                    ]
+                }
+            }
+        }

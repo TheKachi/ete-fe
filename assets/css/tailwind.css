@@ -64,3 +64,11 @@ button {
 .h-inherit {
   height: inherit;
 }
+
+.menu-list li {
+  @apply text-black text-base bg-white hover:bg-tab w-full;
+}
+.menu-list li button,
+.menu-list li a {
+  @apply text-base bg-white hover:bg-tab px-24 py-12 w-full;
+}

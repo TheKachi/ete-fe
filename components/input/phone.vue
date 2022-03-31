@@ -1,15 +1,15 @@
 <template>
   <div class="">
-    <div class="input-group mb-3">
-      <span class="input-group-text" @click="toggle">
+    <div class="mb-16">
+      <span @click="toggle">
         <span>{{ active.flag }}</span>
-        <span style="padding-left: 5px; font-weight: 700">
+        <span class="pl-4 font-bold">
           {{ active.dial_code }}
         </span>
       </span>
       <input
         type="text"
-        class="form-control input-phone"
+        class="input-phone"
         ref="phone"
         :value="value"
         :placeholder="place"
@@ -18,7 +18,7 @@
       />
     </div>
 
-    <div class="country--code" v-if="open">
+    <!-- <div class="country--code" v-if="open">
       <div class="search-cover">
         <input
           type="text"
@@ -38,7 +38,7 @@
           </div>
         </li>
       </ul>
-    </div>
+    </div> -->
   </div>
 </template>
 
