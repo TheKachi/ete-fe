@@ -41,11 +41,17 @@ export default {
 .w-inherit {
   width: inherit;
 }
+
 form {
   @apply space-y-24 w-full md:w-1/2 mx-auto;
 }
+
 h1 {
   @apply font-bold text-white text-2xl lg:text-3xl mt-48 mb-16 lg:mt-120 lg:mb-12;
+}
+
+h2 {
+  @apply font-bold text-black text-2xl lg:text-3xl;
 }
 
 p {

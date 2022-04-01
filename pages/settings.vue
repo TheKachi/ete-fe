@@ -395,21 +395,3 @@ export default {
   },
 }
 </script>
-
-<style lang="postcss" scoped>
-.tab button {
-  @apply rounded-xl px-24 py-8;
-}
-
-.user-tab button {
-  @apply px-24 py-8;
-}
-
-.search [type='text'] {
-  @apply bg-[#fafafa] border-[#fafafa] focus:border-none focus:ring-0;
-}
-
-.form-control {
-  @apply py-12 pl-24 w-full rounded-md bg-white border border-medium-grey text-black text-base;
-}
-</style>

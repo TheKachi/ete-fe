@@ -72,3 +72,19 @@ button {
 .menu-list li a {
   @apply text-base bg-white hover:bg-tab px-24 py-12 w-full;
 }
+
+.tab button {
+  @apply rounded-xl px-24 py-8;
+}
+
+.user-tab button {
+  @apply px-24 py-8;
+}
+
+.search [type='text'] {
+  @apply bg-[#fafafa] border-[#fafafa] focus:border-none focus:ring-0;
+}
+
+.form-control {
+  @apply py-12 pl-24 w-full rounded-md bg-white border border-medium-grey text-black text-base;
+}

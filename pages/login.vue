@@ -181,9 +181,3 @@ export default {
   },
 }
 </script>
-
-<style lang="postcss" scoped>
-h2 {
-  @apply font-bold text-black text-2xl lg:text-3xl;
-}
-</style>

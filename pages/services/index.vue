@@ -17,16 +17,16 @@
       v-if="merchantServices.length > 0"
     >
       <div v-for="service in merchantServices" :key="service.id">
-        <nuxt-link :to="`/services/${service._id}`">
+        <nuxt-link :to="`/services/${service.id}`">
           <div class="card">
             <div class="flex gap-x-[18px] items-center mb-24">
               <span
-                class="rounded-full h-[46px] w-[46px] leading-[46px] bg-[#D8DDFD] text-[#7445C7] text-center"
+                class="rounded-[50%] h-[46px] w-[46px] leading-[46px] bg-[#D8DDFD] text-blue font-bold text-center"
               >
                 {{ service.title.charAt(0) }}
               </span>
 
-              <h5 class="text-lg text-black font-bold">
+              <h5 class="text-lg text-black font-medium">
                 {{ service.title }}
               </h5>
             </div>

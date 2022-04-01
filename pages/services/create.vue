@@ -9,8 +9,8 @@
       <div slot="body">
         <!-- Bank name   -->
         <div>
-          <label for="bank-name">Bank name</label>
-          <select v-model="bank" class="form-select">
+          <label for="bank">Bank name</label>
+          <select v-model="serviceBank" id="bank">
             <option disabled selected :value="{}">Select Bank</option>
             <option v-for="(bank, i) in banks" :key="i" :value="bank">
               {{ bank.name }}
@@ -22,14 +22,14 @@
         <div class="my-24">
           <label for="acct-no">Account number</label>
           <input
-            type="text"
-            class=""
+            type="number"
             id="acct-no"
             placeholder="Enter Account number"
             aria-label="Account number"
             v-model="account_no"
           />
         </div>
+        <!-- @keyup="getAccountName" -->
 
         <!-- Account name -->
         <div>
@@ -40,11 +40,15 @@
             placeholder="Account name"
             aria-label="Account name"
             v-model="account_name"
-            disabled
           />
         </div>
 
-        <submit-btn class="float-right my-40">Save</submit-btn>
+        <button
+          class="click-btn float-right my-32"
+          @click.prevent="addServiceAcct"
+        >
+          Add
+        </button>
       </div>
     </modal>
 
@@ -107,7 +111,6 @@
             id="stakeholder-email"
             name="stakeholder-email"
             v-model="singleEmail"
-            @change="addEmail"
             v-if="holder.type === 'individual'"
           />
           <input
@@ -123,20 +126,20 @@
         <!-- Members emails list - Group  -->
         <div
           class="flex flex-wrap gap-x-4 gap-y-8 mb-24"
-          v-if="holder.type === 'group' && holder.email.length > 0"
+          v-if="holder.type === 'group' && tempEmail.length > 0"
         >
           <div
-            v-for="i in holder.email"
-            :key="i"
+            v-for="(i, index) in tempEmail"
+            :key="index"
             class="bg-white justify-center border border-grey rounded p-8 text-xs"
           >
             {{ i }}
-            <i class="fas fa-times ml-12" @click="removeGroupEmail"></i>
+            <i class="fas fa-times ml-12" @click="removeGroupEmail(index)"></i>
           </div>
         </div>
 
         <!-- Mark-Up Type - Fixed or Percentage  -->
-        <div>
+        <div class="mt-32">
           <h5 class="text-base font-bold text-black">Mark-Up Type</h5>
           <h6 class="text-sm lg:text-base font-medium text-grey">
             Select how you would want to make disbursement
@@ -190,22 +193,27 @@
           <div class="grid grid-cols-2 gap-x-16 my-16">
             <!-- Bank Name -->
             <div>
-              <label for="bank-name">Bank name</label>
-              <select v-model="holder.bank" class="form-select">
+              <label for="holder-bank-name">Bank name</label>
+              <select
+                v-model="holderBank"
+                id="holder-bank-name"
+                class="form-select"
+              >
                 <option disabled selected :value="{}">Select Bank</option>
                 <option v-for="(bank, i) in banks" :key="i" :value="bank">
                   {{ bank.name }}
+                  <!-- {{ temp.bank.name }} -->
                 </option>
               </select>
             </div>
 
             <!-- Account number -->
             <div>
-              <label for="acct-no">Account number</label>
+              <label for="holder-acct-no">Account number</label>
               <input
-                type="text"
+                type="number"
                 class="lg:w-50"
-                id="acct-no"
+                id="holder-acct-no"
                 placeholder="Enter Account number"
                 aria-label="Account number"
                 v-model="holder.account_no"
@@ -215,14 +223,13 @@
 
           <!-- Account name -->
           <div>
-            <label for="acct-name">Account name</label>
+            <label for="holder-acct-name">Account name</label>
             <input
               type="text"
-              id="acct-name"
+              id="holder-acct-name"
               placeholder="Enter Account name"
               aria-label="Account name"
               v-model="holder.account_name"
-              disable
             />
           </div>
         </div>
@@ -290,7 +297,6 @@
 
         <form class="mt-40">
           <!-- Name of service -->
-          <!-- :class="{ 'form-group--error': $v.title.$error }" -->
           <div class="mb-24">
             <label :for="title">Name of service</label>
             <input
@@ -300,12 +306,6 @@
               v-model.trim="title"
               placeholder="Enter name of service"
             />
-            <!--
-            <field-errors
-              v-if="$v.title.$error"
-              :field="$v.title"
-              alt="Name of service is required"
-            /> -->
           </div>
 
           <!-- Description  -->
@@ -330,9 +330,10 @@
             Enter account details to receive money
           </h4>
 
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-x-28 my-24">
+          <!-- <div class="grid grid-cols-1 lg:grid-cols-12 gap-x-28 my-24"> -->
+          <div>
             <!-- Select Account  -->
-            <div
+            <!-- <div
               @click="bankAcctShowing = !bankAcctShowing"
               class="lg:col-span-6"
             >
@@ -342,24 +343,41 @@
                 <p>Select Account</p>
                 <i class="fas fa-chevron-down"></i>
               </div>
-            </div>
+            </div> -->
 
-            <div v-if="(bankAcctShowing = true)">
+            <!-- <div v-if="(bankAcctShowing = true)">
               <div v-for="(acct, i) in accounts" :key="i">
-                <!-- {{acct.}} -->
                 <div>{{ acct.account_no }}</div>
               </div>
-            </div>
+            </div> -->
 
             <!--  Add Account  -->
-            <!-- @click.prevent="isAcctModalActive = true" -->
-
             <button
               class="lg:col-span-3 text-purple"
               @click.prevent="acctModal.isActive = true"
             >
               +Add Account
             </button>
+
+            <!-- Account Card  -->
+
+            <div class="my-40" v-if="bank_name != ''">
+              <div class="flex gap-x-[18px] items-start">
+                <span
+                  class="rounded-[50%] h-28 w-28 leading-[28px] bg-[#D8DDFD] text-blue text-center text-sm font-bold"
+                >
+                  {{ bank_name.charAt(0) }}
+                </span>
+
+                <h5 class="text-base text-black font-medium">
+                  {{ account_name }} : {{ account_no }}
+                </h5>
+
+                <button @click.prevent="removeServiceAcct" class="ml-48">
+                  <i class="fas fa-times text-[#b3b3b3]"></i>
+                </button>
+              </div>
+            </div>
           </div>
 
           <div class="flex items-center gap-x-28">
@@ -412,10 +430,10 @@
                 {{ holder.name }}
               </h5>
               <p class="text-sm text-grey" v-if="holder.type === 'individual'">
-                {{ holder.email[0] }}
+                {{ singleEmail }}
               </p>
               <p class="text-sm text-grey" v-if="holder.type === 'group'">
-                {{ holder.email.length }} members
+                {{}} members
               </p>
             </div>
 
@@ -448,10 +466,10 @@
         </div>
       </div>
     </div>
-    <!--
-    <click-btn @click="createService" class="float-right mt-48"
-      >Create Services</click-btn
-    > -->
+
+    <button @click="createService" class="click-btn float-right mt-48">
+      Create Services
+    </button>
   </div>
 </template>
 
@@ -470,6 +488,8 @@ import {
 import ClickBtn from '~/components/ClickBtn.vue'
 import Modal from '~/components/utils/Modal.vue'
 
+const psSecKey = 'sk_test_9cb75be4f634e009d84825fa5fefa0393a57e09b'
+
 export default {
   components: { ClickBtn, fieldErrors },
 
@@ -483,33 +503,32 @@ export default {
     bank_name: '',
     bank_code: '',
     stakeholders: [],
+
+    serviceBank: {},
+    holderBank: {},
+
+    tempEmail: [],
+    indEmail: '',
+
     holder: {
-      email: [],
+      email: '',
       name: '',
       is_percentage: false,
       is_automated: true,
-      share_formular: null,
+      share_formular: '',
       type: '',
       account_no: '',
       account_name: '',
       bank_name: '',
-      bank_code: '737',
+      bank_code: '',
       schedule: '',
       role: '',
     },
+    // bank: {},
     singleEmail: '',
     markUpType: '', // fixed or %
     disbursementType: '', //automated or scheduled
-    accounts: [
-      {
-        account_no: '',
-        account_name: '',
-        bank: {
-          name: '',
-          code: '',
-        },
-      },
-    ],
+    accounts: [],
     acctModal: {
       isActive: false,
     },
@@ -531,43 +550,107 @@ export default {
 
     bankAcctShowing: false,
 
-    banks: [
-      {
-        name: 'GT Bank',
-      },
-      {
-        name: 'Eco Bank',
-      },
-    ],
+    banks: [],
+
     stakeDropdown: false,
 
     showStakeDetails: false,
   }),
 
   methods: {
-    // async createService() {
-    //   try {
-    //     let token = this.$auth.token
+    async getBanks() {
+      try {
+        let url = 'https://api.paystack.co/bank'
+        let res = await this.$axios.get(url, {
+          headers: {
+            Authorization: 'Bearer ' + psSecKey,
+          },
+        })
+        this.banks = res.data.data
+      } catch (error) {
+        console.log(error)
+      }
+    },
 
-    //     let res = await this.$axios.post(
-    //       '/services/create',
+    async getAccountName() {
+      if (this.account_no.toString().length == 10) {
+        // this.$v.bank.code.$touch();
+        // if (this.$v.bank.code.$pending || this.$v.bank.code.$error) return;
 
-    //       {
-    //         headers: {
-    //           Authorization: `Bearer ${token}`,
-    //         },
-    //       }
-    //     )
+        // this.isLoading = true;
+        // this.mgs = "Verifying account details...";
 
-    //     console.log(res)
-    //   } catch (error) {
-    //     console.log({ error })
-    //   }
-    // },
+        try {
+          let url = `https://api.paystack.co/bank/resolve?account_number=${this.account_no}&bank_code=${this.bank.code}`
+          let res = await this.$axios.get(url, {
+            headers: {
+              Authorization: 'Bearer ' + psSecKey,
+            },
+          })
+          // console.log('account number: ' + this.account_no)
+          // console.log('bank code: ' + this.bank.code)
+          console.log(res)
+          this.account_name = res.data.data.account_name
+
+          //  this.isLoading = false;
+        } catch (error) {
+          //  this.isLoading = false;
+          console.log({ error })
+        }
+      }
+    },
+
+    async createService() {
+      let data = {
+        title: this.title,
+        description: this.description,
+        account_no: this.account_no,
+        account_name: this.account_name,
+        bank_name: this.bank_name,
+        bank_code: this.bank_code,
+        stakeholders: this.stakeholders,
+      }
+      console.log(data)
+      this.$router.push('/services')
+
+      // try {
+      //   let token = this.$auth.token
+
+      //   let res = await this.$axios.post(
+      //     '/services/create',
+      //     {
+      //       title: this.title,
+      //       description: this.description,
+      //       account_no: this.account_no,
+      //       account_name: this.account_name,
+      //       bank_name: this.bank_name,
+      //       bank_code: this.bank_code,
+      //       stakeholders: this.stakeholders,
+      //     },
+
+      //     {
+      //       headers: {
+      //         Authorization: `Bearer ${token}`,
+      //       },
+      //     }
+      //   )
+
+      //   console.log(res)
+      // } catch (error) {
+      //   console.log({ error })
+      // }
+    },
 
     addEmail() {
-      this.holder.email.push(this.singleEmail)
+      this.tempEmail.push(this.singleEmail)
+      this.holder.email = this.tempEmail.toString()
       this.singleEmail = ''
+    },
+
+    addServiceAcct() {
+      this.bank_name = this.serviceBank.name
+      this.bank_code = this.serviceBank.code
+      this.acctModal.isActive = false
     },
 
     addAcct() {
@@ -591,14 +674,25 @@ export default {
         this.holder.is_automated = false
       }
 
+      if (this.holder.type === 'individual') {
+        this.holder.email = this.singleEmail
+      }
+
+      if (this.holder.type === 'group') {
+        this.holder.email = this.tempEmail.toString()
+      }
+
+      this.holder.bank_name = this.holderBank.name
+      this.holder.bank_code = this.holderBank.code
+
       this.stakeholders.push(this.holder)
 
       this.holder = {
-        email: [],
+        email: '',
         name: '',
         is_percentage: false,
         is_automated: true,
-        share_formular: null,
+        share_formular: '',
         type: '',
         account_no: '',
         account_name: '',
@@ -607,15 +701,25 @@ export default {
         schedule: '',
         role: '',
       }
-      ;(this.markUpType = ''),
-        (this.disbursementType = ''),
-        console.log(this.stakeholders)
+      this.serviceBank = {}
+      this.holderBank = {}
+      this.tempEmail = []
+      this.markUpType = ''
+      this.disbursementType = ''
+      // this.temp = {}
+      console.log(this.stakeholders)
       this.stakeholderModal.isActive = false
     },
 
-    addGroupEmail() {},
+    groupMemberLength() {
+      return this.holder.email.split(',').length()
+    },
 
-    removeGroupEmail() {},
+    removeGroupEmail(index) {
+      this.tempEmail.splice(index, 1)
+    },
+
+    removeServiceAcct() {},
 
     ind() {
       this.stakeholderModal.isActive = true
@@ -638,6 +742,12 @@ export default {
     Modal,
     ClickBtn,
   },
+
+  mounted() {
+    this.getBanks()
+  },
+
+  computed: {},
 }
 </script>
 
