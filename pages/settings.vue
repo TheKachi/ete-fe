@@ -241,7 +241,7 @@
     <div v-if="tab === 'user'">
       <div class="grid lg:grid-cols-12 mt-96">
         <div class="col-span-12 lg:col-span-4">
-          <div class="flex gap-0 user-tab">
+          <div class="flex gap-0">
             <button
               @click.prevent="changeUserMgtTab('users')"
               :class="[
@@ -347,6 +347,7 @@ export default {
 
     isResetActive: false,
   }),
+
   // async asyncData({ $axios, params, store }) {
   //   try {
   //     //  let id = store.$auth.$state.user._id;
@@ -369,6 +370,7 @@ export default {
   //     //  return {};
   //   }
   // },
+
   methods: {
     changeTab(tab) {
       this.tab = tab

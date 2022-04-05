@@ -52,10 +52,7 @@
 
     <!-- Login  -->
     <div class="hidden lg:flex lg:items-center">
-      <nuxt-link
-        to="/login"
-        target="_blank"
-        class="px-36 py-12 hover:text-yellow"
+      <nuxt-link to="/login" class="px-36 py-12 hover:text-yellow"
         >Login</nuxt-link
       >
       <!-- :class="loginHoverClass" -->

@@ -1,5 +1,5 @@
 <template>
-  <aside class="w-1/4 h-screen">
+  <aside class="h-screen">
     <div class="fixed w-inherit h-inherit bg-black p-32">
       <!-- logo -->
       <svg-loader path="img" icon="ete-logo" />

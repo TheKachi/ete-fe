@@ -165,8 +165,8 @@
           <!-- Percentage return -->
           <div v-if="markUpType === 'Percentage'">
             <input
-              type="number"
-              v-model.number="holder.share_formular"
+              type="text"
+              v-model="holder.share_formular"
               aria-label="Enter percentage return"
               placeholder="Enter percentage return"
             />
@@ -175,8 +175,8 @@
           <!-- Fixed Amount -->
           <div v-if="markUpType === 'Fixed'">
             <input
-              type="number"
-              v-model.number="holder.share_formular"
+              type="text"
+              v-model="holder.share_formular"
               placeholder="Enter Fixed Amount"
               aria-label="Enter Fixed Amount"
             />
@@ -450,7 +450,8 @@
               class="text-base text-[#7445C7]"
               v-if="holder.is_percentage === true"
             >
-              {{ formatNum(holder.share_formular) }} %
+              <!-- {{ formatNum(holder.share_formular) }} % -->
+              {{ holder.share_formular }} %
               <span class="text-grey text-sm">returns</span>
             </p>
 
@@ -458,7 +459,8 @@
               class="text-base text-blue"
               v-if="holder.is_percentage === false"
             >
-              ₦{{ formatNum(holder.share_formular) }}
+              <!-- ₦{{ formatNum(holder.share_formular) }} -->
+              ₦{{ holder.share_formular }}
             </p>
 
             <p class="text-purple text-sm">{{ holder.role }}</p>
@@ -601,44 +603,45 @@ export default {
     },
 
     async createService() {
-      let data = {
-        title: this.title,
-        description: this.description,
-        account_no: this.account_no,
-        account_name: this.account_name,
-        bank_name: this.bank_name,
-        bank_code: this.bank_code,
-        stakeholders: this.stakeholders,
-      }
-      console.log(data)
-      this.$router.push('/services')
-
-      // try {
-      //   let token = this.$auth.token
-
-      //   let res = await this.$axios.post(
-      //     '/services/create',
-      //     {
-      //       title: this.title,
-      //       description: this.description,
-      //       account_no: this.account_no,
-      //       account_name: this.account_name,
-      //       bank_name: this.bank_name,
-      //       bank_code: this.bank_code,
-      //       stakeholders: this.stakeholders,
-      //     },
-
-      //     {
-      //       headers: {
-      //         Authorization: `Bearer ${token}`,
-      //       },
-      //     }
-      //   )
-
-      //   console.log(res)
-      // } catch (error) {
-      //   console.log({ error })
+      // let data = {
+      //   title: this.title,
+      //   description: this.description,
+      //   account_no: this.account_no,
+      //   account_name: this.account_name,
+      //   bank_name: this.bank_name,
+      //   bank_code: this.bank_code,
+      //   stakeholders: this.stakeholders,
       // }
+      // console.log(data)
+      // this.$router.push('/services')
+
+      try {
+        let token = this.$auth.token
+
+        let res = await this.$axios.post(
+          '/services/create',
+          {
+            title: this.title,
+            description: this.description,
+            account_no: this.account_no,
+            account_name: this.account_name,
+            bank_name: this.bank_name,
+            bank_code: this.bank_code,
+            stakeholders: this.stakeholders,
+          },
+
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+
+        console.log(res)
+        this.$router.push('/services')
+      } catch (error) {
+        console.log({ error })
+      }
     },
 
     addEmail() {
@@ -733,9 +736,9 @@ export default {
       this.stakeDropdown = false
     },
 
-    formatNum(num) {
-      return num.toLocaleString('en-US')
-    },
+    // formatNum(num) {
+    //   return num.toLocaleString('en-US')
+    // },
   },
 
   components: {

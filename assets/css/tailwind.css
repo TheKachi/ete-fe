@@ -88,3 +88,58 @@ button {
 .form-control {
   @apply py-12 pl-24 w-full rounded-md bg-white border border-medium-grey text-black text-base;
 }
+
+/* Table  */
+.table {
+  @apply w-full rounded-lg py-16 px-32;
+}
+
+.tr {
+  @apply grid grid-flow-col align-middle auto-cols-fr bg-white rounded-xl shadow-[0_4px_50px_rgba(0,0,0,0.1)] px-16 py-4;
+}
+
+.thead {
+  @apply grid grid-flow-col auto-cols-fr px-16;
+}
+
+.th {
+  @apply text-base font-medium py-12;
+}
+
+.td {
+  @apply text-sm opacity-60  py-12;
+}
+
+table {
+  @apply w-full;
+}
+
+tr {
+  @apply bg-white mb-16;
+}
+
+tbody tr {
+  @apply shadow-[0_4px_20px_rgba(0,0,0,0.05)];
+}
+
+tbody,
+thead {
+  @apply rounded-xl;
+}
+
+/* thead {
+  @apply px-16;
+} */
+
+th {
+  @apply text-base font-medium text-left;
+}
+
+td {
+  @apply text-sm;
+}
+
+th,
+td {
+  @apply py-12 px-36 text-[#333];
+}

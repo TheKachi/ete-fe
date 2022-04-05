@@ -24,9 +24,7 @@
     <div
       class="flex flex-nowrap gap-x-20 my-36 overflow-x-auto overflow-y-hidden"
     >
-      <div
-        class="border border-light-grey bg-white bg-[url('~assets/img/dashboard/stake-bg.png')] card"
-      >
+      <div class="bg-white bg-[url('~assets/img/dashboard/stake-bg.png')] card">
         <div class="flex gap-x-20 items-center mt-32 ml-32">
           <svg-loader path="img/dashboard" icon="stake" />
 
@@ -54,7 +52,7 @@
         <div class="flex gap-x-20 items-center mt-32 ml-32">
           <div class="flex flex-col gap-y-4 text-white">
             <h4 class="text-base">Total Balance</h4>
-            <h5 class="font-bold text-[30px]">0</h5>
+            <h5 class="font-bold text-[30px]">₦0</h5>
           </div>
         </div>
       </div>
@@ -114,6 +112,5 @@ export default {
 <style lang="postcss" scoped>
 .card {
   @apply rounded-xl lg:w-[280px] lg:h-[130px] shadow-[0_4px_50px_rgba(0,0,0,0.1)] bg-no-repeat bg-right-top;
-  flex: 0 0 auto;
 }
 </style>
