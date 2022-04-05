@@ -91,7 +91,9 @@
         </button>
       </div>
 
-      <div class="table" v-if="txnTab === 'received'">
+      <div class="text-center mt-120">No transactions yet</div>
+
+      <!-- <div class="table" v-if="txnTab === 'received' && service.transactions">
         <div class="thead">
           <div class="th"></div>
           <div class="th">Date</div>
@@ -136,7 +138,7 @@
             >
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- </div> -->
       <!-- </div> -->
@@ -267,9 +269,10 @@
         </div>
       </div>
     </div>
+
     <!-- API Credentials  -->
     <div v-if="tab === 'api'" class="text-center text-black text-2xl">
-      <div class="flex gap-0 user-tab mb-16">
+      <div class="flex gap-0 user-tab mb-32">
         <button
           @click.prevent="changeApiTab('staging')"
           :class="[
@@ -293,9 +296,89 @@
         </button>
       </div>
 
-      <div class="col-span-10">
-        <div v-if="apiTab === 'staging'">staging</div>
-        <div v-else>live</div>
+      <div class="grid grid-cols-12">
+        <div class="col-span-12 lg:col-span-9">
+          <div v-if="apiTab === 'staging'">
+            <!-- Public key -->
+            <div>
+              <label for="staging-public-key" class="text-left"
+                >Public key</label
+              >
+              <div class="flex items-center">
+                <input
+                  type="text"
+                  id="staging-public-key"
+                  aria-label="Staging Public key"
+                  v-model="service.api_public_key_test"
+                  disabled
+                />
+
+                <button class="rounded-xl px-24 py-8 bg-purple text-white">
+                  Copy
+                </button>
+              </div>
+            </div>
+
+            <!-- private key -->
+            <div class="mt-32">
+              <label for="staging-private-key" class="text-left"
+                >private key</label
+              >
+              <div class="flex items-center">
+                <input
+                  type="text"
+                  id="staging-private-key"
+                  aria-label="Staging private key"
+                  v-model="service.api_private_key_test"
+                  disabled
+                />
+
+                <button class="rounded-xl px-24 py-8 bg-purple text-white">
+                  Copy
+                </button>
+              </div>
+            </div>
+          </div>
+          <div v-else>
+            <!-- Public key -->
+            <div>
+              <label for="live-public-key" class="text-left">Public key</label>
+              <div class="flex items-center">
+                <input
+                  type="text"
+                  id="live-public-key"
+                  aria-label="live Public key"
+                  v-model="service.api_public_key"
+                  disabled
+                />
+
+                <button class="rounded-xl px-24 py-8 bg-purple text-white">
+                  Copy
+                </button>
+              </div>
+            </div>
+
+            <!-- private key -->
+            <div class="mt-32">
+              <label for="live-private-key" class="text-left"
+                >private key</label
+              >
+              <div class="flex items-center">
+                <input
+                  type="text"
+                  id="live-private-key"
+                  aria-label="live private key"
+                  v-model="service.api_private_key"
+                  disabled
+                />
+
+                <button class="rounded-xl px-24 py-8 bg-purple text-white">
+                  Copy
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
