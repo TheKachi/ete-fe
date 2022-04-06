@@ -41,7 +41,7 @@
 
           <div class="flex flex-col gap-y-4 text-black">
             <h4 class="text-base">Services</h4>
-            <h5 class="font-bold text-[30px]">0</h5>
+            <h5 class="font-bold text-[30px]">{{ merchantServices.length }}</h5>
           </div>
         </div>
       </div>
@@ -58,20 +58,64 @@
       </div>
     </div>
 
-    <h4 class="text-xl text-black font-medium">Todo</h4>
-
-    <div class="py-24 px-40 mt-12 border border-light-grey">
-      <div
-        class="flex flex-col lg:flex-row gap-y-24 justify-between items-center"
-      >
-        <div class="flex flex-col gap-y-4">
-          <h5 class="text-base font-bold text-black">Create Service</h5>
-          <h6 class="text-sm lg:text-base font-medium text-grey">
-            Begin your transaction settlement by creating a service
-          </h6>
+    <div v-if="merchantServices.length > 0">
+      <div class="grid grid-cols-12">
+        <div class="col-span-7 border-[#f4f4f4] rounded-3xl">
+          <h4 class="text-xl text-black font-medium">Recent transactions</h4>
+          <div class="text-center mt-120">No recent transactions</div>
         </div>
 
-        <LgBtn url="/services/create">Create Services</LgBtn>
+        <div class="col-span-4 col-end-13">
+          <div class="flex justify-between items-center mb-28">
+            <h4 class="text-xl text-black font-medium">Services</h4>
+            <nuxt-link
+              to="/services"
+              class="text-purple text-sm underline underline-offset-8"
+              >View more</nuxt-link
+            >
+          </div>
+
+          <div v-for="service in merchantServices" :key="service">
+            <div
+              class="flex gap-x-[18px] items-center mb-12 px-24 py-8 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)] rounded-[10px]"
+            >
+              <span
+                class="rounded-[50%] h-28 w-28 leading-[28px] bg-[#D8DDFD] text-blue text-center text-sm font-bold"
+              >
+                {{ service.title.charAt(0) }}
+              </span>
+
+              <h5 class="text-base text-black font-medium">
+                {{ service.title }}
+              </h5>
+
+              <nuxt-link :to="`/services/${service.id}`" class="ml-auto">
+                <i
+                  class="fas fa-chevron-right text-[#999] text-xs"
+                ></i> </nuxt-link
+              >nu
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-else>
+      <h4 class="text-xl text-black font-medium">Todo</h4>
+
+      <div class="py-24 px-40 mt-12 border border-light-grey">
+        <div
+          class="flex flex-col lg:flex-row gap-y-24 justify-between items-center"
+        >
+          <div class="flex flex-col gap-y-4">
+            <h5 class="text-base font-bold text-black">Create Service</h5>
+            <h6 class="text-sm lg:text-base font-medium text-grey">
+              Begin your transaction settlement by creating a service
+            </h6>
+          </div>
+
+          <LgBtn url="/services/create">Create Services</LgBtn>
+        </div>
       </div>
     </div>
   </div>
@@ -83,14 +127,28 @@ import LgBtn from '~/components/LgBtn.vue'
 export default {
   layout: 'dashboard',
 
-  // data: () => ({
-  //   user: {
-  //     firstname: 'Lorem',
-  //     lastname: 'Ipsum',
-  //     avatarUrl:
-  //       'https://res.cloudinary.com/thekachi/image/upload/v1597097618/charity-29.jpg',
-  //   },
-  // }),
+  data: () => ({
+    merchantServices: [],
+  }),
+
+  methods: {
+    async getServices() {
+      try {
+        let token = this.$auth.token
+
+        let res = await this.$axios.post('/services/service', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        this.merchantServices = res.data.data.merchant_services
+        // this.stakeholderServices = res.data.data.stakeholder_services
+        console.log(res.data.data)
+      } catch (error) {
+        console.log({ error })
+      }
+    },
+  },
 
   computed: {
     username() {
@@ -99,7 +157,7 @@ export default {
   },
 
   mounted() {
-    console.log(this.$auth.user)
+    this.getServices()
   },
 
   components: {

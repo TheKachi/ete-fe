@@ -241,7 +241,7 @@
     <div v-if="tab === 'user'">
       <div class="grid lg:grid-cols-12 mt-96">
         <div class="col-span-12 lg:col-span-4">
-          <div class="flex gap-0">
+          <div class="flex gap-0 user-tab">
             <button
               @click.prevent="changeUserMgtTab('users')"
               :class="[
