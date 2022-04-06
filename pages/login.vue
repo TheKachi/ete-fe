@@ -3,10 +3,13 @@
     <!-- <Notification :message="error" v-if="error" /> -->
     <!-- Login -->
 
-    <h1 slot="greeting">Welcome back to Ete</h1>
+    <h1 slot="greeting">
+      Welcome back <br />
+      to Ete
+    </h1>
 
     <!-- -->
-    <p slot="cta">Please enter your login details</p>
+    <p slot="cta">Please enter your login&nbsp;details</p>
 
     <form>
       <h2>Login</h2>
