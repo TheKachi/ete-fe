@@ -26,7 +26,10 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
 
-  plugins: ['./plugins/validate'],
+  plugins: [
+    '~/plugins/validate',
+    { src: '~/plugins/notifications', ssr: false },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -47,9 +50,9 @@ export default {
 
   axios: {
     // proxy: true
-    baseURL: 'https://d4trxhq4jx4a9.cloudfront.net/v1',
-    // baseURL:
-    // 'http://a3b8e4e5c9deb4f1c8f8ee6ae905ee0f-1513708545.eu-west-3.elb.amazonaws.com/v1',
+    // baseURL: 'https://d4trxhq4jx4a9.cloudfront.net/v1',
+    baseURL:
+      'http://a3b8e4e5c9deb4f1c8f8ee6ae905ee0f-1513708545.eu-west-3.elb.amazonaws.com/v1',
   },
 
   // proxy: {

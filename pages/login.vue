@@ -101,6 +101,8 @@
         Don't have an account?
         <nuxt-link to="/signup" class="text-purple"> Sign up</nuxt-link>
       </p>
+
+      <notifications position="top left" classes="custom" />
     </form>
   </auth-layout>
 </template>
@@ -122,15 +124,12 @@ import {
 export default {
   data() {
     return {
-      // isModalActive: false,
       userId: '',
       password: '',
       hidePassword: true,
 
-      // isLoading: false,
-      // message: '',
-      // messageState: '',
-      // userData: {},
+      isLoading: false,
+      error: null,
     }
   },
 
@@ -145,28 +144,28 @@ export default {
 
       try {
         this.isLoading = true
-        let res = await this.$auth.loginWith('local', {
+        await this.$auth.loginWith('local', {
           data: {
             userId: this.userId,
             password: this.password,
           },
         })
 
-        this.$router.push('/dashboard')
-        console.log(res)
-      } catch (error) {
-        console.log({ error })
+        this.isLoading = false
 
-        // this.isLoading = false
-        // this.messageState = true
-        // this.message = 'Invalid login credentials'
-        // this.status(this.message, 'error')
+        this.$router.push('/dashboard')
+      } catch (error) {
+        this.isLoading = false
+        console.log({ error })
+        // this.errorMsg = 'Failed to login. Try again.'
+
+        this.$notify('Failed to login. Try again.')
       }
     },
   },
 
   validations: {
-    userId: { required },
+    userId: { required, email },
 
     password: {
       required,
@@ -177,7 +176,19 @@ export default {
   components: {
     fieldErrors,
     AuthLayout,
-    // modal
   },
 }
 </script>
+
+<style scoped>
+.custom {
+  background-color: #000;
+  padding: 12px 24px;
+  width: 100%;
+}
+/*
+.custom .notification-title,
+.custom .notification-content {
+  font-size: 30px;
+} */
+</style>
