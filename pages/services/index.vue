@@ -91,7 +91,7 @@ export default {
           },
         })
         this.merchantServices = res.data.data.merchant_services
-        // this.stakeholderServices = res.data.stakeholder_services
+        // this.stakeholderServices = res.data.data.stakeholder_services
         console.log(res.data.data)
       } catch (error) {
         console.log({ error })

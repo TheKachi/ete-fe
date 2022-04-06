@@ -18,7 +18,7 @@
           type="text"
           placeholder="Enter Email or phone number"
           id="user-id"
-          v-model="userId"
+          v-model.trim="userId"
         />
 
         <field-errors
@@ -102,17 +102,16 @@
         <nuxt-link to="/signup" class="text-purple"> Sign up</nuxt-link>
       </p>
 
-      <notifications position="top left" classes="custom" />
+      <notifications position="top right" classes="error-notif" />
     </form>
   </auth-layout>
 </template>
 
 <script>
 // import platform from 'platform'
-// import modal from "~/components/utils/modal";
 
-import AuthLayout from '@/components/AuthLayout'
-import fieldErrors from '@/components/input/validation'
+import AuthLayout from '~/components/AuthLayout'
+import fieldErrors from '~/components/input/validation'
 import {
   required,
   minLength,
@@ -122,6 +121,10 @@ import {
   numeric,
 } from 'vuelidate/lib/validators'
 export default {
+  components: {
+    fieldErrors,
+    AuthLayout,
+  },
   data() {
     return {
       userId: '',
@@ -159,7 +162,11 @@ export default {
         console.log({ error })
         // this.errorMsg = 'Failed to login. Try again.'
 
-        this.$notify('Failed to login. Try again.')
+        this.$notify({
+          type: 'error',
+          text: 'Invalid login credentials.',
+          duration: 5000,
+        })
       }
     },
   },
@@ -172,23 +179,18 @@ export default {
       minLength: minLength(6),
     },
   },
-
-  components: {
-    fieldErrors,
-    AuthLayout,
-  },
 }
 </script>
 
-<style scoped>
-.custom {
-  background-color: #000;
-  padding: 12px 24px;
-  width: 100%;
+<style>
+.error-notif {
+  padding: 18px;
 }
-/*
-.custom .notification-title,
-.custom .notification-content {
-  font-size: 30px;
-} */
+
+.error-notif.error {
+  background-color: #fff1f1;
+  color: rgba(24, 24, 25, 0.9);
+  font-size: 16px;
+  font-family: 'DM Sans', sans-serif;
+}
 </style>

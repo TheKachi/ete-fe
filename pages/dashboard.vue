@@ -90,10 +90,8 @@
               </h5>
 
               <nuxt-link :to="`/services/${service.id}`" class="ml-auto">
-                <i
-                  class="fas fa-chevron-right text-[#999] text-xs"
-                ></i> </nuxt-link
-              >nu
+                <i class="fas fa-chevron-right text-[#999] text-xs"></i>
+              </nuxt-link>
             </div>
           </div>
         </div>
