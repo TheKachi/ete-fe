@@ -1,4 +1,4 @@
-# ete-unauthenticated
+# ete-web-app-merchat
 
 ## Build Setup
 
