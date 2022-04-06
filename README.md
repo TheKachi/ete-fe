@@ -1,4 +1,4 @@
-# ete-web-app-merchat
+# ete-web-app-merchant
 
 ## Build Setup
 
