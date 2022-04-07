@@ -326,7 +326,7 @@
             Receiving account
           </h3>
 
-          <h4 class="text-sm font-medium text-grey">
+          <h4 class="text-sm font-medium text-grey mb-24">
             Enter account details to receive money
           </h4>
 
@@ -350,32 +350,61 @@
                 <div>{{ acct.account_no }}</div>
               </div>
             </div> -->
-
+            <!-- <select id="account" v-model="serviceBank" aria-label="account">
+              <option
+                v-for="option in serviceBank"
+                :key="option"
+                :value="option.value"
+              >
+                {{ option.text }}
+              </option>
+            </select> -->
             <!--  Add Account  -->
             <button
-              class="lg:col-span-3 text-purple"
+              class="lg:col-span-3 text-purple mb-24"
               @click.prevent="acctModal.isActive = true"
+              v-if="bank_name === ''"
             >
               +Add Account
             </button>
 
             <!-- Account Card  -->
-
-            <div class="my-40" v-if="bank_name != ''">
-              <div class="flex gap-x-[18px] items-start">
-                <span
+            <!-- <span
                   class="rounded-[50%] h-28 w-28 leading-[28px] bg-[#D8DDFD] text-blue text-center text-sm font-bold"
                 >
                   {{ bank_name.charAt(0) }}
-                </span>
+                </span> -->
 
-                <h5 class="text-base text-black font-medium">
-                  {{ account_name }} : {{ account_no }}
-                </h5>
+            <div class="grid grid-cols-3 my-40" v-if="bank_name != ''">
+              <div
+                class="col-span-2 mb-12 px-24 py-16 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.1)] rounded-[10px]"
+              >
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h4 class="text-base text-black font-medium">
+                      {{ bank_name }}
+                    </h4>
 
-                <button @click.prevent="removeServiceAcct" class="ml-48">
-                  <i class="fas fa-times text-[#b3b3b3]"></i>
-                </button>
+                    <h5 class="text-xs text-black font-medium">
+                      {{ account_name }} :
+                      <span class="text-purple">{{ account_no }}</span>
+                    </h5>
+                  </div>
+
+                  <div class="flex gap-x-16">
+                    <button
+                      @click.prevent="acctModal.isActive = true"
+                      class="text-xs text-grey"
+                    >
+                      <i class="fas fa-pen"></i>
+                    </button>
+                    <button @click.prevent="removeServiceAcct" class="">
+                      <i class="fas fa-times text-black"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- <a href="" class="text-xs text-grey">Edit</a> -->
               </div>
             </div>
           </div>
@@ -416,6 +445,9 @@
       class="grid lg:grid-cols-3 gap-16 lg:gap-32 my-40"
       v-if="stakeholders.length > 0"
     >
+      <!-- <div class="col-span-3" v-="">
+      Individual
+    </div> -->
       <div v-for="holder in stakeholders" :key="holder">
         <div class="card">
           <div class="flex gap-x-[18px] items-start mb-28">
@@ -636,7 +668,6 @@ export default {
             },
           }
         )
-
         console.log(res)
         this.$router.push('/services')
       } catch (error) {
@@ -654,6 +685,8 @@ export default {
       this.bank_name = this.serviceBank.name
       this.bank_code = this.serviceBank.code
       this.acctModal.isActive = false
+      // this.bank_name = ''
+      // this.bank_code = ''
     },
 
     addAcct() {
@@ -722,7 +755,12 @@ export default {
       this.tempEmail.splice(index, 1)
     },
 
-    removeServiceAcct() {},
+    removeServiceAcct() {
+      this.bank_name = ''
+      this.account_no = ''
+      this.bank_name = ''
+      this.account_name
+    },
 
     ind() {
       this.stakeholderModal.isActive = true

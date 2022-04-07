@@ -1,16 +1,15 @@
 <template>
   <div class="flex justify-between">
-    <!--    To turn off autocomplete when otp-input is password-->
     <input
       v-if="inputType === 'password'"
       autocomplete="off"
       name="hidden"
       type="text"
       placeholder="*"
-      style="display: none"
+      class="hidden"
     />
     <SingleOtpInput
-      class="col"
+      class="text-center"
       v-for="(item, i) in numInputs"
       :key="i"
       :focus="activeInput === i"

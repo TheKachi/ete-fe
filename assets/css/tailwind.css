@@ -44,6 +44,7 @@ textarea,
 select {
   @apply py-12 pl-24 w-full rounded-md bg-white border border-medium-grey text-black text-base focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple;
 }
+
 [type='checkbox'],
 [type='radio'] {
   @apply h-16 w-16 border focus:ring-0;
@@ -142,4 +143,15 @@ td {
 th,
 td {
   @apply py-12 px-36 text-[#333];
+}
+
+.error-notif {
+  padding: 18px;
+}
+
+.error-notif.error {
+  background-color: #fff1f1;
+  color: rgba(24, 24, 25, 0.9);
+  font-size: 16px;
+  font-family: 'DM Sans', sans-serif;
 }

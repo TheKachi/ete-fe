@@ -29,12 +29,6 @@
           :field="$v.userId"
           alt="Please enter a valid Email or phone number"
         />
-        <!--
-          <field-errors
-            v-if="errorBag.hasOwnProperty('email')"
-            alt="Email already exist. Please enter another valid email"
-            :field="{}"
-          /> -->
       </div>
 
       <!-- Password -->
@@ -104,15 +98,12 @@
         Don't have an account?
         <nuxt-link to="/signup" class="text-purple"> Sign up</nuxt-link>
       </p>
-
-      <notifications position="top right" classes="error-notif" />
     </form>
+    <notifications position="top right" classes="error-notif" />
   </auth-layout>
 </template>
 
 <script>
-// import platform from 'platform'
-
 import AuthLayout from '~/components/AuthLayout'
 import fieldErrors from '~/components/input/validation'
 import {
@@ -135,7 +126,6 @@ export default {
       hidePassword: true,
 
       isLoading: false,
-      error: null,
     }
   },
 
@@ -150,21 +140,18 @@ export default {
 
       try {
         this.isLoading = true
-        await this.$auth.loginWith('local', {
+        let res = await this.$auth.loginWith('local', {
           data: {
             userId: this.userId,
             password: this.password,
           },
         })
-
+        console.log({ res })
         this.isLoading = false
-
         this.$router.push('/dashboard')
       } catch (error) {
         this.isLoading = false
         console.log({ error })
-        // this.errorMsg = 'Failed to login. Try again.'
-
         this.$notify({
           type: 'error',
           text: 'Invalid login credentials.',
@@ -184,16 +171,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.error-notif {
-  padding: 18px;
-}
-
-.error-notif.error {
-  background-color: #fff1f1;
-  color: rgba(24, 24, 25, 0.9);
-  font-size: 16px;
-  font-family: 'DM Sans', sans-serif;
-}
-</style>

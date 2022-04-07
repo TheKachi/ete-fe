@@ -8,18 +8,18 @@
     </button>
 
     <div class="relative">
-      <div class="flex items-center gap-x-8">
+      <div
+        class="flex items-center lg:gap-x-8"
+        @click="toggleDropdown(menuList)"
+      >
         <!-- Avatar  -->
-        <i class="fas fa-user-plus rounded-full p-12 bg-medium-grey"></i>
+        <i class="fas fa-user-alt rounded-full p-4 lg:p-12 bg-medium-grey"></i>
 
-        <div
-          class="flex items-center gap-x-8 ml-48 cursor-pointer"
-          @click="toggleDropdown(menuList)"
-        >
+        <div class="flex items-center gap-x-8 ml-48 cursor-pointer">
           <!-- User name  -->
-          <span class="text-base text-black">{{ username }}</span>
+          <!-- <span class="text-base text-black">{{ username }}</span> -->
 
-          <i class="fas fa-chevron-down"></i>
+          <i class="fas fa-chevron-down hidden lg:block"></i>
         </div>
       </div>
 
@@ -186,11 +186,11 @@ export default {
     },
   },
 
-  computed: {
-    username() {
-      return this.$auth.user.firstname + ' ' + this.$auth.user.lastname
-    },
-  },
+  // computed: {
+  //   username() {
+  //     return this.$auth.user.firstname + ' ' + this.$auth.user.lastname
+  //   },
+  // },
 
   components: {
     SvgLoader,

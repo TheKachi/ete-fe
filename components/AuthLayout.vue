@@ -26,7 +26,7 @@
     </aside>
 
     <div
-      class="w-full md:w-4/6 px-20 md:px-0 pt-28 md:pt-20 pb-40 flex flex-col md:h-full md:justify-center md:fixed right-0"
+      class="w-full md:w-4/6 px-20 lg:px-0 pt-28 md:pt-20 pb-40 flex flex-col md:h-full md:justify-center md:fixed right-0"
     >
       <slot />
     </div>
@@ -47,7 +47,7 @@ export default {
 }
 
 form {
-  @apply space-y-24 w-full md:w-1/2 mx-auto;
+  @apply space-y-24 w-full lg:w-3/4 xl:w-1/2 mx-auto;
 }
 
 h1 {
