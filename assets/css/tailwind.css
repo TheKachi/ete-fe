@@ -142,7 +142,7 @@ td {
 
 th,
 td {
-  @apply py-12 px-36 text-[#333];
+  @apply py-12 text-[#333];
 }
 
 .error-notif {
