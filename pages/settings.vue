@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="absolute z-0">
     <!-- Tabs  -->
-    <div class="flex gap-x-24 tab fixed z-50">
+    <div class="flex gap-x-24 tab">
       <button
         @click.prevent="changeTab('profile')"
         :class="[tab === 'profile' ? 'bg-dark text-white' : 'bg-tab text-grey']"

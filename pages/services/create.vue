@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="w-64 mx-auto">
+      <loader />
+    </div>
     <!-- Add account modal  -->
     <modal v-if="acctModal.isActive" @close="acctModal.isActive = false">
       <h5 class="text-lg lg:text-2xl font-bold text-black" slot="header">
@@ -877,10 +880,6 @@
             </div>
           </div>
         </form>
-
-        <div class="w-64 mx-auto">
-          <loader v-if="isLoading" />
-        </div>
       </div>
     </div>
 
@@ -1135,7 +1134,7 @@ export default {
             bank_name: this.bank_name,
             bank_code: this.bank_code,
             stakeholders: this.stakeholders,
-            account: '1111',
+            account: '111',
           },
 
           {
