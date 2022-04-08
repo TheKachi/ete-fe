@@ -1,6 +1,6 @@
 <template>
   <div>
-    <aside class="">
+    <aside class="h-screen hidden lg:block">
       <div class="fixed w-inherit h-inherit bg-black p-32">
         <!-- logo -->
         <svg-loader path="img" icon="ete-logo" />

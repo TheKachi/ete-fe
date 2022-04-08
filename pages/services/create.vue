@@ -1123,7 +1123,7 @@ export default {
         this.isLoading = true
 
         let token = this.$auth.token
-
+        let account = this.$auth.user._id
         let res = await this.$axios.post(
           '/services/create',
           {
@@ -1134,7 +1134,7 @@ export default {
             bank_name: this.bank_name,
             bank_code: this.bank_code,
             stakeholders: this.stakeholders,
-            account: '111',
+            account,
           },
 
           {

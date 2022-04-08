@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <div class="lg:mt-120 overflow-y-hidden">
+    <div class="lg:mt-80 overflow-y-hidden">
       <!-- Transactions  -->
       <div v-if="tab === 'transaction'">
         <!-- <div v-if="service.transactions.length > 0"> -->
@@ -198,7 +198,78 @@
 
       <!-- Settings  -->
       <div v-if="tab === 'setting'">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-32 gap-x-60">
+        <div
+          class="grid grid-cols-1 lg:grid-cols-12 gap-y-32 gap-x-60"
+          v-if="isShowEdit"
+        >
+          <label class="lg:col-span-4 text-lg text-left" for="service-name"
+            >Service name</label
+          >
+
+          <div class="lg:col-span-6">
+            <input
+              type="text"
+              id="service-name"
+              aria-label="Service name"
+              placeholder="Enter your service name"
+              v-model="serviceDetailsEdit.title"
+            />
+          </div>
+
+          <!-- Description  -->
+          <label class="lg:col-span-4 text-lg text-left" for="desc"
+            >Description</label
+          >
+
+          <div class="lg:col-span-6">
+            <textarea
+              rows="5"
+              id="desc"
+              v-model="serviceDetailsEdit.description"
+            />
+          </div>
+
+          <!-- Receiving account  -->
+          <label class="lg:col-span-4 text-lg text-left" for="acct">
+            Receiving account
+          </label>
+
+          <div class="lg:col-span-6">
+            <!-- Bank name   -->
+            <div>
+              <label for="bank-name" class="text-left">Bank name</label>
+              <input
+                type="text"
+                id="bank-name"
+                aria-label="Service Bank name"
+                v-model="serviceDetailsEdit.bank_name"
+              />
+            </div>
+
+            <!-- Account number -->
+            <div class="my-24">
+              <label for="acct-no" class="text-left">Account number</label>
+              <input
+                type="number"
+                id="acct-no"
+                aria-label="Account number"
+                v-model="serviceDetailsEdit.account_no"
+              />
+            </div>
+
+            <!-- Account name -->
+            <div>
+              <label for="acct-name" class="text-left">Account name</label>
+              <input
+                type="text"
+                id="acct-name"
+                aria-label="Account name"
+                v-model="serviceDetailsEdit.account_name"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-32 gap-x-60" v-else>
           <label class="lg:col-span-4 text-lg text-left" for="service-name"
             >Service name</label
           >
@@ -210,7 +281,7 @@
               aria-label="Service name"
               placeholder="Enter your service name"
               v-model="service.title"
-              :disabled="disabled == 1"
+              disabled
             />
           </div>
 
@@ -224,7 +295,7 @@
               rows="5"
               id="desc"
               v-model="service.description"
-              :disabled="disabled == 1"
+              disabled
             />
           </div>
 
@@ -242,7 +313,7 @@
                 id="bank-name"
                 aria-label="Service Bank name"
                 v-model="service.bank_name"
-                :disabled="disabled == 1"
+                disabled
               />
             </div>
 
@@ -254,7 +325,7 @@
                 id="acct-no"
                 aria-label="Account number"
                 v-model="service.account_no"
-                :disabled="disabled == 1"
+                disabled
               />
             </div>
 
@@ -266,31 +337,27 @@
                 id="acct-name"
                 aria-label="Account name"
                 v-model="service.account_name"
-                :disabled="disabled == 1"
+                disabled
               />
             </div>
           </div>
+        </div>
 
-          <!-- <p class="text-sm font-medium text-grey">
-            Account details to receive money
-          </p> -->
-
-          <div class="lg:col-span-6 lg:col-end-12">
-            <button
-              @click.prevent="disabled = (disabled + 1) % 2"
-              v-if="disabled == 1"
-              class="click-btn float-right mt-32 lg:mt-80"
-            >
-              Edit
-            </button>
-            <button
-              @click.prevent="updateServiceDetails"
-              v-else
-              class="click-btn float-right mt-32 lg:mt-80"
-            >
-              Save Changes
-            </button>
-          </div>
+        <div class="lg:col-span-6 lg:col-end-12">
+          <button
+            @click.prevent="show"
+            v-if="!isShowEdit"
+            class="click-btn float-right mt-32 lg:mt-80"
+          >
+            Edit
+          </button>
+          <button
+            @click.prevent="updateServiceDetails"
+            v-else
+            class="click-btn float-right mt-32 lg:mt-80"
+          >
+            Save Changes
+          </button>
         </div>
       </div>
 
@@ -448,16 +515,36 @@ export default {
     }
   },
 
+  // async asyncData({ $axios, params }) {
+  //   try {
+  //     const res = await $axios.$post('/services/details', {
+  //       id: params.id,
+  //     })
+  //     console.log(res.data)
+  //     const service = res.data
+  //     return { service }
+  //   } catch (error) {
+  //     return { error, service: {} }
+  //   }
+  // },
+
   data: () => ({
     tab: 'transaction',
     txnTab: 'received',
     apiTab: 'staging',
     disabled: 1,
+    serviceDetailsEdit: {},
+    isShowEdit: false,
   }),
   methods: {
+    show() {
+      this.isShowEdit = true
+      console.log(this.isShowEdit)
+    },
     changeTab(tab) {
       this.tab = tab
     },
+
     changeTxnTab(tab) {
       this.txnTab = tab
     },
@@ -467,17 +554,17 @@ export default {
     async updateServiceDetails() {
       try {
         let token = this.$auth.token
-
+        let account = this.$auth.user._id
         let res = await this.$axios.post(
-          '/services/service/update',
+          '/services/update',
           {
-            title: service.title,
-            description: service.description,
-            account_no: service.account_no,
-            account_name: service.account_name,
-            bank_name: service.bank_name,
-            bank_code: service.bank_code,
-            stakeholders: service.stakeholders,
+            account,
+            id: service.id,
+            title: this.serviceDetailsEdit.title,
+            description: this.serviceDetailsEdit.description,
+            bank_name: this.serviceDetailsEdit.bank_name,
+            account_name: this.serviceDetailsEdit.account_name,
+            account_no: this.serviceDetailsEdit.account_no,
           },
 
           {

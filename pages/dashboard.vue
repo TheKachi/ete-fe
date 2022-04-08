@@ -32,7 +32,9 @@
 
             <div class="flex flex-col gap-y-4 text-black">
               <h4 class="text-base">Stakeholders</h4>
-              <h5 class="font-bold text-[30px]">0</h5>
+              <h5 class="font-bold text-[30px]">
+                <!-- {{ allServices.stakeholders.length }} -->
+              </h5>
             </div>
           </div>
         </div>
@@ -138,6 +140,8 @@ export default {
   },
   data: () => ({
     merchantServices: [],
+    stakeholderServices: [],
+    allServices: [],
   }),
 
   methods: {
@@ -145,16 +149,27 @@ export default {
       try {
         this.isLoading = true
         let token = this.$auth.token
+        let account = this.$auth.user._id
 
-        let res = await this.$axios.post('/services/service', {
-          headers: {
-            Authorization: `Bearer ${token}`,
+        let res = await this.$axios.post(
+          '/services/service',
+          {
+            account,
           },
-        })
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         this.isLoading = false
 
         this.merchantServices = res.data.data.merchant_services
-        // this.stakeholderServices = res.data.data.stakeholder_services
+        this.stakeholderServices = res.data.data.stakeholder_services
+        this.allServices = this.merchantServices.concat(
+          this.stakeholderServices
+        )
+        console.log(this.allServices)
         console.log(res.data.data)
       } catch (error) {
         this.isLoading = false
