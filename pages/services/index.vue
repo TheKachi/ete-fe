@@ -1,5 +1,6 @@
 <template>
   <div>
+    <notifications position="top right" classes="notif" />
     <div class="flex justify-between items-center">
       <div>
         <h1 class="text-lg lg:text-2xl font-bold text-black">Services</h1>
@@ -91,7 +92,7 @@ export default {
           },
         })
         this.merchantServices = res.data.data.merchant_services
-        // this.stakeholderServices = res.data.stakeholder_services
+        // this.stakeholderServices = res.data.data.stakeholder_services
         console.log(res.data.data)
       } catch (error) {
         console.log({ error })
@@ -99,8 +100,8 @@ export default {
     },
 
     slice(str) {
-      if (str.length <= 50) return str
-      return str.slice(0, 47) + '...'
+      if (str.length <= 100) return str
+      return str.slice(0, 97) + '...'
     },
   },
 

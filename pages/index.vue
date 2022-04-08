@@ -88,17 +88,11 @@
 
     <!-- How it works -->
     <section
-      class="grid grid-cols-12 lg:gap-20 lg:justify-between lg:items-center lg:pr-120 pt-36 lg:pt-120 px-20 lg:px-0"
+      class="grid grid-cols-12 lg:gap-20 lg:pl-120 pt-36 lg:pt-120 lg:pb-20 px-20 lg:px-0"
     >
       <h3 class="col-span-12 lg:mb-40 text-black">How it works</h3>
 
-      <img
-        src="~/assets/img/website.png"
-        alt=""
-        class="col-span-12 lg:col-span-5 lg:col-start-8"
-      />
-
-      <div class="lg:col-start-1 lg:col-span-5">
+      <div class="col-span-12 lg:col-start-1 lg:col-span-4">
         <div class="flex gap-x-40" v-for="item in howItWorks" :key="item">
           <img src="~/assets/img/before.svg" alt="" />
           <div>
@@ -109,6 +103,11 @@
           </div>
         </div>
       </div>
+      <img
+        src="~/assets/img/website.svg"
+        alt=""
+        class="col-span-12 lg:col-span-8"
+      />
     </section>
 
     <!-- Real time settlements -->

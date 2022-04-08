@@ -1,7 +1,7 @@
 <template>
-  <div style="display: flex; align-items: center;" class="me-1">
+  <div class="flex items-center my-auto">
     <input
-      class="form-control"
+      class="text-center"
       ref="input"
       placeholder="*"
       :type="inputType"
@@ -45,7 +45,7 @@ export default {
     inputType: {
       type: String,
       default() {
-        return 'tel';
+        return 'tel'
       },
     },
     isLastChild: {
@@ -55,63 +55,68 @@ export default {
   data() {
     return {
       model: this.value || '',
-    };
+    }
   },
   mounted() {
     if (this.$refs.input && this.focus && this.shouldAutoFocus) {
-      this.$refs.input.focus();
+      this.$refs.input.focus()
     }
   },
   watch: {
     value(newValue, oldValue) {
       if (newValue !== oldValue) {
-        this.model = newValue;
+        this.model = newValue
       }
     },
     // whenever question changes, this function will run
     focus(newFocusValue, oldFocusValue) {
       // Check if focusedInput changed
       // Prevent calling function if input already in focus
-      if (oldFocusValue !== newFocusValue && (this.$refs.input && this.focus)) {
-        this.$refs.input.focus();
-        this.$refs.input.select();
+      if (oldFocusValue !== newFocusValue && this.$refs.input && this.focus) {
+        this.$refs.input.focus()
+        this.$refs.input.select()
       }
     },
   },
   methods: {
     handleOnChange() {
       if (this.model.length > 1) {
-        this.model = this.model.slice(0, 1);
+        this.model = this.model.slice(0, 1)
       }
-      return this.$emit('on-change', this.model);
+      return this.$emit('on-change', this.model)
     },
     handleOnKeyDown(event) {
       // Only allow characters 0-9, DEL, Backspace and Pasting
-      const keyEvent = (event) || window.event;
-      const charCode = (keyEvent.which) ? keyEvent.which : keyEvent.keyCode;
-      if (this.isCodeNumeric(charCode)
-          || (charCode === 8)
-          || (charCode === 86)
-          || (charCode === 46)) {
-        this.$emit('on-keydown', event);
+      const keyEvent = event || window.event
+      const charCode = keyEvent.which ? keyEvent.which : keyEvent.keyCode
+      if (
+        this.isCodeNumeric(charCode) ||
+        charCode === 8 ||
+        charCode === 86 ||
+        charCode === 46
+      ) {
+        this.$emit('on-keydown', event)
       } else {
-        keyEvent.preventDefault();
+        keyEvent.preventDefault()
       }
     },
     isCodeNumeric(charCode) {
       // numeric keys and numpad keys
-      return (charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105);
+      return (
+        (charCode >= 48 && charCode <= 57) ||
+        (charCode >= 96 && charCode <= 105)
+      )
     },
     handleOnPaste(event) {
-      return this.$emit('on-paste', event);
+      return this.$emit('on-paste', event)
     },
     handleOnFocus() {
-      this.$refs.input.select();
-      return this.$emit('on-focus');
+      this.$refs.input.select()
+      return this.$emit('on-focus')
     },
     handleOnBlur() {
-      return this.$emit('on-blur');
+      return this.$emit('on-blur')
     },
   },
-};
+}
 </script>

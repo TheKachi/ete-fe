@@ -1,12 +1,12 @@
 <template>
   <auth-layout>
-    <!-- <Notification :message="error" v-if="error" /> -->
-    <!-- Login -->
-
-    <h1 slot="greeting">Welcome back to Ete</h1>
+    <h1 slot="greeting">
+      Welcome back <br />
+      to Ete
+    </h1>
 
     <!-- -->
-    <p slot="cta">Please enter your login details</p>
+    <p slot="cta">Please enter your login&nbsp;details</p>
 
     <form>
       <h2>Login</h2>
@@ -18,7 +18,7 @@
           type="text"
           placeholder="Enter Email or phone number"
           id="user-id"
-          v-model="userId"
+          v-model.trim="userId"
         />
 
         <field-errors
@@ -26,12 +26,6 @@
           :field="$v.userId"
           alt="Please enter a valid Email or phone number"
         />
-        <!--
-          <field-errors
-            v-if="errorBag.hasOwnProperty('email')"
-            alt="Email already exist. Please enter another valid email"
-            :field="{}"
-          /> -->
       </div>
 
       <!-- Password -->
@@ -101,18 +95,18 @@
         Don't have an account?
         <nuxt-link to="/signup" class="text-purple"> Sign up</nuxt-link>
       </p>
-
-      <notifications position="top left" classes="custom" />
+      <div class="w-64 mx-auto">
+        <loader v-if="isLoading" />
+      </div>
     </form>
+    <notifications position="top center" classes="notif" />
   </auth-layout>
 </template>
 
 <script>
-// import platform from 'platform'
-// import modal from "~/components/utils/modal";
-
-import AuthLayout from '@/components/AuthLayout'
-import fieldErrors from '@/components/input/validation'
+import AuthLayout from '~/components/AuthLayout'
+import Loader from '~/components/utils/Loader.vue'
+import fieldErrors from '~/components/input/validation'
 import {
   required,
   minLength,
@@ -122,6 +116,11 @@ import {
   numeric,
 } from 'vuelidate/lib/validators'
 export default {
+  components: {
+    fieldErrors,
+    AuthLayout,
+    Loader,
+  },
   data() {
     return {
       userId: '',
@@ -129,7 +128,6 @@ export default {
       hidePassword: true,
 
       isLoading: false,
-      error: null,
     }
   },
 
@@ -144,22 +142,23 @@ export default {
 
       try {
         this.isLoading = true
-        await this.$auth.loginWith('local', {
+        let res = await this.$auth.loginWith('local', {
           data: {
             userId: this.userId,
             password: this.password,
           },
         })
-
+        console.log({ res })
         this.isLoading = false
-
         this.$router.push('/dashboard')
       } catch (error) {
         this.isLoading = false
+        this.$notify({
+          type: 'error',
+          text: 'Invalid login credentials.',
+          duration: 5000,
+        })
         console.log({ error })
-        // this.errorMsg = 'Failed to login. Try again.'
-
-        this.$notify('Failed to login. Try again.')
       }
     },
   },
@@ -172,23 +171,5 @@ export default {
       minLength: minLength(6),
     },
   },
-
-  components: {
-    fieldErrors,
-    AuthLayout,
-  },
 }
 </script>
-
-<style scoped>
-.custom {
-  background-color: #000;
-  padding: 12px 24px;
-  width: 100%;
-}
-/*
-.custom .notification-title,
-.custom .notification-content {
-  font-size: 30px;
-} */
-</style>

@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="fixed top-0 z-40 inset-x-0 h-64 flex items-center justify-end lg:px-64"
+    class="fixed top-0 z-[100000] inset-x-0 h-64 flex items-center justify-end lg:px-64"
   >
     <!-- Notification -->
     <button @click="toggleDropdown(notifList)" class="mr-48">
@@ -8,18 +8,18 @@
     </button>
 
     <div class="relative">
-      <div class="flex items-center gap-x-8">
+      <div
+        class="flex items-center lg:gap-x-8"
+        @click="toggleDropdown(menuList)"
+      >
         <!-- Avatar  -->
-        <i class="fas fa-user-plus rounded-full p-12 bg-medium-grey"></i>
+        <i class="fas fa-user-alt rounded-full p-4 lg:p-12 bg-medium-grey"></i>
 
-        <div
-          class="flex items-center gap-x-8 ml-48 cursor-pointer"
-          @click="toggleDropdown(menuList)"
-        >
+        <div class="flex items-center gap-x-8 ml-48 cursor-pointer">
           <!-- User name  -->
           <span class="text-base text-black">{{ username }}</span>
 
-          <i class="fas fa-chevron-down"></i>
+          <i class="fas fa-chevron-down hidden lg:block"></i>
         </div>
       </div>
 

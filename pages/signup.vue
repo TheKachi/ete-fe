@@ -1,11 +1,10 @@
 <template>
   <auth-layout>
-    <!-- <Notification :message="error" v-if="error" /> -->
-    <!-- Login -->
+    <h1 slot="greeting">
+      Create an <br />
+      account with us
+    </h1>
 
-    <h1 slot="greeting">Create an account with us</h1>
-
-    <!-- -->
     <p slot="cta">Let’s get you started</p>
 
     <form>
@@ -27,12 +26,6 @@
             :field="$v.email"
             alt="Please enter a valid email"
           />
-
-          <!-- <field-errors
-                    v-if="errorBag.hasOwnProperty('email')"
-                    alt="Email already exist. Please enter another valid email"
-                    :field="{}"
-                /> -->
         </div>
 
         <!-- Continue Button  -->
@@ -140,12 +133,6 @@
             :field="$v.email"
             alt="Please enter a valid email"
           />
-
-          <!-- <field-errors
-                    v-if="errorBag.hasOwnProperty('email')"
-                    alt="Email already exist. Please enter another valid email"
-                    :field="{}"
-                /> -->
         </div>
 
         <!-- Phone number -->
@@ -163,12 +150,6 @@
             :field="$v.phone"
             alt="Please enter a valid phone number"
           />
-
-          <!-- <field-errors
-            v-if="errorBag.hasOwnProperty('phone')"
-            alt="Phone number already exist. Please enter another valid phone number"
-            :field="{}"
-          /> -->
         </div>
 
         <!-- Password -->
@@ -309,12 +290,19 @@
         Already have an account?
         <nuxt-link to="/login" class="text-purple"> Login</nuxt-link>
       </p>
+
+      <!-- Loader -->
+      <div class="w-64 mx-auto">
+        <loader v-if="isLoading" />
+      </div>
     </form>
+    <notifications position="top right" classes="notif" />
   </auth-layout>
 </template>
 
 <script>
 import AuthLayout from '@/components/AuthLayout'
+import Loader from '~/components/utils/Loader.vue'
 import FieldErrors from '@/components/input/validation'
 import IntlNumber from '~/components/input/phone.vue'
 import OtpInput from '~/components/input/otp/otp'
@@ -333,6 +321,7 @@ export default {
     FieldErrors,
     IntlNumber,
     OtpInput,
+    Loader,
   },
   data() {
     return {
@@ -363,10 +352,6 @@ export default {
 
       isLoading: false,
       isTimedout: false,
-
-      message: '',
-      messageState: '',
-      errorBag: {},
     }
   },
 
@@ -376,7 +361,7 @@ export default {
       minLength: minLength(6),
       maxLength: maxLength(6),
     },
-    email: { required },
+    email: { required, email },
     phone: { required, minLength: minLength(11), maxLength: maxLength(15) },
 
     firstname: { required, minLength: minLength(2) },
@@ -411,25 +396,23 @@ export default {
 
       try {
         this.isLoading = true
-
         let res = await this.$axios.$post('/account/otp', {
           email: this.email,
         })
         // for now
         this.otp = res.data.code
-        // console.log(res.data.code)
+
         this.startTimer(2)
+        this.isLoading = false
 
         this.screen = this.process[1]
-        // this.isLoading = false;
-        // this.message = "";
       } catch (error) {
-        console.log({ error })
-        // this.isLoading = false;
-        // this.messageState = true;
-        // this.message = "Account already exist";
-
-        // this.status(this.message, "error");
+        this.isLoading = false
+        this.$notify({
+          type: 'error',
+          text: 'There was an error signing up',
+          duration: 5000,
+        })
       }
     },
 
@@ -439,19 +422,19 @@ export default {
 
       try {
         this.isLoading = true
-        let res = await this.$axios.$post('/account/verify-otp', {
+        await this.$axios.$post('/account/verify-otp', {
           code: this.code,
         })
+        this.isLoading = false
 
         this.screen = this.process[2]
-        // this.isLoading = false;
-        // this.message = "";
       } catch (error) {
-        console.log({ error })
-        // this.isLoading = false;
-        // this.messageState = true;
-        // this.message = "Wrong OTP code. Try again";
-        // this.status(this.message, "error");
+        this.isLoading = false
+        this.$notify({
+          type: 'error',
+          text: 'Wrong OTP. Try again.',
+          duration: 5000,
+        })
       }
     },
 
@@ -471,32 +454,23 @@ export default {
           password: this.password.content,
         })
 
-        let res = await this.$auth.loginWith('local', {
+        await this.$auth.loginWith('local', {
           data: {
             userId: this.email,
             password: this.password.content,
           },
         })
 
-        // this.$store.commit('add', res.data.user)
-        // this.$store.commit('login', true)
-
         // redirect
         this.$router.push('/dashboard')
-        // this.message = ''
+        this.isLoading = false
       } catch (error) {
-        // this.isLoading = false
-        // this.messageState = true
-
-        // if (error.hasOwnProperty('response')) {
-        //   let errData = error.response.data
-        //   this.status(errData.message, 'error')
-        //   this.errorBag = errData.errors
-        // } else {
-        //   this.status(error, 'error')
-        // }
-
-        console.log({ error })
+        this.isLoading = false
+        this.$notify({
+          type: 'error',
+          text: 'There was an error signing up',
+          duration: 5000,
+        })
       }
     },
 
@@ -531,7 +505,6 @@ export default {
 
     getOtpValue(code) {
       this.code = code
-      //  console.log(code);
     },
   },
 }

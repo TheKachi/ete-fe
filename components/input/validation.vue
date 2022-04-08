@@ -3,7 +3,7 @@
     <div>
       <!-- Alternate message -->
       <div class="error" v-if="alt !== ''">
-        <span class="icon fixed">
+        <span class="icon">
           <svg
             height="14"
             viewBox="0 0 20 20"
@@ -23,7 +23,7 @@
 
       <!-- Required -->
       <!-- <div class="error" v-if="(field.required !== undefined && !field.required) || notNeeded !== 'required'">
-            <span class="icon fixed">
+            <span class="icon">
                <svg height="14" viewBox="0 0 20 20" width="14" xmlns="http://www.w3.org/2000/svg"><path d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm-1-8h2V6H9v4zm0 4h2v-2H9v2z" fill="#ED6347" fill-rule="evenodd" stroke="none"></path></svg>
             </span>
             <span>Field is required</span>
@@ -34,7 +34,7 @@
         class="error"
         v-if="field.minLength !== undefined && !field.minLength"
       >
-        <span class="icon fixed">
+        <span class="icon">
           <svg
             height="14"
             viewBox="0 0 20 20"
@@ -56,7 +56,7 @@
 
       <!-- Min char  -->
       <div class="error" v-if="field.numeric !== undefined && !field.numeric">
-        <span class="icon fixed">
+        <span class="icon">
           <svg
             height="14"
             viewBox="0 0 20 20"
@@ -79,7 +79,7 @@
         class="error"
         v-if="field.maxLength !== undefined && !field.maxLength"
       >
-        <span class="icon fixed">
+        <span class="icon">
           <svg
             height="14"
             viewBox="0 0 20 20"
@@ -101,7 +101,7 @@
 
       <!-- Email -->
       <div class="error" v-if="field.email !== undefined && !field.email">
-        <span class="icon fixed">
+        <span class="icon">
           <svg
             height="14"
             viewBox="0 0 20 20"
@@ -128,7 +128,7 @@
           hideField !== 'min-amount'
         "
       >
-        <span class="icon fixed">
+        <span class="icon">
           <svg
             height="14"
             viewBox="0 0 20 20"
@@ -155,7 +155,7 @@
         class="error"
         v-if="field.sameAsPassword !== undefined && !field.sameAsPassword"
       >
-        <span class="icon fixed">
+        <span class="icon">
           <svg
             height="14"
             viewBox="0 0 20 20"
@@ -174,7 +174,7 @@
       </div>
 
       <div class="error" v-if="field == 'default'">
-        <span class="icon fixed">
+        <span class="icon">
           <svg
             height="14"
             viewBox="0 0 20 20"
@@ -199,7 +199,7 @@
 
 <script>
 export default {
-  // props: ['field', 'message'],
+  name: 'fieldError',
   props: {
     field: {
       type: Object,
@@ -233,11 +233,14 @@ export default {
 
 <style>
 .error {
+  display: flex;
+  gap: 8px;
+  align-items: center;
   color: #bf0711;
   font-size: 12px;
+  margin-top: 6px;
 }
 .error .icon {
-  margin-right: 20px;
   width: auto;
   height: auto;
 }

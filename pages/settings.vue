@@ -69,7 +69,7 @@
           </div>
 
           <!-- Gender  -->
-          <div class="mb-24 flex gap-x-24 items-center">
+          <!-- <div class="mb-24 flex gap-x-24 items-center">
             <label class="">Gender</label>
             <div class="mr-8 flex gap-4 items-baseline">
               <input
@@ -92,7 +92,7 @@
               />
               <label for="female"> Female </label>
             </div>
-          </div>
+          </div> -->
 
           <!-- Company name  -->
           <!-- <div v-if="!profile.isUpdated">
