@@ -61,8 +61,9 @@
             </h2>
             <h3 class="text-black">A Single to solve your payment needs</h3>
             <p class="my-24 lg:my-40 text-grey">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et
+              We close the gaps in the existing payment solutions in the
+              country, ensuring that last-mile remittances to merchants and
+              seamlessly are made in a single transaction loop
             </p>
           </div>
 
@@ -87,19 +88,10 @@
 
     <!-- How it works -->
     <section
-      class="grid grid-cols-12 lg:gap-20 lg:justify-between lg:pr-120 pt-36 lg:pt-120 px-20 lg:px-0"
+      class="grid grid-cols-12 lg:gap-20 lg:pl-120 pt-36 lg:pt-120 lg:pb-20 px-20 lg:px-0"
     >
-      <h3 class="col-span-12 lg:col-span-5 lg:col-start-8 lg:mb-40 text-black">
-        How it works
-      </h3>
-
-      <img
-        src="https://res.cloudinary.com/thekachi/image/upload/v1647484253/hero-imghero-img_cxslld.png"
-        alt=""
-        class="col-span-12 lg:col-start-1 lg:col-span-5 my-48"
-      />
-
-      <div class="col-span-12 lg:col-span-5 lg:col-start-8">
+      <h3 class="col-span-12 lg:mb-40 text-black">How it works</h3>
+      <div class="col-span-12 lg:col-start-1 lg:col-span-4">
         <div class="flex gap-x-40" v-for="item in howItWorks" :key="item">
           <img src="~/assets/img/before.svg" alt="" />
           <div>
@@ -110,54 +102,14 @@
           </div>
         </div>
       </div>
+      <img
+        src="~/assets/img/website.svg"
+        alt=""
+        class="col-span-12 lg:col-span-8"
+      />
     </section>
 
     <!-- Real time settlements -->
-    <section
-      class="grid grid-cols-12 lg:gap-20 lg:justify-between lg:items-center lg:pl-120 px-20 lg:px-0 pt-40 lg:pt-0"
-    >
-      <div class="col-span-12 lg:col-span-5 lg:col-start-1">
-        <h3 class="text-black">Real-Time settlement</h3>
-        <p class="my-24 lg:my-32 text-grey">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
-        <p class="text-grey">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
-      </div>
-
-      <img
-        src="https://res.cloudinary.com/thekachi/image/upload/v1647484253/hero-imghero-img_cxslld.png"
-        alt=""
-        class="col-span-12 lg:col-start-8 lg:col-span-5 my-48"
-      />
-    </section>
-
-    <section
-      class="grid grid-cols-12 lg:gap-20 lg:justify-between lg:items-center lg:pr-120 px-20 lg:px-0 pt-40 lg:py-90"
-    >
-      <img
-        src="https://res.cloudinary.com/thekachi/image/upload/v1647484253/hero-imghero-img_cxslld.png"
-        alt=""
-        class="col-span-12 lg:col-start-1 lg:col-span-5 my-48 order-last lg:order-first"
-      />
-
-      <div
-        class="col-span-12 lg:col-span-5 lg:col-start-8 order-first lg:order-last"
-      >
-        <h3 class="text-black">Real-Time settlement</h3>
-        <p class="my-24 lg:my-32 text-grey">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
-        <p class="text-grey">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
-      </div>
-    </section>
 
     <!-- A Single to solve your payment needs -->
     <section class="bg-black py-48">
@@ -165,7 +117,7 @@
         class="grid grid-cols-12 lg:gap-20 px-20 lg:px-120 lg:justify-between lg:items-center gap-y-48"
       >
         <div class="col-span-12 lg:col-start-1 lg:col-span-5">
-          <h3 class="text-white">A Single to solve your payment needs</h3>
+          <h3 class="text-white">A Single tool to solve your payment needs</h3>
           <p class="my-24 lg:my-40 text-white">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et
@@ -180,7 +132,7 @@
         </div>
 
         <img
-          src="https://res.cloudinary.com/thekachi/image/upload/v1647517158/Group_5411_wns2nt.png"
+          src="~/assets/img/swirly-group.svg"
           alt=""
           class="col-span-12 lg:col-span-6 lg:col-start-7"
         />
@@ -225,46 +177,46 @@ export default {
   data: () => ({
     services: [
       {
-        header: 'Real-Time settlement',
+        header: 'Full Integration',
         details:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+          'Enjoy seamless flow between your core operations and your payment collections..',
         icon: require('../assets/img/settlement.svg'),
       },
       {
-        header: 'Payment scheduling',
+        header: 'Ease of use',
         details:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        icon: require('../assets/img/settlement.svg'),
+          'Interact with the product and the underlying business without stress.',
+        icon: require('../assets/img/ease.svg'),
       },
       {
         header: 'Security',
         details:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        icon: require('../assets/img/settlement.svg'),
+          'Be certain of security of your transactions, being secured with  the best combination of cybersecurity tools',
+        icon: require('../assets/img/security.svg'),
       },
       {
-        header: 'Failsafe',
+        header: 'Transparency',
         details:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        icon: require('../assets/img/settlement.svg'),
+          'Customise your payment experience and have access to all payment details',
+        icon: require('../assets/img/transparency.svg'),
       },
     ],
 
     howItWorks: [
       {
-        action: 'Merchant funds wallet',
+        action: 'Register & Fund Wallet',
         details:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+          'Register or login into your existing account Fund your online wallet',
       },
       {
-        action: 'Creates service type',
+        action: 'Creates service plan',
         details:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+          'Create a service plan, Customise and Fill in details of payment distribution to stakeholders',
       },
       {
         action: 'Disburses to stakeholders',
         details:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+          'The payment is sent to the stakeholders. They and other payment recipients receive their payments in present but automated triggers or schedule',
       },
     ],
   }),

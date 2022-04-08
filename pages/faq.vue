@@ -51,19 +51,19 @@ export default {
 
     faq: [
       {
-        question: 'How does settlements occur',
+        question: 'What does Ete mean?',
         answer:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+          'Ete is short form for End-to-End, and is the Efik word for Father. Ete is designed to manage payment solutions on merchant sites end-to-end, fathering the entire process of payment reception and distribution',
+        isOpen: false,
+      },
+      {
+        question: 'How does Ete work?',
+        answer:
+          'Ete works with integration, or blending with the merchant’s site to receive and process the payment needs of the merchant and the buyer (customer) in a continuous transaction loop. Ete makes for the convenience of the customer by anticipating the customer needs and ensuring there is speed and ease of service to the customer. It also ensures that merchant is able to anticipate and receive payments is a coordinated fashion, enabling the merchant focus on increasing it’s customer base and improving on service quality. Please see [  ] for step-by-step (end-to-end) process of now Ete works',
         isOpen: false,
       },
       {
         question: 'How is payment made with ete',
-        answer:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        isOpen: false,
-      },
-      {
-        question: 'How long does it take for stakeholders to be settled',
         answer:
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         isOpen: false,
