@@ -133,12 +133,6 @@
             :field="$v.email"
             alt="Please enter a valid email"
           />
-
-          <!-- <field-errors
-                    v-if="errorBag.hasOwnProperty('email')"
-                    alt="Email already exist. Please enter another valid email"
-                    :field="{}"
-                /> -->
         </div>
 
         <!-- Phone number -->
@@ -156,12 +150,6 @@
             :field="$v.phone"
             alt="Please enter a valid phone number"
           />
-
-          <!-- <field-errors
-            v-if="errorBag.hasOwnProperty('phone')"
-            alt="Phone number already exist. Please enter another valid phone number"
-            :field="{}"
-          /> -->
         </div>
 
         <!-- Password -->
@@ -302,13 +290,19 @@
         Already have an account?
         <nuxt-link to="/login" class="text-purple"> Login</nuxt-link>
       </p>
+
+      <!-- Loader -->
+      <div class="w-64 mx-auto">
+        <loader v-if="isLoading" />
+      </div>
     </form>
-    <notifications position="top right" classes="error-notif" />
+    <notifications position="top right" classes="notif" />
   </auth-layout>
 </template>
 
 <script>
 import AuthLayout from '@/components/AuthLayout'
+import Loader from '~/components/utils/Loader.vue'
 import FieldErrors from '@/components/input/validation'
 import IntlNumber from '~/components/input/phone.vue'
 import OtpInput from '~/components/input/otp/otp'
@@ -327,6 +321,7 @@ export default {
     FieldErrors,
     IntlNumber,
     OtpInput,
+    Loader,
   },
   data() {
     return {

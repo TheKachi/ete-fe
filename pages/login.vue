@@ -1,8 +1,5 @@
 <template>
   <auth-layout>
-    <!-- <Notification :message="error" v-if="error" /> -->
-    <!-- Login -->
-
     <h1 slot="greeting">
       Welcome back <br />
       to Ete
@@ -98,13 +95,17 @@
         Don't have an account?
         <nuxt-link to="/signup" class="text-purple"> Sign up</nuxt-link>
       </p>
+      <div class="w-64 mx-auto">
+        <loader v-if="isLoading" />
+      </div>
     </form>
-    <notifications position="top right" classes="error-notif" />
+    <notifications position="top center" classes="notif" />
   </auth-layout>
 </template>
 
 <script>
 import AuthLayout from '~/components/AuthLayout'
+import Loader from '~/components/utils/Loader.vue'
 import fieldErrors from '~/components/input/validation'
 import {
   required,
@@ -118,6 +119,7 @@ export default {
   components: {
     fieldErrors,
     AuthLayout,
+    Loader,
   },
   data() {
     return {
@@ -151,12 +153,12 @@ export default {
         this.$router.push('/dashboard')
       } catch (error) {
         this.isLoading = false
-        console.log({ error })
         this.$notify({
           type: 'error',
           text: 'Invalid login credentials.',
           duration: 5000,
         })
+        console.log({ error })
       }
     },
   },

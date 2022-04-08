@@ -156,6 +156,9 @@
         </button>
       </div>
     </form>
+    <div class="w-64 mx-auto">
+      <loader v-if="isLoading" />
+    </div>
   </auth-layout>
 </template>
 
@@ -171,10 +174,12 @@ import {
   email,
   numeric,
 } from 'vuelidate/lib/validators'
+import Loader from '~/components/utils/Loader.vue'
 export default {
   components: {
     AuthLayout,
     FieldErrors,
+    Loader,
   },
   data() {
     return {
@@ -201,7 +206,7 @@ export default {
   },
 
   validations: {
-    email: { required },
+    email: { required, email },
 
     password: {
       content: {
@@ -235,9 +240,13 @@ export default {
         let res = await this.$axios.$post('/account/forgot-password', {
           email: this.email,
         })
+        this.isLoading = false
+
         this.token = res.data.token
         this.screen = this.process[1]
       } catch (error) {
+        this.isLoading = false
+
         alert('There was an error confirming email address')
         console.log({ error })
       }
@@ -253,10 +262,13 @@ export default {
           token: this.token,
           password: this.password.content,
         })
+        this.isLoading = false
 
         // redirect
         this.$router.push('/login')
       } catch (error) {
+        this.isLoading = false
+
         console.log({ error })
       }
     },

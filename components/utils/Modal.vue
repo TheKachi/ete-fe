@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed top-56 z-10 inset-0 overflow-y-auto"
+    class="fixed top-60 z-10 inset-0 overflow-y-auto"
     aria-labelledby="modal-title"
     role="dialog"
     aria-modal="true"
@@ -18,13 +18,12 @@
         class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-[0_4px_50px_rgba(0,0,0,0.1)] transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
       >
         <div class="bg-white px-16 pt-20 pb-24 sm:p-24 sm:pb-16">
+          <!-- close button  -->
+          <button @click="$emit('close')" class="float-right">
+            <i class="fas fa-times text-black"></i>
+          </button>
           <!-- Header  -->
-          <div class="flex justify-between items-center">
-            <slot name="header"> default header </slot>
-            <button @click="$emit('close')">
-              <i class="fas fa-times text-black"></i>
-            </button>
-          </div>
+          <slot name="header"> default header </slot>
 
           <hr class="text-medium-grey my-24" />
 

@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="fixed top-0 z-40 inset-x-0 h-64 flex items-center justify-end lg:px-64"
+    class="fixed top-0 z-[100000] inset-x-0 h-64 flex items-center justify-end lg:px-64"
   >
     <!-- Notification -->
     <button @click="toggleDropdown(notifList)" class="mr-48">
@@ -17,7 +17,7 @@
 
         <div class="flex items-center gap-x-8 ml-48 cursor-pointer">
           <!-- User name  -->
-          <!-- <span class="text-base text-black">{{ username }}</span> -->
+          <span class="text-base text-black">{{ username }}</span>
 
           <i class="fas fa-chevron-down hidden lg:block"></i>
         </div>
@@ -186,11 +186,11 @@ export default {
     },
   },
 
-  // computed: {
-  //   username() {
-  //     return this.$auth.user.firstname + ' ' + this.$auth.user.lastname
-  //   },
-  // },
+  computed: {
+    username() {
+      return this.$auth.user.firstname + ' ' + this.$auth.user.lastname
+    },
+  },
 
   components: {
     SvgLoader,
