@@ -93,7 +93,7 @@
       <h3 class="col-span-12 lg:mb-40 text-black">How it works</h3>
 
       <img
-        src="~/assets/img/website.svg"
+        src="~/assets/img/website.png"
         alt=""
         class="col-span-12 lg:col-span-5 lg:col-start-8"
       />
