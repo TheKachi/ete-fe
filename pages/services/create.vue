@@ -1074,19 +1074,19 @@ export default {
   },
 
   methods: {
-    // async getBanks() {
-    //   try {
-    //     let url = 'https://api.paystack.co/bank'
-    //     let res = await this.$axios.get(url, {
-    //       headers: {
-    //         Authorization: 'Bearer ' + psSecKey,
-    //       },
-    //     })
-    //     this.banks = res.data.data
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // },
+    async getBanks() {
+      try {
+        let url = 'https://api.paystack.co/bank'
+        let res = await this.$axios.get(url, {
+          headers: {
+            Authorization: 'Bearer ' + psSecKey,
+          },
+        })
+        this.banks = res.data.data
+      } catch (error) {
+        console.log(error)
+      }
+    },
 
     async getAccountName() {
       if (this.account_no.toString().length == 10) {
@@ -1291,7 +1291,7 @@ export default {
   },
 
   mounted() {
-    // this.getBanks()
+    this.getBanks()
   },
 
   computed: {},

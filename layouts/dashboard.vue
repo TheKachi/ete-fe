@@ -3,8 +3,8 @@
     <div class="grid grid-cols-12 grid-rows-12 grid-flow-col gap-0">
       <!-- <side-bar class="col-span-2 row-span-12" /> -->
       <aside class="col-span-2 row-span-12">
-        <!-- fixed w-inherit h-inherit -->
-        <div class="bg-black p-32">
+        <!--  -->
+        <div class="bg-black p-32 fixed w-inherit h-inherit">
           <!-- logo -->
           <svg-loader path="img" icon="ete-logo" />
 
