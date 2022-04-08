@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <div class="lg:mt-144 overflow-y-hidden">
+    <div class="lg:mt-120 overflow-y-hidden">
       <!-- Transactions  -->
       <div v-if="tab === 'transaction'">
         <!-- <div v-if="service.transactions.length > 0"> -->
@@ -195,6 +195,7 @@
           </tbody>
         </table>
       </div>
+
       <!-- Settings  -->
       <div v-if="tab === 'setting'">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-32 gap-x-60">
@@ -209,7 +210,7 @@
               aria-label="Service name"
               placeholder="Enter your service name"
               v-model="service.title"
-              disabled
+              :disabled="disabled == 1"
             />
           </div>
 
@@ -223,7 +224,7 @@
               rows="5"
               id="desc"
               v-model="service.description"
-              disabled
+              :disabled="disabled == 1"
             />
           </div>
 
@@ -241,7 +242,7 @@
                 id="bank-name"
                 aria-label="Service Bank name"
                 v-model="service.bank_name"
-                disabled
+                :disabled="disabled == 1"
               />
             </div>
 
@@ -253,7 +254,7 @@
                 id="acct-no"
                 aria-label="Account number"
                 v-model="service.account_no"
-                disabled
+                :disabled="disabled == 1"
               />
             </div>
 
@@ -265,7 +266,7 @@
                 id="acct-name"
                 aria-label="Account name"
                 v-model="service.account_name"
-                disabled
+                :disabled="disabled == 1"
               />
             </div>
           </div>
@@ -275,7 +276,20 @@
           </p> -->
 
           <div class="lg:col-span-6 lg:col-end-12">
-            <submit-btn class="float-right mt-32 lg:mt-80"> Edit </submit-btn>
+            <button
+              @click.prevent="disabled = (disabled + 1) % 2"
+              v-if="disabled == 1"
+              class="click-btn float-right mt-32 lg:mt-80"
+            >
+              Edit
+            </button>
+            <button
+              @click.prevent="updateServiceDetails"
+              v-else
+              class="click-btn float-right mt-32 lg:mt-80"
+            >
+              Save Changes
+            </button>
           </div>
         </div>
       </div>
@@ -320,10 +334,13 @@
                     id="staging-public-key"
                     aria-label="Staging Public key"
                     v-model="service.api_public_key_test"
-                    disabled
+                    :disabled="disabled == 1"
                   />
 
-                  <button class="rounded-xl px-24 py-8 bg-purple text-white">
+                  <button
+                    class="rounded-xl px-24 py-8 bg-purple text-white"
+                    @click="copyString(service.api_public_key_test)"
+                  >
                     Copy
                   </button>
                 </div>
@@ -340,10 +357,13 @@
                     id="staging-private-key"
                     aria-label="Staging private key"
                     v-model="service.api_private_key_test"
-                    disabled
+                    :disabled="disabled == 1"
                   />
 
-                  <button class="rounded-xl px-24 py-8 bg-purple text-white">
+                  <button
+                    class="rounded-xl px-24 py-8 bg-purple text-white"
+                    @click="copyString(service.api_private_key_test)"
+                  >
                     Copy
                   </button>
                 </div>
@@ -361,10 +381,13 @@
                     id="live-public-key"
                     aria-label="live Public key"
                     v-model="service.api_public_key"
-                    disabled
+                    :disabled="disabled == 1"
                   />
 
-                  <button class="rounded-xl px-24 py-8 bg-purple text-white">
+                  <button
+                    class="rounded-xl px-24 py-8 bg-purple text-white"
+                    @click="copyString(service.api_public_key)"
+                  >
                     Copy
                   </button>
                 </div>
@@ -381,10 +404,13 @@
                     id="live-private-key"
                     aria-label="live private key"
                     v-model="service.api_private_key"
-                    disabled
+                    :disabled="disabled == 1"
                   />
 
-                  <button class="rounded-xl px-24 py-8 bg-purple text-white">
+                  <button
+                    class="rounded-xl px-24 py-8 bg-purple text-white"
+                    @click="copyString(service.api_private_key)"
+                  >
                     Copy
                   </button>
                 </div>
@@ -425,6 +451,7 @@ export default {
     tab: 'transaction',
     txnTab: 'received',
     apiTab: 'staging',
+    disabled: 1,
   }),
   methods: {
     changeTab(tab) {
@@ -435,6 +462,57 @@ export default {
     },
     changeApiTab(tab) {
       this.apiTab = tab
+    },
+    async updateServiceDetails() {
+      try {
+        let token = this.$auth.token
+
+        let res = await this.$axios.post(
+          '/services/service/update',
+          {
+            title: service.title,
+            description: service.description,
+            account_no: service.account_no,
+            account_name: service.account_name,
+            bank_name: service.bank_name,
+            bank_code: service.bank_code,
+            stakeholders: service.stakeholders,
+          },
+
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        console.log(res)
+        // this.$router.push('/services')
+      } catch (error) {
+        console.log({ error })
+      }
+    },
+
+    copyString(str) {
+      // Create new element
+      var el = document.createElement('textarea')
+      // Set value (string to be copied)
+      el.value = str
+      // Set non-editable to avoid focus and move outside of view
+      el.setAttribute('readonly', '')
+      el.style = { position: 'absolute', left: '-9999px' }
+      document.body.appendChild(el)
+      // Select text inside element
+      el.select()
+      // Copy text to clipboard
+      document.execCommand('copy')
+      // Remove temporary element
+      document.body.removeChild(el)
+
+      this.$notify({
+        type: 'success',
+        text: 'Copied!',
+        duration: 5000,
+      })
     },
   },
 
