@@ -420,6 +420,7 @@
         </div>
       </div>
     </div>
+    <notifications position="top right" classes="notif" />
   </div>
 </template>
 
