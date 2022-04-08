@@ -9,8 +9,7 @@
           Message
         </h1>
         <p class="text-base text-grey">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Fill up the form and our team would get back to you within 48 hours
         </p>
       </div>
 
