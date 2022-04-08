@@ -1025,6 +1025,7 @@ export default {
     bankAcctShowing: false,
 
     banks: [],
+    bank: {},
 
     stakeDropdown: false,
 
