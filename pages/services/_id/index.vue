@@ -1,11 +1,18 @@
 <template>
   <div>
     <div class="fixed top-[80px] z-[50]">
-      <h1 class="text-lg lg:text-2xl font-bold text-black mb-36">
+      <nuxt-link to="/services"
+        ><i class="fas fa-arrow-left text-grey"></i>
+      </nuxt-link>
+
+      <h1 class="text-lg lg:text-2xl font-bold text-black mt-28">
         {{ service.title }}
       </h1>
+      <p class="text-base text-grey mb-40">
+        {{ service.description }}
+      </p>
       <!-- Tabs  -->
-      <div class="flex gap-x-16 tab">
+      <div class="flex gap-x-16 tab mb-40">
         <button
           @click.prevent="changeTab('transaction')"
           :class="[
@@ -42,7 +49,9 @@
       </div>
     </div>
 
-    <div class="lg:mt-80 overflow-y-hidden">
+    <div class="lg:mt-[200px]"></div>
+
+    <div class="">
       <!-- Transactions  -->
       <div v-if="tab === 'transaction'">
         <!-- <div v-if="service.transactions.length > 0"> -->
@@ -188,8 +197,15 @@
                 <span v-if="holder.is_percentage === true">%</span>
               </td>
               <td class="flex gap-x-28 rounded-r-xl">
-                <i class="far fa-edit text-[#219653]"></i>
-                <i class="fas fa-trash text-[#FB1731]"></i>
+                <button @click="editHolderModal">
+                  <!-- open modal and edit immediately -->
+                  <i class="far fa-edit text-[#FB1731]"></i>
+                </button>
+
+                <button @click="delHolderModal">
+                  <!-- open modal and click on delHolder to delete -->
+                  <i class="fas fa-trash text-[#FB1731]"></i>
+                </button>
               </td>
             </tr>
           </tbody>

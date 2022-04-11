@@ -45,7 +45,7 @@
 
       <div v-if="tab === 'all'">
         <div
-          class="grid lg:grid-cols-3 gap-16 lg:gap-32 my-40"
+          class="grid lg:grid-cols-3 lg:grid-rows-1 gap-16 lg:gap-32 my-40"
           v-if="allServices.length > 0"
         >
           <div v-for="service in allServices" :key="service.id">
@@ -100,12 +100,12 @@
       </div>
       <div v-if="tab === 'merchant'">
         <div
-          class="grid lg:grid-cols-3 gap-16 lg:gap-32 my-40"
+          class="grid lg:grid-cols-3 lg:grid-rows-1 lg:grid-flow-row gap-16 lg:gap-32 my-40"
           v-if="merchantServices.length > 0"
         >
           <div v-for="service in merchantServices" :key="service.id">
-            <nuxt-link :to="`/services/${service.id}`">
-              <div class="card">
+            <nuxt-link :to="`/services/${service.id}`" class="">
+              <div class="card h-full">
                 <div class="flex gap-x-[18px] items-center mb-24">
                   <span
                     class="rounded-[50%] h-[46px] w-[46px] leading-[46px] bg-[#D8DDFD] text-blue font-bold text-center"
@@ -254,10 +254,7 @@ export default {
         this.isLoading = false
 
         this.merchantServices = res.data.data.merchant_services
-        this.stakeholderServices = res.data.data.stakeholder_services
-        this.allServices = this.merchantServices.concat(
-          this.stakeholderServices
-        )
+        tailw
 
         console.log(res.data.data)
       } catch (error) {
