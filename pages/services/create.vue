@@ -715,184 +715,156 @@
       </div>
     </modal>
 
-    <div class="grid lg:grid-cols-12 gap-y-32 gap-x-60 justify-between">
-      <div class="col-span-12 lg:col-span-9">
+    <div class="grid lg:grid-cols-12">
+      <div class="col-span-12 lg:col-span-8">
         <h1 class="text-lg lg:text-2xl font-bold text-black">
           Create New Service
         </h1>
-        <h2 class="text-sm lg:text-base font-medium text-grey">
+
+        <h2 class="text-sm lg:text-base font-medium text-grey mb-40">
           Create and monitor your disbursement settlement among stakeholders
         </h2>
 
-        <form class="mt-40">
-          <!-- Name of service -->
-          <!-- :class="{ 'form-group--error': $v.title.$error }" -->
-          <div class="mb-24">
-            <label :for="title">Name of service</label>
-            <input
-              type="text"
-              :id="title"
-              :name="title"
-              v-model.trim="title"
-              placeholder="Enter name of service"
-            />
+        <!-- Name of service -->
+        <!--  -->
+        <div class="mb-24" :class="{ 'form-group--error': $v.title.$error }">
+          <label :for="title">Name of service</label>
+          <input
+            type="text"
+            :id="title"
+            :name="title"
+            v-model.trim="title"
+            placeholder="Enter name of service"
+          />
 
-            <!-- <field-errors
-              v-if="$v.title.$error"
-              :field="$v.title"
-              alt="Please provide a name for your service"
-            /> -->
-          </div>
+          <field-errors
+            v-if="$v.title.$error"
+            :field="$v.title"
+            alt="Please provide a name for your service"
+          />
+        </div>
 
-          <!-- Description  -->
-          <!-- :class="{ 'form-group--error': $v.description.$error }" -->
-          <div class="mb-24">
-            <label for="desc">Description</label>
+        <!-- Description  -->
+        <!--  -->
+        <div
+          class="mb-24"
+          :class="{ 'form-group--error': $v.description.$error }"
+        >
+          <label for="desc">Description</label>
 
-            <textarea
-              rows="3"
-              placeholder="Not less than 100 words"
-              id="desc"
-              v-model="description"
-            />
+          <textarea
+            rows="3"
+            placeholder="Describe your service briefly"
+            id="desc"
+            v-model="description"
+          />
 
-            <!-- <field-errors
-              v-if="$v.description.$error"
-              :field="$v.description"
-              alt="Description should not be less than 100 words for your service"
-            /> -->
-          </div>
+          <field-errors
+            v-if="$v.description.$error"
+            :field="$v.description"
+            alt="Please enter a brief description of your service"
+          />
+        </div>
 
-          <hr class="text-medium-grey mb-24" />
-
-          <h3 class="text-base lg:text-lg font-bold text-black">
-            Receiving account
-          </h3>
-
-          <h4 class="text-sm font-medium text-grey mb-24">
-            Enter account details to receive money
-          </h4>
-
-          <!-- <div class="grid grid-cols-1 lg:grid-cols-12 gap-x-28 my-24"> -->
+        <!-- <hr class="text-medium-grey mb-24" /> -->
+        <div class="flex justify-between items-center">
           <div>
-            <!-- Select Account  -->
-            <!-- <div
-              @click="bankAcctShowing = !bankAcctShowing"
-              class="lg:col-span-6"
-            >
-              <div
-                class="flex items-center justify-between cursor-pointer py-12 px-24 rounded-md bg-white border border-medium-grey text-black text-base focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple;"
-              >
-                <p>Select Account</p>
-                <i class="fas fa-chevron-down"></i>
-              </div>
-            </div> -->
+            <h3 class="text-base lg:text-lg font-bold text-black">
+              Receiving account
+            </h3>
 
-            <!-- <div v-if="(bankAcctShowing = true)">
-              <div v-for="(acct, i) in accounts" :key="i">
-                <div>{{ acct.account_no }}</div>
+            <h4 class="text-sm font-medium text-grey">
+              Enter account details to receive money
+            </h4>
+          </div>
+
+          <!--  Add Account  -->
+          <button
+            class="lg:col-span-3 text-purple"
+            @click.prevent="acctModal.isActive = true"
+            v-if="bank_name === ''"
+          >
+            + Add Account
+          </button>
+        </div>
+
+        <!-- Added Account card  -->
+        <div class="grid grid-cols-3 my-40">
+          <div
+            v-if="bank_name != ''"
+            class="col-span-2 px-24 py-16 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.1)] rounded-[10px]"
+          >
+            <div class="flex justify-between items-start">
+              <div>
+                <h4 class="text-base text-black font-medium">
+                  {{ bank_name }}
+                </h4>
+
+                <h5 class="text-xs text-black font-medium">
+                  {{ account_name }} :
+                  <span class="text-purple">{{ account_no }}</span>
+                </h5>
               </div>
-            </div> -->
-            <!-- <select id="account" v-model="serviceBank" aria-label="account">
-              <option
-                v-for="option in serviceBank"
-                :key="option"
-                :value="option.value"
-              >
-                {{ option.text }}
-              </option>
-            </select> -->
-            <!--  Add Account  -->
+
+              <div class="flex gap-x-16">
+                <!-- Edit  -->
+                <button
+                  @click.prevent="acctModal.isActive = true"
+                  class="text-xs text-grey"
+                >
+                  <i class="fas fa-pen"></i>
+                </button>
+                <!-- Delete  -->
+                <button @click.prevent="removeServiceAcct">
+                  <i class="fas fa-times text-grey"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- <a href="" class="text-xs text-grey">Edit</a> -->
+          </div>
+        </div>
+
+        <div class="flex items-center gap-x-28">
+          <!--Icon-->
+          <i class="fas fa-user text-purple"></i>
+
+          <h3>Stakeholder</h3>
+
+          <div class="relative">
             <button
-              class="lg:col-span-3 text-purple mb-24"
-              @click.prevent="acctModal.isActive = true"
-              v-if="bank_name === ''"
+              @click.prevent="toggleStakeDropdown"
+              class="bg-[#D8DDFD] rounded-md text-blue px-20 py-12 flex items-center gap-x-8"
             >
-              +Add Account
+              Add <i class="fas fa-chevron-down"></i>
             </button>
 
-            <!-- Account Card  -->
-            <!-- <span
-                  class="rounded-[50%] h-28 w-28 leading-[28px] bg-[#D8DDFD] text-blue text-center text-sm font-bold"
-                >
-                  {{ bank_name.charAt(0) }}
-                </span> -->
+            <ul
+              v-if="stakeDropdown"
+              class="menu-list absolute bg-white flex flex-col cursor-pointer w-[158px] rounded-md shadow py-20"
+            >
+              <li>
+                <button @click.prevent="ind">Individual</button>
+              </li>
 
-            <div class="grid grid-cols-3 my-40" v-if="bank_name != ''">
-              <div
-                class="col-span-2 mb-12 px-24 py-16 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.1)] rounded-[10px]"
-              >
-                <div class="flex justify-between items-start">
-                  <div>
-                    <h4 class="text-base text-black font-medium">
-                      {{ bank_name }}
-                    </h4>
-
-                    <h5 class="text-xs text-black font-medium">
-                      {{ account_name }} :
-                      <span class="text-purple">{{ account_no }}</span>
-                    </h5>
-                  </div>
-
-                  <div class="flex gap-x-16">
-                    <button
-                      @click.prevent="acctModal.isActive = true"
-                      class="text-xs text-grey"
-                    >
-                      <i class="fas fa-pen"></i>
-                    </button>
-                    <button @click.prevent="removeServiceAcct" class="">
-                      <i class="fas fa-times text-black"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <!-- <a href="" class="text-xs text-grey">Edit</a> -->
-              </div>
-            </div>
+              <li>
+                <button @click.prevent="grp">Group</button>
+              </li>
+            </ul>
           </div>
-
-          <div class="flex items-center gap-x-28">
-            <!--Icon-->
-            <i class="fas fa-user text-purple"></i>
-
-            <h3>Stakeholder</h3>
-
-            <div class="relative">
-              <button
-                @click.prevent="toggleStakeDropdown"
-                class="bg-[#D8DDFD] rounded-md text-blue px-20 py-12 flex items-center gap-x-8"
-              >
-                Add <i class="fas fa-chevron-down"></i>
-              </button>
-              <ul
-                v-if="stakeDropdown"
-                class="menu-list absolute bg-white flex flex-col cursor-pointer w-[158px] rounded-md shadow py-20"
-              >
-                <li>
-                  <button @click.prevent="ind">Individual</button>
-                </li>
-
-                <li>
-                  <button @click.prevent="grp">Group</button>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
-
     <!-- Stakeholders list -->
     <div
-      class="grid lg:grid-cols-3 gap-16 lg:gap-32 my-40"
+      class="grid lg:grid-cols-3 gap-16 my-40"
       v-if="stakeholders.length > 0"
     >
-      <!-- <div class="col-span-3" v-="">
-      Individual
-    </div> -->
       <div v-for="holder in stakeholders" :key="holder">
-        <div class="card">
+        <!-- <holder-card :holder="holder" /> -->
+        <div
+          class="h-full bg-white p-20 rounded-md shadow-[0_4px_50px_rgba(0,0,0,0.1)]"
+        >
           <div class="flex gap-x-[18px] items-start mb-28">
             <span
               class="rounded-[50%] h-28 w-28 leading-[28px] bg-[#D8DDFD] text-blue text-center text-sm font-bold"
@@ -902,19 +874,26 @@
 
             <div>
               <h5 class="text-base text-black font-medium">
-                {{ holder.name }}
+                {{ slice(holder.name, nameLength) }}
               </h5>
               <p class="text-sm text-grey" v-if="holder.type === 'individual'">
-                {{ holder.email }}
+                {{ slice(holder.email, emailLength) }}
               </p>
               <p class="text-sm text-grey" v-if="holder.type === 'group'">
                 {{ holder.email.split(',').length }} members
               </p>
             </div>
 
-            <button @click.prevent="editStakeholder(holder)" class="ml-auto">
-              <i class="fas fa-ellipsis-v text-[#b3b3b3]"></i>
-            </button>
+            <div class="flex gap-x-16 ml-auto">
+              <!-- Edit  -->
+              <button class="text-xs text-grey">
+                <i class="fas fa-pen"></i>
+              </button>
+              <!-- Delete  -->
+              <button>
+                <i class="fas fa-times text-grey"></i>
+              </button>
+            </div>
           </div>
 
           <div class="flex justify-between items-baseline">
@@ -922,17 +901,14 @@
               class="text-base text-[#7445C7]"
               v-if="holder.is_percentage === true"
             >
-              <!-- {{ formatNum(holder.share_formular) }} % -->
-              {{ holder.share_formular }} %
-              <span class="text-grey text-sm">returns</span>
+              {{ formatNum(holder.share_formular) }} %
             </p>
 
             <p
               class="text-base text-blue"
               v-if="holder.is_percentage === false"
             >
-              <!-- ₦{{ formatNum(holder.share_formular) }} -->
-              ₦{{ holder.share_formular }}
+              ₦{{ formatNum(holder.share_formular) }}
             </p>
 
             <p class="text-purple text-sm">{{ titleCase(holder.type) }}</p>
@@ -940,8 +916,7 @@
         </div>
       </div>
     </div>
-
-    <button @click="createService" class="click-btn float-right mt-48">
+    <button @click="createService" class="click-btn float-right mt-60">
       Create Services
     </button>
     <notifications position="top center" classes="notif" />
@@ -949,6 +924,7 @@
 </template>
 
 <script>
+import HolderCard from '@/components/services/HolderCard'
 import fieldErrors from '@/components/input/validation'
 import {
   required,
@@ -968,7 +944,7 @@ const psSecKey = 'sk_test_9cb75be4f634e009d84825fa5fefa0393a57e09b'
 
 export default {
   layout: 'dashboard',
-  components: { ClickBtn, fieldErrors, Modal, Loader },
+  components: { HolderCard, ClickBtn, fieldErrors, Modal, Loader },
 
   data: () => ({
     title: '',
@@ -1032,6 +1008,9 @@ export default {
     showStakeDetails: false,
 
     isLoading: false,
+
+    nameLength: 16,
+    emailLength: 23,
   }),
 
   validations: {
@@ -1178,8 +1157,6 @@ export default {
       this.bank_name = this.serviceBank.name
       this.bank_code = this.serviceBank.code
       this.acctModal.isActive = false
-      // this.bank_name = ''
-      // this.bank_code = ''
     },
 
     addStakeholder() {
@@ -1243,25 +1220,17 @@ export default {
       this.stakeDetails.isActive = true
     },
 
-    titleCase(str) {
-      return str
-        .toLowerCase()
-        .split(' ')
-        .map(function (word) {
-          return word.charAt(0).toUpperCase() + word.slice(1)
-        })
-        .join(' ')
-    },
-
     removeGroupEmail(index) {
       this.tempEmail.splice(index, 1)
     },
 
     removeServiceAcct() {
       this.bank_name = ''
+      this.bank_code = ''
       this.account_no = ''
-      this.bank_name = ''
-      this.account_name
+      this.account_name = ''
+      this.serviceBank.name = ''
+      this.serviceBank.code = ''
     },
 
     ind() {
@@ -1281,9 +1250,24 @@ export default {
       this.disabled = 0
     },
 
-    // formatNum(num) {
-    //   return num.toLocaleString('en-US')
-    // },
+    titleCase(str) {
+      return str
+        .toLowerCase()
+        .split(' ')
+        .map(function (word) {
+          return word.charAt(0).toUpperCase() + word.slice(1)
+        })
+        .join(' ')
+    },
+
+    formatNum(num) {
+      return num.toLocaleString('en-US')
+    },
+
+    slice(str, newLength) {
+      if (str.length <= newLength) return str
+      return str.slice(0, newLength - 3) + '...'
+    },
   },
 
   components: {
@@ -1298,9 +1282,3 @@ export default {
   computed: {},
 }
 </script>
-
-<style lang="postcss" scoped>
-.card {
-  @apply bg-white p-20 pb-28 rounded-md shadow-[0_4px_50px_rgba(0,0,0,0.1)];
-}
-</style>
