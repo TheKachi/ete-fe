@@ -55,7 +55,7 @@
                   <span
                     class="rounded-[50%] h-[46px] w-[46px] leading-[46px] bg-[#D8DDFD] text-blue font-bold text-center"
                   >
-                    {{ service.title.charAt(0) }}
+                    {{ service.title.charAt(0).toUpperCase() }}
                   </span>
 
                   <h5 class="text-lg text-black font-medium">
@@ -110,20 +110,16 @@
                   <span
                     class="rounded-[50%] h-[46px] w-[46px] leading-[46px] bg-[#D8DDFD] text-blue font-bold text-center"
                   >
-                    {{ service.title.charAt(0) }}
+                    {{ service.title.charAt(0).toUpperCase() }}
                   </span>
 
-                  <h5 class="text-lg text-black font-medium">
+                  <h5 class="text-black font-medium">
                     {{ service.title }}
                   </h5>
                 </div>
 
-                <p class="text-base text-grey" v-if="service.description">
+                <p class="text-grey" v-if="service.description">
                   {{ slice(service.description) }}
-                </p>
-
-                <p class="text-base text-grey" v-else>
-                  This service has no description.
                 </p>
 
                 <!-- <div class="grid grid-cols-6 float-right">
@@ -143,6 +139,7 @@
               </div>
             </nuxt-link>
           </div>
+          htt
         </div>
 
         <div class="h-[70vh] flex flex-col items-center justify-center" v-else>
@@ -166,15 +163,18 @@
                   <span
                     class="rounded-[50%] h-[46px] w-[46px] leading-[46px] bg-[#D8DDFD] text-blue font-bold text-center"
                   >
-                    {{ service.title.charAt(0) }}
+                    {{ service.title.charAt(0).toUpperCase() }}
                   </span>
 
-                  <h5 class="text-lg text-black font-medium">
+                  <h5 class="text-lg text-black font-medium truncate-lg">
                     {{ service.title }}
                   </h5>
                 </div>
 
-                <p class="text-base text-grey" v-if="service.description">
+                <p
+                  class="text-base text-grey truncate-sm"
+                  v-if="service.description"
+                >
                   {{ slice(service.description) }}
                 </p>
 
@@ -253,8 +253,13 @@ export default {
         )
         this.isLoading = false
 
-        this.merchantServices = res.data.data.merchant_services
-        tailw
+        const merchant_services = res.data.data.merchant_services
+        const stakeholder_services = res.data.data.stakeholder_services
+        const all_services = [...merchant_services, ...stakeholder_services]
+
+        this.merchantServices = merchant_services
+        this.stakeholderServices = stakeholder_services
+        this.allServices = all_services
 
         console.log(res.data.data)
       } catch (error) {
@@ -279,5 +284,23 @@ export default {
 <style lang="postcss" scoped>
 .card {
   @apply bg-white p-20 pb-28 rounded-md shadow-[0_4px_50px_rgba(0,0,0,0.1)];
+}
+
+truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  resize: horizontal;
+}
+
+/* truncate-lg {
+  @apply text-lg
+width: 200px;
+  font-size: 1.3rem;
+} */
+truncate-sm {
+  @apply text-base;
+  width: 200px;
+  font-size: 1.3rem;
 }
 </style>

@@ -33,7 +33,7 @@
             <div class="flex flex-col gap-y-4 text-black">
               <h4 class="text-base">Stakeholders</h4>
               <h5 class="font-bold text-[30px]">
-                <!-- {{ allServices.stakeholders.length }} -->
+                <!-- {{ allServices.length }} -->
               </h5>
             </div>
           </div>
@@ -82,23 +82,25 @@
             </div>
 
             <div v-for="service in merchantServices" :key="service">
-              <div
-                class="flex gap-x-[18px] items-center mb-12 px-24 py-16 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.1)] rounded-[10px]"
-              >
-                <span
-                  class="rounded-[50%] h-28 w-28 leading-[28px] bg-[#D8DDFD] text-blue text-center text-sm font-bold"
+              <nuxt-link :to="`/services/${service.id}`">
+                <div
+                  class="flex gap-x-[18px] items-center mb-12 px-24 py-16 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.1)] rounded-[10px]"
                 >
-                  {{ service.title.charAt(0) }}
-                </span>
+                  <span
+                    class="rounded-[50%] h-28 w-28 leading-[28px] bg-[#D8DDFD] text-blue text-center text-sm font-bold"
+                  >
+                    {{ service.title.charAt(0) }}
+                  </span>
 
-                <h5 class="text-base text-black font-medium">
-                  {{ service.title }}
-                </h5>
+                  <h5 class="text-base text-black font-medium">
+                    {{ service.title }}
+                  </h5>
 
-                <nuxt-link :to="`/services/${service.id}`" class="ml-auto">
-                  <i class="fas fa-chevron-right text-[#999] text-xs"></i>
-                </nuxt-link>
-              </div>
+                  <i
+                    class="fas fa-chevron-right text-[#999] text-xs ml-auto"
+                  ></i>
+                </div>
+              </nuxt-link>
             </div>
           </div>
         </div>
@@ -164,13 +166,17 @@ export default {
         )
         this.isLoading = false
 
-        this.merchantServices = res.data.data.merchant_services
-        this.stakeholderServices = res.data.data.stakeholder_services
-        this.allServices = this.merchantServices.concat(
-          this.stakeholderServices
-        )
-        console.log(this.allServices)
-        console.log(res.data.data)
+        const merchant_services = res.data.data.merchant_services
+        const stakeholder_services = res.data.data.stakeholder_services
+        const all_services = [...merchant_services, ...stakeholder_services]
+
+        this.merchantServices = merchant_services
+        this.stakeholderServices = stakeholder_services
+        this.allServices = all_services
+
+        // for each particular service object in allservices array
+        // get the length of stakeholders in a particular service
+        // then add the length of all stakeholders
       } catch (error) {
         this.isLoading = false
         console.log({ error })

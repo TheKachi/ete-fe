@@ -1,13 +1,15 @@
 <template>
   <div>
     <div class="fixed top-[80px] z-[50]">
+      <!-- Back button  -->
       <nuxt-link to="/services"
         ><i class="fas fa-arrow-left text-grey"></i>
       </nuxt-link>
-
+      <!-- title -->
       <h1 class="text-lg lg:text-2xl font-bold text-black mt-28">
         {{ service.title }}
       </h1>
+      <!-- description -->
       <p class="text-base text-grey mb-40">
         {{ service.description }}
       </p>
@@ -49,9 +51,7 @@
       </div>
     </div>
 
-    <div class="lg:mt-[200px]"></div>
-
-    <div class="">
+    <div class="lg:mt-[200px] settings h-calc overflow-y-scroll">
       <!-- Transactions  -->
       <div v-if="tab === 'transaction'">
         <!-- <div v-if="service.transactions.length > 0"> -->
@@ -215,9 +215,9 @@
       <!-- Settings  -->
       <div v-if="tab === 'setting'">
         <div
-          class="grid grid-cols-1 lg:grid-cols-12 gap-y-32 gap-x-60"
-          v-if="isShowEdit"
+          class="grid grid-cols-1 lg:grid-cols-12 gap-y-32 gap-x-60 settings overflow-y-scroll h-calc"
         >
+          <!-- {{ serviceDetailsEdit }} -->
           <label class="lg:col-span-4 text-lg text-left" for="service-name"
             >Service name</label
           >
@@ -228,7 +228,7 @@
               id="service-name"
               aria-label="Service name"
               placeholder="Enter your service name"
-              v-model="serviceDetailsEdit.title"
+              v-model="serviceEdit.title"
             />
           </div>
 
@@ -241,7 +241,7 @@
             <textarea
               rows="5"
               id="desc"
-              v-model="serviceDetailsEdit.description"
+              v-model.lazy="serviceEdit.description"
             />
           </div>
 
@@ -254,12 +254,22 @@
             <!-- Bank name   -->
             <div>
               <label for="bank-name" class="text-left">Bank name</label>
-              <input
+              <!-- <input
                 type="text"
                 id="bank-name"
                 aria-label="Service Bank name"
-                v-model="serviceDetailsEdit.bank_name"
-              />
+                v-model="serviceEdit.bank_name"
+              /> -->
+              {{ bank }}
+              {{ serviceEdit.bank_name }}
+              <select v-model="serviceEdit.bank_name" id="bank">
+                <!-- <option selected :value="bank">
+                  {{ bank.name }}
+                </option> -->
+                <option v-for="(bank, i) in banks" :key="i" :value="bank">
+                  {{ bank.name }}
+                </option>
+              </select>
             </div>
 
             <!-- Account number -->
@@ -269,7 +279,7 @@
                 type="number"
                 id="acct-no"
                 aria-label="Account number"
-                v-model="serviceDetailsEdit.account_no"
+                v-model.lazy="serviceEdit.account_no"
               />
             </div>
 
@@ -280,100 +290,16 @@
                 type="text"
                 id="acct-name"
                 aria-label="Account name"
-                v-model="serviceDetailsEdit.account_name"
+                v-model.lazy="serviceEdit.account_name"
               />
             </div>
           </div>
-        </div>
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-32 gap-x-60" v-else>
-          <label class="lg:col-span-4 text-lg text-left" for="service-name"
-            >Service name</label
-          >
 
-          <div class="lg:col-span-6">
-            <input
-              type="text"
-              id="service-name"
-              aria-label="Service name"
-              placeholder="Enter your service name"
-              v-model="service.title"
-              disabled
-            />
+          <div class="lg:col-span-3 lg:col-end-11 mt-32 lg:mt-80">
+            <button @click.prevent="updateServiceDetails" class="click-btn">
+              Save Changes
+            </button>
           </div>
-
-          <!-- Description  -->
-          <label class="lg:col-span-4 text-lg text-left" for="desc"
-            >Description</label
-          >
-
-          <div class="lg:col-span-6">
-            <textarea
-              rows="5"
-              id="desc"
-              v-model="service.description"
-              disabled
-            />
-          </div>
-
-          <!-- Receiving account  -->
-          <label class="lg:col-span-4 text-lg text-left" for="acct">
-            Receiving account
-          </label>
-
-          <div class="lg:col-span-6">
-            <!-- Bank name   -->
-            <div>
-              <label for="bank-name" class="text-left">Bank name</label>
-              <input
-                type="text"
-                id="bank-name"
-                aria-label="Service Bank name"
-                v-model="service.bank_name"
-                disabled
-              />
-            </div>
-
-            <!-- Account number -->
-            <div class="my-24">
-              <label for="acct-no" class="text-left">Account number</label>
-              <input
-                type="number"
-                id="acct-no"
-                aria-label="Account number"
-                v-model="service.account_no"
-                disabled
-              />
-            </div>
-
-            <!-- Account name -->
-            <div>
-              <label for="acct-name" class="text-left">Account name</label>
-              <input
-                type="text"
-                id="acct-name"
-                aria-label="Account name"
-                v-model="service.account_name"
-                disabled
-              />
-            </div>
-          </div>
-        </div>
-
-        <div class="lg:col-span-6 lg:col-end-12">
-          <button
-            @click.prevent="show"
-            v-if="!isShowEdit"
-            class="click-btn float-right mt-32 lg:mt-80"
-          >
-            Edit
-          </button>
-          <button
-            @click.prevent="updateServiceDetails"
-            v-else
-            class="click-btn float-right mt-32 lg:mt-80"
-          >
-            Save Changes
-          </button>
         </div>
       </div>
 
@@ -404,7 +330,7 @@
         </div>
 
         <div class="grid grid-cols-12">
-          <div class="col-span-12 lg:col-span-9">
+          <div class="col-span-12 lg:col-span-9 mb-48">
             <div v-if="apiTab === 'staging'">
               <!-- Public key -->
               <div>
@@ -450,6 +376,21 @@
                     Copy
                   </button>
                 </div>
+              </div>
+
+              <div class="flex justify-between items-center mt-48">
+                <button
+                  class="text-xs text-grey underline underline-offset-2"
+                  @click="openPdf"
+                >
+                  Go to document
+                </button>
+                <button
+                  class="text-xs text-grey underline underline-offset-2"
+                  @click="regenTestApi"
+                >
+                  Regenerate APIs
+                </button>
               </div>
             </div>
             <div v-else>
@@ -498,11 +439,27 @@
                   </button>
                 </div>
               </div>
+
+              <div class="flex justify-between items-center mt-48">
+                <button
+                  class="text-xs text-grey underline underline-offset-2"
+                  @click="openPdf"
+                >
+                  Go to document
+                </button>
+                <button
+                  class="text-xs text-grey underline underline-offset-2"
+                  @click="regenLiveApi"
+                >
+                  Regenerate APIs
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
     <notifications position="top right" classes="notif" />
   </div>
 </template>
@@ -510,6 +467,7 @@
 <script>
 import SvgLoader from '~/components/utils/SvgLoader'
 import TransactionCard from '~/components/services/TransactionCard'
+const psSecKey = 'sk_test_9cb75be4f634e009d84825fa5fefa0393a57e09b'
 
 export default {
   layout: 'dashboard',
@@ -531,32 +489,53 @@ export default {
     }
   },
 
-  // async asyncData({ $axios, params }) {
-  //   try {
-  //     const res = await $axios.$post('/services/details', {
-  //       id: params.id,
-  //     })
-  //     console.log(res.data)
-  //     const service = res.data
-  //     return { service }
-  //   } catch (error) {
-  //     return { error, service: {} }
-  //   }
-  // },
-
   data: () => ({
     tab: 'transaction',
     txnTab: 'received',
     apiTab: 'staging',
     disabled: 1,
-    serviceDetailsEdit: {},
+    // serviceDetailsEdit: {},
     isShowEdit: false,
+    serviceEdit: {},
+
+    banks: [
+      // {
+      // }
+    ],
+    bank: {},
+    serviceBank: {},
   }),
+
   methods: {
-    show() {
-      this.isShowEdit = true
-      console.log(this.isShowEdit)
+    // show(details) {
+    //   this.isShowEdit = true
+    //   this.serviceDetailsEdit = details
+    //   // I don't want the v-model updating the Ui until Saved changes
+    // },
+
+    async getBanks() {
+      try {
+        let url = 'https://api.paystack.co/bank'
+        let res = await this.$axios.get(url, {
+          headers: {
+            Authorization: 'Bearer ' + psSecKey,
+          },
+        })
+        this.banks = res.data.data
+        this.selectBank(this.serviceEdit.bank_name)
+      } catch (error) {
+        console.log(error)
+      }
     },
+
+    selectBank(name) {
+      this.banks.map((bank, i) => {
+        if (bank.name === name) {
+          this.bank = bank
+        }
+      })
+    },
+
     changeTab(tab) {
       this.tab = tab
     },
@@ -567,33 +546,50 @@ export default {
     changeApiTab(tab) {
       this.apiTab = tab
     },
+
     async updateServiceDetails() {
       try {
+        console.log(this.bank)
+        this.serviceEdit.bank_name = this.bank.name
+        this.serviceEdit.bank_code = this.bank.code
         let token = this.$auth.token
         let account = this.$auth.user._id
-        let res = await this.$axios.post(
-          '/services/update',
-          {
-            account,
-            id: service.id,
-            title: this.serviceDetailsEdit.title,
-            description: this.serviceDetailsEdit.description,
-            bank_name: this.serviceDetailsEdit.bank_name,
-            account_name: this.serviceDetailsEdit.account_name,
-            account_no: this.serviceDetailsEdit.account_no,
-          },
+        const obj = { account }
 
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        console.log(res)
-        // this.$router.push('/services')
+        const data = { ...obj, ...this.serviceEdit }
+        console.log(data)
+        // let res = await this.$axios.post(
+        //   '/services/update',
+
+        //   data,
+
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   }
+        // )
+
+        // this.service = this.serviceEdit
+
+        // this.$notify({
+        //   type: 'success',
+        //   text: 'Details Edited Successfully!',
+        //   duration: 5000,
+        // })
       } catch (error) {
-        console.log({ error })
+        this.$notify({
+          type: 'error',
+          text: 'There was an error editing service details. Please try again!',
+          duration: 5000,
+        })
       }
+
+      // console.log(data)
+    },
+
+    showService() {
+      console.log(this.service)
     },
 
     copyString(str) {
@@ -618,6 +614,51 @@ export default {
         duration: 5000,
       })
     },
+
+    async regenTestApi({ $axios, params }) {
+      try {
+        let token = this.$auth.token
+        let account = this.$auth.user._id
+        console.log({
+          account,
+          token,
+          account,
+          id: service.id,
+          title: service.title,
+          description: service.description,
+          bank_name: service.bank_name,
+          account_name: service.account_name,
+          account_no: service.account_no,
+        })
+        let res = await $axios.post(
+          '/services/updatekeys/test',
+          {
+            account,
+            id: service.id,
+          },
+
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        this.$notify({
+          type: 'success',
+          text: 'Done!',
+          duration: 5000,
+        })
+
+        // this.$router.push('/services')
+      } catch (error) {
+        this.$notify({
+          type: 'error',
+          text: 'Failed',
+          duration: 5000,
+        })
+      }
+    },
+    regenLiveApi() {},
   },
 
   computed: {
@@ -631,7 +672,28 @@ export default {
       return '0'
     },
   },
+
+  mounted() {
+    this.getBanks()
+    this.serviceEdit = Object.assign({}, this.service)
+    // this.serviceNew = [...this.serviceEdit, ...this.service]
+  },
 }
 </script>
 
-<style></style>
+<style>
+/* Hide scrollbar for Chrome, Safari and Opera */
+.settings::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.settings {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.h-calc {
+  height: 60vh;
+}
+</style>

@@ -5,8 +5,10 @@
 @tailwind utilities;
 
 @layer base {
-  html {
+  html,
+  body {
     font-family: 'DM Sans', sans-serif;
+    height: 100%;
   }
 
   select {
@@ -56,7 +58,7 @@ select {
 }
 
 button {
-  @apply text-base font-medium transition duration-150 ease-out;
+  @apply text-base font-medium transition duration-150 ease-out hover:cursor-pointer;
 }
 
 .w-inherit {

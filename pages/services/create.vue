@@ -1233,6 +1233,16 @@ export default {
       this.stakeholderModal.isActive = false
     },
 
+    toggleStakeDropdown() {
+      this.stakeDetailsEdit = {}
+      this.stakeDropdown = !this.stakeDropdown
+    },
+
+    editStakeholder(holder) {
+      this.stakeDetailsEdit = holder
+      this.stakeDetails.isActive = true
+    },
+
     titleCase(str) {
       return str
         .toLowerCase()
@@ -1264,16 +1274,6 @@ export default {
       this.stakeholderModal.isActive = true
       this.holder.type = 'group'
       this.stakeDropdown = false
-    },
-
-    toggleStakeDropdown() {
-      this.stakeDetailsEdit = {}
-      this.stakeDropdown = !this.stakeDropdown
-    },
-
-    editStakeholder(holder) {
-      this.stakeDetailsEdit = holder
-      this.stakeDetails.isActive = true
     },
 
     closeStakeDetails() {
