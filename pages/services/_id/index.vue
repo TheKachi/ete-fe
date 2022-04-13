@@ -584,12 +584,6 @@ export default {
           duration: 5000,
         })
       }
-
-      // console.log(data)
-    },
-
-    showService() {
-      console.log(this.service)
     },
 
     copyString(str) {
@@ -615,26 +609,16 @@ export default {
       })
     },
 
-    async regenTestApi({ $axios, params }) {
+    async regenTestApi() {
       try {
         let token = this.$auth.token
         let account = this.$auth.user._id
-        console.log({
-          account,
-          token,
-          account,
-          id: service.id,
-          title: service.title,
-          description: service.description,
-          bank_name: service.bank_name,
-          account_name: service.account_name,
-          account_no: service.account_no,
-        })
-        let res = await $axios.post(
+
+        let res = await this.$axios.post(
           '/services/updatekeys/test',
           {
             account,
-            id: service.id,
+            id: this.service.id,
           },
 
           {
@@ -643,22 +627,24 @@ export default {
             },
           }
         )
+        // this.service.api_public_key_test = res.data.api_public_key_test
+        // this.service.api_private_key_test = res.data.api_private_key_test
+
+        console.log(res)
+
         this.$notify({
           type: 'success',
-          text: 'Done!',
+          text: 'Staging API Keys have been regenerated successfully',
           duration: 5000,
         })
-
-        // this.$router.push('/services')
       } catch (error) {
         this.$notify({
           type: 'error',
-          text: 'Failed',
+          text: 'There was an error regenerating Staging API keys',
           duration: 5000,
         })
       }
     },
-    regenLiveApi() {},
   },
 
   computed: {
