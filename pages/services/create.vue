@@ -313,7 +313,7 @@
             :class="{ 'form-group--error': $v.percent_formular.$error }"
           >
             <input
-              type="text"
+              type="number"
               v-model="percent_formular"
               aria-label="Enter percentage return"
               placeholder="Enter percentage return"
@@ -331,7 +331,7 @@
             :class="{ 'form-group--error': $v.fixed_formular.$error }"
           >
             <input
-              type="text"
+              type="number"
               v-model="fixed_formular"
               placeholder="Enter Fixed Amount"
               aria-label="Enter Fixed Amount"
@@ -699,7 +699,7 @@
             :class="{ 'form-group--error': $v.percent_formular.$error }"
           >
             <input
-              type="text"
+              type="number"
               v-model="percent_formular"
               aria-label="Enter percentage return"
               placeholder="Enter percentage return"
@@ -717,7 +717,7 @@
             :class="{ 'form-group--error': $v.fixed_formular.$error }"
           >
             <input
-              type="text"
+              type="number"
               v-model="fixed_formular"
               placeholder="Enter Fixed Amount"
               aria-label="Enter Fixed Amount"
@@ -1032,8 +1032,8 @@ export default {
   components: { HolderCard, ClickBtn, FieldErrors, Modal, Loader },
 
   data: () => ({
-    title: '',
-    description: '',
+    title: 'Test title',
+    description: 'Test description',
     bank_name: '',
     bank_code: '',
     account_no: '',
@@ -1049,8 +1049,8 @@ export default {
 
     holderBank: {},
 
-    percent_formular: '',
-    fixed_formular: '',
+    percent_formular: null,
+    fixed_formular: null,
 
     tempEmail: [],
     singleEmail: '',
@@ -1060,7 +1060,7 @@ export default {
       name: 'Onyedikachi Nze',
       is_percentage: false,
       is_automated: true,
-      share_formular: '',
+      share_formular: null,
       type: '',
       account_no: '0238686550',
       account_name: 'Kachi Individual',
@@ -1236,25 +1236,26 @@ export default {
     },
 
     async createService() {
-      // this.$v.$touch()
-      // if (this.$v.$pending || this.$v.$error) return
+      this.$v.$touch()
+      if (this.$v.$pending || this.$v.$error) return
+
       try {
+        const data = {
+          title: this.title,
+          description: this.description,
+          account_no: this.account_no,
+          account_name: this.account_name,
+          bank_name: this.bank_name,
+          bank_code: this.bank_code,
+          stakeholders: this.stakeholders,
+          account: this.$auth.user._id,
+        }
         this.isLoading = true
 
         let token = this.$auth.token
-        let account = this.$auth.user._id
         let res = await this.$axios.post(
           '/services/create',
-          {
-            title: this.title,
-            description: this.description,
-            account_no: this.account_no,
-            account_name: this.account_name,
-            bank_name: this.bank_name,
-            bank_code: this.bank_code,
-            stakeholders: this.stakeholders,
-            account,
-          },
+          data,
 
           {
             headers: {
@@ -1376,8 +1377,8 @@ export default {
       this.singleEmail = ''
       this.markUpType = ''
       this.disbursementType = ''
-      this.fixed_formular = ''
-      this.percent_formular = ''
+      this.fixed_formular = null
+      this.percent_formular = null
       console.log(this.stakeholders)
 
       this.stakeholderModal.isActive = false
