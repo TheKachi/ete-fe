@@ -12,7 +12,7 @@
             :key="i"
             class="px-24 py-16 text-base text-white rounded"
             :class="{
-              'bg-blue': $route.path === nav.link,
+              'bg-blue': activePage($route.path, nav.title),
             }"
           >
             <nuxt-link :to="nav.link" class="flex items-center gap-x-16">
@@ -95,7 +95,17 @@ export default {
     }
   },
 
-  methods: {},
+  methods: {
+    activePage(link, title){
+      let path = link.split('/')[1];
+      let name = title === 'Contact us' ? 'support' : title;
+
+      let re = new RegExp(path, "g");
+      if(name.toLowerCase() === path && re.test(link)) return true;
+
+      return false
+    }
+  },
 
   components: {
     SvgLoader,

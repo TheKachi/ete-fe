@@ -260,13 +260,11 @@
                 aria-label="Service Bank name"
                 v-model="serviceEdit.bank_name"
               /> -->
-              {{ bank }}
-              {{ serviceEdit.bank_name }}
-              <select v-model="serviceEdit.bank_name" id="bank">
-                <!-- <option selected :value="bank">
+              <select id="bank" @change="updateSelectedBank" ref="bank-inp">
+                <option selected :value="JSON.stringify(bank)">
                   {{ bank.name }}
-                </option> -->
-                <option v-for="(bank, i) in banks" :key="i" :value="bank">
+                </option>
+                <option v-for="(bank, i) in banks" :key="i" :value="JSON.stringify(bank)">
                   {{ bank.name }}
                 </option>
               </select>
@@ -549,7 +547,7 @@ export default {
 
     async updateServiceDetails() {
       try {
-        console.log(this.bank)
+        console.log(this.bank);
         this.serviceEdit.bank_name = this.bank.name
         this.serviceEdit.bank_code = this.bank.code
         let token = this.$auth.token
@@ -584,6 +582,11 @@ export default {
           duration: 5000,
         })
       }
+    },
+
+    updateSelectedBank(e){
+      let data = this.$refs['bank-inp'].value;
+      this.bank = JSON.parse(data);
     },
 
     copyString(str) {
