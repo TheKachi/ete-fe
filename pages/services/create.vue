@@ -604,6 +604,8 @@
             Select how you would want to make disbursement
           </h6>
 
+          <pre>{{ markUpType }}</pre>
+
           <div class="flex gap-24 my-16">
             <div
               v-for="type in markUpTypes"
@@ -615,6 +617,7 @@
                 :id="type"
                 :value="type"
                 v-model="markUpType"
+                :checked="markUpType === type"
               />
 
               <label :for="type">{{ type }}</label>
