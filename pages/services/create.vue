@@ -378,109 +378,102 @@
       </div>
     </modal>
 
-    <!-- Stakeholder details modal  -->
+    <!-- Stakeholder Edit modal  -->
     <modal v-if="stakeDetails.isActive" @close="closeStakeDetails">
       <div slot="header">
         <div class="flex justify-between items-start pr-28">
           <h5 class="text-lg lg:text-2xl font-bold text-black">
-            <span v-if="disabled === 1">Edit</span>
-            <span v-else></span> Stakeholder Details
+            Edit Stakeholder Details
           </h5>
-          <button
-            @click.prevent="disabled = (disabled + 1) % 2"
-            v-if="disabled === 0"
-            class="text-xs text-black pt-4"
-          >
-            <i class="fas fa-pen"></i>
-          </button>
+
+          <i class="fas fa-pen"></i>
         </div>
       </div>
 
       <div slot="body">
-        <div>{{ stakeDetailsEdit }}</div>
-        <div slot="body">
-          <!-- Full name and Role - Individual  -->
-          <div
-            class="grid grid-cols-2 gap-x-16 mb-16"
-            v-if="stakeDetailsEdit.type === 'individual'"
-          >
-            <!-- Full Name -->
-            <!-- <div :class="{ 'form-group--error': $v.holderName.$error }"> -->
-            <div>
-              <label for="stakeholder-name">Full name</label>
-              <input
-                id="stakeholder-name"
-                type="text"
-                v-model.trim="stakeDetailsEdit.name"
-              />
-
-              <!-- <field-errors
-              v-if="$v.holderName.$error"
-              :field="$v.holderName"
-              alt="Please enter this stakeholder's Full Name"
-            /> -->
-            </div>
-
-            <!--Role - Individual -->
-            <div>
-              <label for="role">Role</label>
-              <select id="role" name="role" v-model="stakeDetailsEdit.role">
-                <option value="stakeholder">Stakeholder</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Group Name -->
-          <!-- :class="{ 'form-group--error': $v.holderName.$error }" -->
-
-          <div v-if="stakeDetailsEdit.type === 'group'" class="mb-24">
-            <label for="stakeholder-name">Group name</label>
+        {{ stakeDetailsEdit }}
+        <!-- Full name and Role - Individual  -->
+        <div
+          class="grid grid-cols-2 gap-x-16 mb-16"
+          v-if="stakeDetailsEdit.type === 'individual'"
+        >
+          <!-- Full Name -->
+          <!-- <div :class="{ 'form-group--error': $v.holderName.$error }"> -->
+          <div>
+            <label for="stakeholder-name">Full name</label>
             <input
               id="stakeholder-name"
               type="text"
               v-model.trim="stakeDetailsEdit.name"
             />
-            <!--
+
+            <!-- <field-errors
+              v-if="$v.holderName.$error"
+              :field="$v.holderName"
+              alt="Please enter this stakeholder's Full Name"
+            /> -->
+          </div>
+
+          <!--Role - Individual -->
+          <div>
+            <label for="role">Role</label>
+            <select id="role" name="role" v-model="stakeDetailsEdit.role">
+              <option value="stakeholder">Stakeholder</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Group Name -->
+        <!-- :class="{ 'form-group--error': $v.holderName.$error }" -->
+
+        <div v-if="stakeDetailsEdit.type === 'group'" class="mb-24">
+          <label for="stakeholder-name">Group name</label>
+          <input
+            id="stakeholder-name"
+            type="text"
+            v-model.trim="stakeDetailsEdit.name"
+          />
+          <!--
           <field-errors
             v-if="$v.holderName.$error"
             :field="$v.holderName"
             alt="Please enter stakeholder's Full Name"
           /> -->
-          </div>
+        </div>
 
-          <!-- Add members - Group  -->
-          <h5
-            class="text-base font-bold text-black mb-16"
-            v-if="stakeDetailsEdit.type === 'group'"
+        <!-- Add members - Group  -->
+        <h5
+          class="text-base font-bold text-black mb-16"
+          v-if="stakeDetailsEdit.type === 'group'"
+        >
+          Add members
+        </h5>
+
+        <!-- Email  -->
+        <!-- :class="{ 'form-group--error': $v.holderEmail.$error }" -->
+
+        <div class="mb-16">
+          <label
+            for="stakeholder-email"
+            v-if="stakeDetailsEdit.type === 'individual'"
+            >Email</label
           >
-            Add members
-          </h5>
-
-          <!-- Email  -->
-          <!-- :class="{ 'form-group--error': $v.holderEmail.$error }" -->
-
-          <div class="mb-16">
-            <label
-              for="stakeholder-email"
-              v-if="stakeDetailsEdit.type === 'individual'"
-              >Email</label
-            >
-            <input
-              type="email"
-              id="stakeholder-email"
-              name="stakeholder-email"
-              v-model="stakeDetailsEdit.email"
-              v-if="stakeDetailsEdit.type === 'individual'"
-            />
-            <input
-              type="email"
-              placeholder="Email, space seperated"
-              aria-label="Email, space seperated"
-              v-model="singleEmail"
-              v-if="stakeDetailsEdit.type === 'group'"
-              @keyup.space="addEditEmail"
-            />
-            <!-- <input
+          <input
+            type="email"
+            id="stakeholder-email"
+            name="stakeholder-email"
+            v-model="stakeDetailsEdit.email"
+            v-if="stakeDetailsEdit.type === 'individual'"
+          />
+          <input
+            type="email"
+            placeholder="Email, space seperated"
+            aria-label="Email, space seperated"
+            v-model="singleEmail"
+            v-if="stakeDetailsEdit.type === 'group'"
+            @keyup.space="addEditEmail"
+          />
+          <!-- <input
               type="email"
               placeholder="Email, space seperated"
               aria-label="Email, space seperated"
@@ -488,230 +481,217 @@
               v-if="stakeDetailsEdit.type === 'group'"
               @keyup.space="addEmail"
             /> -->
-            <!-- <field-errors
+          <!-- <field-errors
             v-if="$v.holderEmail.$error"
             :field="$v.holderEmail"
             alt="We're going to need stakeholder's email to invite them!"
           /> -->
-          </div>
+        </div>
 
-          <!-- Members emails list - Group  -->
+        <!-- Members emails list - Group  -->
+        <div
+          class="flex flex-wrap gap-x-4 gap-y-8 mb-24"
+          v-if="stakeDetailsEdit.type === 'group'"
+        >
           <div
-            class="flex flex-wrap gap-x-4 gap-y-8 mb-24"
-            v-if="stakeDetailsEdit.type === 'group'"
+            v-for="(i, index) in tempEmail"
+            :key="index"
+            class="bg-white justify-center border border-grey rounded p-8 text-xs"
           >
-            <div
-              v-for="(i, index) in tempEmail"
-              :key="index"
-              class="bg-white justify-center border border-grey rounded p-8 text-xs"
-            >
-              {{ i }}
-              <i
-                class="fas fa-times ml-12"
-                @click="removeGroupEmail(index)"
-              ></i>
-            </div>
+            {{ i }}
+            <i class="fas fa-times ml-12" @click="removeGroupEmail(index)"></i>
           </div>
+        </div>
 
-          <!-- Mark-Up Type - Fixed or Percentage  -->
-          <!-- :class="{ 'form-group--error': $v.markUpType.$error }" -->
-          <div class="mt-32">
-            <h5 class="text-base font-bold text-black">Mark-Up Type</h5>
-            <h6 class="text-sm lg:text-base font-medium text-grey">
-              Select how you would want to make disbursement
-            </h6>
+        <!-- Mark-Up Type - Fixed or Percentage  -->
+        <!-- :class="{ 'form-group--error': $v.markUpType.$error }" -->
+        <div class="mt-32">
+          <h5 class="text-base font-bold text-black">Mark-Up Type</h5>
+          <h6 class="text-sm lg:text-base font-medium text-grey">
+            Select how you would want to make disbursement
+          </h6>
 
-            <div class="flex gap-24 my-16">
-              <div
-                v-for="type in markUpTypes"
-                :key="type"
-                class="flex gap-x-4 items-baseline"
-              >
-                <input
-                  type="radio"
-                  :id="type"
-                  :value="type"
-                  v-model="stakeDetailsEdit.markUpType"
-                />
+          <div class="flex gap-24 my-16">
+            <div
+              v-for="type in markUpTypes"
+              :key="type"
+              class="flex gap-x-4 items-baseline"
+            >
+              <input
+                type="radio"
+                :id="type"
+                :value="type"
+                v-model="markUpType"
+              />
 
-                <label :for="type">{{ type }}</label>
-                <!-- <field-errors
+              <label :for="type">{{ type }}</label>
+              <!-- <field-errors
                 v-if="$v.markUpType.$error"
                 :field="$v.markUpType"
                 alt="Please choose a mark up type"
               /> -->
-              </div>
-            </div>
-
-            <!-- Percentage return -->
-            <!-- :class="{ 'form-group--error': $v.shareFormula.$error }" -->
-            <div v-if="markUpType === 'Percentage'">
-              <input
-                type="text"
-                v-model="stakeDetailsEdit.share_formular"
-                aria-label="Enter percentage return"
-                placeholder="Enter percentage return"
-              />
-              <!-- <field-errors
-              v-if="$v.shareFormula.$error"
-              :field="$v.shareFormula"
-              alt="Please enter your share formula"
-            /> -->
-            </div>
-
-            <!-- Fixed Amount -->
-            <!-- :class="{ 'form-group--error': $v.shareFormula.$error }" -->
-            <div v-if="markUpType === 'Fixed'">
-              <input
-                type="text"
-                v-model="stakeDetailsEdit.share_formular"
-                placeholder="Enter Fixed Amount"
-                aria-label="Enter Fixed Amount"
-              />
-              <!-- <field-errors
-              v-if="$v.shareFormula.$error"
-              :field="$v.shareFormula"
-              alt="Please enter your share formula"
-            /> -->
             </div>
           </div>
 
-          <hr class="text-medium-grey my-24" />
+          <!-- Percentage return -->
+          <!-- :class="{ 'form-group--error': $v.shareFormula.$error }" -->
+          <div v-if="markUpType === 'Percentage'">
+            <input
+              type="text"
+              v-model="stakeDetailsEdit.share_formular"
+              aria-label="Enter percentage return"
+              placeholder="Enter percentage return"
+            />
+            <!-- <field-errors
+              v-if="$v.shareFormula.$error"
+              :field="$v.shareFormula"
+              alt="Please enter your share formula"
+            /> -->
+          </div>
 
-          <!-- Bank details  -->
-          <div>
-            <h5 class="text-base font-bold text-black">Bank details</h5>
+          <!-- Fixed Amount -->
+          <!-- :class="{ 'form-group--error': $v.shareFormula.$error }" -->
+          <div v-if="markUpType === 'Fixed'">
+            <input
+              type="text"
+              v-model="stakeDetailsEdit.share_formular"
+              placeholder="Enter Fixed Amount"
+              aria-label="Enter Fixed Amount"
+            />
+            <!-- <field-errors
+              v-if="$v.shareFormula.$error"
+              :field="$v.shareFormula"
+              alt="Please enter your share formula"
+            /> -->
+          </div>
+        </div>
 
-            <!-- Bank name and Account number  -->
-            <div class="grid grid-cols-2 gap-x-16 my-16">
-              <!-- Bank Name -->
-              <!-- <div :class="{ 'form-group--error': $v.holderBank.$error }"> -->
-              <div>
-                <label for="holder-bank-name">Bank name</label>
-                <select
-                  v-model="holderBank"
-                  id="holder-bank-name"
-                  class="form-select"
-                >
-                  <option disabled selected :value="{}">Select Bank</option>
-                  <option v-for="(bank, i) in banks" :key="i" :value="bank">
-                    {{ bank.name }}
-                  </option>
-                </select>
-                <!-- <field-errors
+        <!-- <hr class="text-medium-grey my-24" /> -->
+
+        <!-- Bank details  -->
+        <div class="my-24">
+          <h5 class="text-base font-bold text-black">Bank details</h5>
+
+          <!-- Bank name and Account number  -->
+          <div class="grid grid-cols-2 gap-x-16 my-16">
+            <!-- Bank Name -->
+            <!-- <div :class="{ 'form-group--error': $v.holderBank.$error }"> -->
+            <div>
+              <label for="holder-bank-name">Bank name</label>
+              <select
+                v-model="holderBank"
+                id="holder-bank-name"
+                class="form-select"
+              >
+                <option disabled selected :value="{}">Select Bank</option>
+                <option v-for="(bank, i) in banks" :key="i" :value="bank">
+                  {{ bank.name }}
+                </option>
+              </select>
+              <!-- <field-errors
                 v-if="$v.holderBank.$error"
                 :field="$v.holderBank"
                 alt="Please enter a bank for your stakeholder"
               /> -->
-              </div>
+            </div>
 
-              <!-- Account number -->
-              <!-- <div :class="{ 'form-group--error': $v.holder.account_no.$error }"> -->
-              <div>
-                <label for="holder-acct-no">Account number</label>
-                <input
-                  type="number"
-                  class="lg:w-50"
-                  id="holder-acct-no"
-                  placeholder="Enter Account number"
-                  aria-label="Account number"
-                  v-model="stakeDetailsEdit.account_no"
-                />
-                <!-- <field-errors
+            <!-- Account number -->
+            <!-- <div :class="{ 'form-group--error': $v.holder.account_no.$error }"> -->
+            <div>
+              <label for="holder-acct-no">Account number</label>
+              <input
+                type="number"
+                class="lg:w-50"
+                id="holder-acct-no"
+                placeholder="Enter Account number"
+                aria-label="Account number"
+                v-model="stakeDetailsEdit.account_no"
+              />
+              <!-- <field-errors
                 v-if="$v.holder.account_no.$error"
                 :field="$v.holder.account_no"
                 alt="Please enter an account number for your stakeholder"
               /> -->
-              </div>
             </div>
+          </div>
 
-            <!-- Account name -->
-            <!-- <div :class="{ 'form-group--error': $v.holderAcctName.$error }"> -->
-            <div>
-              <label for="holder-acct-name">Account name</label>
-              <input
-                type="text"
-                id="holder-acct-name"
-                placeholder="Enter Account name"
-                aria-label="Account name"
-                v-model="stakeDetailsEdit.account_name"
-              />
-              <!-- <field-errors
+          <!-- Account name -->
+          <!-- <div :class="{ 'form-group--error': $v.holderAcctName.$error }"> -->
+          <div>
+            <label for="holder-acct-name">Account name</label>
+            <input
+              type="text"
+              id="holder-acct-name"
+              placeholder="Enter Account name"
+              aria-label="Account name"
+              v-model="stakeDetailsEdit.account_name"
+            />
+            <!-- <field-errors
               v-if="$v.holderAcctName.$error"
               :field="$v.holderAcctName"
               alt="Please enter an account name for your stakeholder"
             /> -->
-            </div>
           </div>
+        </div>
 
-          <hr class="text-medium-grey my-24" />
+        <!-- <hr class="text-medium-grey my-24" /> -->
 
-          <!-- Disbursement schedule -->
-          <div v-if="disabled === 1">
-            <h5 class="text-base font-bold text-black">
-              Disbursement schedule
-            </h5>
+        <!-- Disbursement schedule -->
+        <h5 class="text-base font-bold text-black">Disbursement schedule</h5>
 
-            <!-- Disbursement Type - Automated or Scheduled -->
-            <!-- :class="{ 'form-group--error': $v.disbursementType.$error }" -->
-            <div class="my-16">
-              <div class="flex gap-x-24 items-center">
-                <div
-                  v-for="type in disbursementTypes"
-                  :key="type"
-                  class="flex gap-x-4 items-baseline"
-                >
-                  <input
-                    class="inline-block"
-                    type="radio"
-                    :id="type"
-                    :value="type"
-                    :name="type"
-                    v-model="disbursementType"
-                  />
+        <!-- Disbursement Type - Automated or Scheduled -->
+        <!-- :class="{ 'form-group--error': $v.disbursementType.$error }" -->
+        <div class="my-16">
+          <div class="flex gap-x-24 items-center">
+            <div
+              v-for="type in disbursementTypes"
+              :key="type"
+              class="flex gap-x-4 items-baseline"
+            >
+              <input
+                class="inline-block"
+                type="radio"
+                :id="type"
+                :value="type"
+                :name="type"
+                v-model="disbursementType"
+              />
 
-                  <label :for="type">{{ type }}</label>
-                </div>
-                <!-- <field-errors
+              <label :for="type">{{ type }}</label>
+            </div>
+            <!-- <field-errors
                 v-if="$v.disbursementType.$error"
                 :field="$v.disbursementType"
                 alt="Please select a disbursement type for your stakeholder"
               /> -->
-              </div>
-            </div>
+          </div>
+        </div>
 
-            <!-- Schedule  -->
-            <!-- :class="{ 'form-group--error': $v.schedule.$error }" -->
-            <div class="mb-24" v-if="disbursementType === 'Scheduled'">
-              <label for="schedule">Schedule a disbursement date</label>
+        <!-- Schedule  -->
+        <!-- :class="{ 'form-group--error': $v.schedule.$error }" -->
+        <div class="mb-24">
+          <label for="schedule">Schedule a disbursement date</label>
 
-              <select id="schedule" v-model="holder.schedule">
-                <option
-                  v-for="option in schedules"
-                  :key="option"
-                  :value="option.value"
-                >
-                  {{ option.text }}
-                </option>
-              </select>
+          <select id="schedule" v-model="holder.schedule">
+            <option
+              v-for="option in schedules"
+              :key="option"
+              :value="option.value"
+            >
+              {{ option.text }}
+            </option>
+          </select>
 
-              <!-- <field-errors
+          <!-- <field-errors
               v-if="$v.schedule.$error"
               :field="$v.schedule"
               alt="Please select a schedule"
             /> -->
-            </div>
-          </div>
         </div>
-        <slot name="footer">
-          <button
-            class="click-btn my-32"
-            @click.prevent="addStakeholder"
-            v-if="disabled === 1"
-          >
-            Add stakeholder
-          </button>
-        </slot>
+
+        <button class="click-btn my-32" @click.prevent="updateStakeholder">
+          Save changes
+        </button>
       </div>
     </modal>
 
@@ -886,11 +866,14 @@
 
             <div class="flex gap-x-16 ml-auto">
               <!-- Edit  -->
-              <button class="text-xs text-grey">
+              <button
+                class="text-xs text-grey"
+                @click.prevent="editStakeholderModal(holder)"
+              >
                 <i class="fas fa-pen"></i>
               </button>
               <!-- Delete  -->
-              <button>
+              <button @click.prevent="removeStakeholder(holder)">
                 <i class="fas fa-times text-grey"></i>
               </button>
             </div>
@@ -1142,11 +1125,17 @@ export default {
       }
     },
 
+    toggleStakeDropdown() {
+      this.stakeDetailsEdit = {}
+      this.stakeDropdown = !this.stakeDropdown
+    },
+
     addEmail() {
       this.tempEmail.push(this.singleEmail)
       this.holder.email = this.tempEmail.toString()
       this.singleEmail = ''
     },
+
     addEditEmail() {
       this.tempEmail.push(this.singleEmail)
       this.stakeDetailsEdit.email = this.tempEmail.toString()
@@ -1210,14 +1199,66 @@ export default {
       this.stakeholderModal.isActive = false
     },
 
-    toggleStakeDropdown() {
-      this.stakeDetailsEdit = {}
-      this.stakeDropdown = !this.stakeDropdown
-    },
-
-    editStakeholder(holder) {
+    editStakeholderModal(holder) {
       this.stakeDetailsEdit = holder
       this.stakeDetails.isActive = true
+    },
+
+    updateStakeholder() {
+      // if (this.markUpType === 'Percentage') {
+      //   this.holder.is_percentage = true
+      // } else {
+      //   this.holder.is_percentage = false
+      // }
+
+      // if (this.disbursementType === 'Automated') {
+      //   this.holder.is_automated = true
+      // } else {
+      //   this.holder.is_automated = false
+      // }
+
+      // if (this.holder.type === 'individual') {
+      //   this.holder.email = this.singleEmail
+      // }
+
+      // if (this.holder.type === 'group') {
+      //   this.holder.email = this.tempEmail.toString()
+      // }
+
+      // this.holder.bank_name = this.holderBank.name
+      // this.holder.bank_code = this.holderBank.code
+
+      const data = this.stakeDetailsEdit
+
+      this.stakeholders.push(data)
+
+      // this.holder = {
+      //   email: '',
+      //   name: '',
+      //   is_percentage: false,
+      //   is_automated: true,
+      //   share_formular: '',
+      //   type: '',
+      //   account_no: '',
+      //   account_name: '',
+      //   bank_name: '',
+      //   bank_code: '',
+      //   schedule: '',
+      //   role: '',
+      // }
+      // this.serviceBank = {}
+      // this.holderBank = {}
+      // this.tempEmail = []
+      // this.singleEmail = ''
+      // this.markUpType = ''
+      // this.disbursementType = ''
+      // this.temp = {}
+      console.log(this.stakeholders)
+      this.editStakeholderModal.isActive = false
+    },
+
+    removeStakeholder(holder) {
+      this.stakeholders.splice(holder, 1)
     },
 
     removeGroupEmail(index) {

@@ -17,7 +17,7 @@
               class="fas fa-user-alt rounded-full p-4 lg:p-12 bg-medium-grey"
             ></i>
 
-            <div class="flex items-center gap-x-8 ml-48 cursor-pointer">
+            <div class="flex items-center gap-x-8 cursor-pointer">
               <!-- User name  -->
               <span class="text-base text-black">{{ username }}</span>
 
