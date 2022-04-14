@@ -4,65 +4,73 @@
       <loader />
     </div>
     <!-- Add account modal  -->
-    <modal v-if="acctModal.isActive" @close="acctModal.isActive = false">
+    <modal
+      v-if="serviceAcctModal.isActive"
+      @close="serviceAcctModal.isActive = false"
+    >
       <h5 class="text-lg lg:text-2xl font-bold text-black" slot="header">
         Add New Bank Account
       </h5>
 
       <div slot="body">
         <!-- Bank name   -->
-        <!-- <div :class="{ 'form-group--error': $v.serviceBank.$error }"> -->
-        <div>
+        <div
+          :class="{ 'form-group--error': $v.service_acct.service_bank.$error }"
+        >
           <label for="bank">Bank name</label>
-          <select v-model="serviceBank" id="bank">
+          <select v-model="service_acct.service_bank" id="bank">
             <option disabled selected :value="{}">Select Bank</option>
             <option v-for="(bank, i) in banks" :key="i" :value="bank">
               {{ bank.name }}
             </option>
           </select>
 
-          <!-- <field-errors
-            v-if="$v.serviceBank.$error"
-            :field="$v.serviceBank"
+          <field-errors
+            v-if="$v.service_acct.service_bank.$error"
+            :field="$v.service_acct.service_bank"
             alt="Please provide a bank for your service"
-          /> -->
+          />
         </div>
 
         <!-- Account number -->
-        <!-- :class="{ 'form-group--error': $v.account_no.$error }" -->
-        <div class="my-24">
+        <!--  -->
+        <div
+          class="my-24"
+          :class="{ 'form-group--error': $v.service_acct.account_no.$error }"
+        >
           <label for="acct-no">Account number</label>
           <input
             type="number"
             id="acct-no"
             placeholder="Enter Account number"
             aria-label="Account number"
-            v-model="account_no"
+            v-model="service_acct.account_no"
           />
-          <!-- <field-errors
-            v-if="$v.account_no.$error"
-            :field="$v.account_no"
+          <field-errors
+            v-if="$v.service_acct.account_no.$error"
+            :field="$v.service_acct.account_no"
             alt="Please provide a bank"
-          /> -->
+          />
         </div>
         <!-- @keyup="getAccountName" -->
 
         <!-- Account name -->
-        <!-- <div :class="{ 'form-group--error': $v.acctName.$error }"> -->
-        <div>
+        <div
+          :class="{ 'form-group--error': $v.service_acct.account_name.$error }"
+        >
           <label for="acct-name">Account name</label>
           <input
             type="text"
             id="acct-name"
             placeholder="Account name"
             aria-label="Account name"
-            v-model="account_name"
+            v-model="service_acct.account_name"
           />
-          <!-- <field-errors
-            v-if="$v.acctName.$error"
-            :field="$v.acctName"
-            alt="Please provide an account name"
-          /> -->
+          <field-errors
+            v-if="$v.service_acct.account_name.$error"
+            :field="$v.service_acct.account_name"
+            alt="Please provide an account name for your service"
+          />
         </div>
 
         <button
@@ -70,6 +78,91 @@
           @click.prevent="addServiceAcct"
         >
           Add
+        </button>
+      </div>
+    </modal>
+
+    <!-- Edit account modal  -->
+    <modal
+      v-if="editServiceAcctModal.isActive"
+      @close="editServiceAcctModal.isActive = false"
+    >
+      <h5 class="text-lg lg:text-2xl font-bold text-black" slot="header">
+        Edit Service Bank Account
+      </h5>
+
+      <div slot="body">
+        <!-- Bank name   -->
+        <div
+          :class="{
+            'form-group--error': $v.service_acct_edit.service_bank.$error,
+          }"
+        >
+          <label for="bank">Bank name</label>
+          <select v-model="service_acct_edit.service_bank" id="bank">
+            <option disabled selected :value="{}">Select Bank</option>
+            <option v-for="(bank, i) in banks" :key="i" :value="bank">
+              {{ bank.name }}
+            </option>
+          </select>
+
+          <field-errors
+            v-if="$v.service_acct_edit.service_bank.$error"
+            :field="$v.service_acct_edit.service_bank"
+            alt="Please provide a bank for your service"
+          />
+        </div>
+
+        <!-- Account number -->
+        <!--  -->
+        <div
+          class="my-24"
+          :class="{
+            'form-group--error': $v.service_acct_edit.account_no.$error,
+          }"
+        >
+          <label for="acct-no">Account number</label>
+          <input
+            type="number"
+            id="acct-no"
+            placeholder="Enter Account number"
+            aria-label="Account number"
+            v-model="service_acct_edit.account_no"
+          />
+          <field-errors
+            v-if="$v.service_acct_edit.account_no.$error"
+            :field="$v.service_acct_edit.account_no"
+            alt="Please provide a bank"
+          />
+        </div>
+        <!-- @keyup="getAccountName" -->
+
+        <!-- Account name -->
+        <div
+          :class="{
+            'form-group--error': $v.service_acct_edit.account_name.$error,
+          }"
+        >
+          <label for="acct-name">Account name</label>
+          <input
+            type="text"
+            id="acct-name"
+            placeholder="Account name"
+            aria-label="Account name"
+            v-model="service_acct_edit.account_name"
+          />
+          <field-errors
+            v-if="$v.service_acct_edit.account_name.$error"
+            :field="$v.service_acct_edit.account_name"
+            alt="Please provide an account name for your service"
+          />
+        </div>
+
+        <button
+          class="click-btn float-right my-32"
+          @click.prevent="updateServiceAcct"
+        >
+          Save Changes
         </button>
       </div>
     </modal>
@@ -706,8 +799,8 @@
         </h2>
 
         <!-- Name of service -->
-        <!--  -->
-        <div class="mb-24" :class="{ 'form-group--error': $v.title.$error }">
+        <!-- :class="{ 'form-group--error': $v.title.$error }" -->
+        <div class="mb-24">
           <label :for="title">Name of service</label>
           <input
             type="text"
@@ -717,19 +810,18 @@
             placeholder="Enter name of service"
           />
 
-          <field-errors
+          <!-- <field-errors
             v-if="$v.title.$error"
             :field="$v.title"
             alt="Please provide a name for your service"
-          />
+          /> -->
         </div>
 
         <!-- Description  -->
         <!--  -->
-        <div
-          class="mb-24"
-          :class="{ 'form-group--error': $v.description.$error }"
-        >
+        <!-- :class="{ 'form-group--error': $v.description.$error }" -->
+        <!--  -->
+        <div class="mb-24">
           <label for="desc">Description</label>
 
           <textarea
@@ -739,11 +831,11 @@
             v-model="description"
           />
 
-          <field-errors
+          <!-- <field-errors
             v-if="$v.description.$error"
             :field="$v.description"
             alt="Please enter a brief description of your service"
-          />
+          /> -->
         </div>
 
         <!-- <hr class="text-medium-grey mb-24" /> -->
@@ -761,7 +853,7 @@
           <!--  Add Account  -->
           <button
             class="lg:col-span-3 text-purple"
-            @click.prevent="acctModal.isActive = true"
+            @click.prevent="serviceAcctModal.isActive = true"
             v-if="bank_name === ''"
           >
             + Add Account
@@ -771,7 +863,7 @@
         <!-- Added Account card  -->
         <div class="grid grid-cols-3 my-40">
           <div
-            v-if="bank_name != ''"
+            v-if="bank_name !== ''"
             class="col-span-2 px-24 py-16 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.1)] rounded-[10px]"
           >
             <div class="flex justify-between items-start">
@@ -789,7 +881,7 @@
               <div class="flex gap-x-16">
                 <!-- Edit  -->
                 <button
-                  @click.prevent="acctModal.isActive = true"
+                  @click.prevent="editServiceAcct"
                   class="text-xs text-grey"
                 >
                   <i class="fas fa-pen"></i>
@@ -908,7 +1000,10 @@
 
 <script>
 import HolderCard from '@/components/services/HolderCard'
-import fieldErrors from '@/components/input/validation'
+import FieldErrors from '@/components/input/validation'
+import ClickBtn from '~/components/ClickBtn.vue'
+import Modal from '~/components/utils/Modal.vue'
+import Loader from '~/components/utils/Loader.vue'
 import {
   required,
   minLength,
@@ -918,27 +1013,27 @@ import {
   numeric,
   minValue,
 } from 'vuelidate/lib/validators'
-
-import ClickBtn from '~/components/ClickBtn.vue'
-import Modal from '~/components/utils/Modal.vue'
-import Loader from '~/components/utils/Loader.vue'
-
 const psSecKey = 'sk_test_9cb75be4f634e009d84825fa5fefa0393a57e09b'
 
 export default {
   layout: 'dashboard',
-  components: { HolderCard, ClickBtn, fieldErrors, Modal, Loader },
+  components: { HolderCard, ClickBtn, FieldErrors, Modal, Loader },
 
   data: () => ({
     title: '',
     description: '',
-    account_no: '',
-    account_name: '',
     bank_name: '',
     bank_code: '',
+    account_no: '',
+    account_name: '',
     stakeholders: [],
-
-    serviceBank: {},
+    service_acct: {
+      service_bank: {},
+      bank_name: '',
+      bank_code: '',
+      account_no: '',
+      account_name: '',
+    },
     holderBank: {},
 
     tempEmail: [],
@@ -958,20 +1053,13 @@ export default {
       schedule: '',
       role: '',
     },
+
     markUpType: '', // fixed or %
     disbursementType: '', //automated or scheduled
     accounts: [],
-    acctModal: {
-      isActive: false,
-    },
-    stakeholderModal: {
-      isActive: false,
-    },
-    stakeDetails: {
-      isActive: false,
-    },
-    stakeDetailsEdit: {},
+
     disabled: 0,
+
     markUpTypes: ['Fixed', 'Percentage'],
     disbursementTypes: ['Automated', 'Scheduled'],
     schedules: [
@@ -981,19 +1069,33 @@ export default {
       { text: '28 days', value: '28' },
     ],
 
-    bankAcctShowing: false,
-
     banks: [],
     bank: {},
 
-    stakeDropdown: false,
-
-    showStakeDetails: false,
-
-    isLoading: false,
+    stakeDetailsEdit: {},
+    service_acct_edit: {},
 
     nameLength: 16,
     emailLength: 23,
+
+    isLoading: false,
+    stakeDropdown: false,
+
+    serviceAcctModal: {
+      isActive: false,
+    },
+
+    editServiceAcctModal: {
+      isActive: false,
+    },
+
+    stakeholderModal: {
+      isActive: false,
+    },
+
+    stakeDetails: {
+      isActive: false,
+    },
   }),
 
   validations: {
@@ -1005,11 +1107,33 @@ export default {
       maxLength: maxLength(500),
     },
 
-    serviceBank: { required },
+    service_acct: {
+      bank_name: '',
+      bank_code: '',
+      service_bank: { required },
 
-    acctNo: { required, minLength: minLength(10), maxLength: maxLength(10) },
+      account_no: {
+        required,
+        minLength: minLength(10),
+        maxLength: maxLength(10),
+      },
 
-    acctName: { required },
+      account_name: { required },
+    },
+
+    service_acct_edit: {
+      bank_name: '',
+      bank_code: '',
+      service_bank: { required },
+
+      account_no: {
+        required,
+        minLength: minLength(10),
+        maxLength: maxLength(10),
+      },
+
+      account_name: { required },
+    },
 
     lastname: { required, minLength: minLength(2) },
 
@@ -1021,19 +1145,6 @@ export default {
 
     disbursementType: { required },
     schedule: { required },
-
-    // email: '',
-    // name: '',
-    // is_percentage: false,
-    // is_automated: true,
-    // share_formular: '',
-    // type: '',
-    // account_no: '',
-    // account_name: '',
-    // bank_name: '',
-    // bank_code: '',
-    // schedule: '',
-    // role: '',
   },
 
   methods: {
@@ -1052,7 +1163,7 @@ export default {
     },
 
     async getAccountName() {
-      if (this.account_no.toString().length == 10) {
+      if (this.service_acct.account_no.toString().length == 10) {
         // this.$v.bank.code.$touch();
         // if (this.$v.bank.code.$pending || this.$v.bank.code.$error) return;
 
@@ -1060,16 +1171,16 @@ export default {
         // this.mgs = "Verifying account details...";
 
         try {
-          let url = `https://api.paystack.co/bank/resolve?account_number=${this.account_no}&bank_code=${this.bank.code}`
+          let url = `https://api.paystack.co/bank/resolve?account_number=${this.service_acct.account_no}&bank_code=${this.bank.code}`
           let res = await this.$axios.get(url, {
             headers: {
               Authorization: 'Bearer ' + psSecKey,
             },
           })
-          // console.log('account number: ' + this.account_no)
+          // console.log('account number: ' + this.service_acct.account_no)
           // console.log('bank code: ' + this.bank.code)
           console.log(res)
-          this.account_name = res.data.data.account_name
+          this.service_acct.account_name = res.data.data.account_name
 
           //  this.isLoading = false;
         } catch (error) {
@@ -1143,9 +1254,42 @@ export default {
     },
 
     addServiceAcct() {
-      this.bank_name = this.serviceBank.name
-      this.bank_code = this.serviceBank.code
-      this.acctModal.isActive = false
+      this.$v.service_acct.$touch()
+      if (this.$v.service_acct.$pending || this.$v.service_acct.$error) return
+
+      this.bank_name = this.service_acct.service_bank.name
+      this.bank_code = this.service_acct.service_bank.code
+      this.account_name = this.service_acct.account_name
+      this.account_no = this.service_acct.account_no
+      this.serviceAcctModal.isActive = false
+    },
+
+    editServiceAcct() {
+      this.service_acct_edit = this.service_acct
+      this.editServiceAcctModal.isActive = true
+    },
+
+    updateServiceAcct() {
+      this.$v.service_acct_edit.$touch()
+      if (
+        this.$v.service_acct_edit.$pending ||
+        this.$v.service_acct_edit.$error
+      )
+        return
+      this.bank_name = this.service_acct_edit.service_bank.name
+      this.bank_code = this.service_acct_edit.service_bank.code
+      this.account_name = this.service_acct_edit.account_name
+      this.account_no = this.service_acct_edit.account_no
+      this.editServiceAcctModal.isActive = false
+    },
+
+    removeServiceAcct() {
+      this.bank_name = ''
+      this.bank_code = ''
+      this.account_no = ''
+      this.account_name = ''
+      this.service_acct = {}
+      this.service_acct_edit = {}
     },
 
     addStakeholder() {
@@ -1188,7 +1332,7 @@ export default {
         schedule: '',
         role: '',
       }
-      this.serviceBank = {}
+      this.service_acct.service_bank = {}
       this.holderBank = {}
       this.tempEmail = []
       this.singleEmail = ''
@@ -1246,7 +1390,7 @@ export default {
       //   schedule: '',
       //   role: '',
       // }
-      // this.serviceBank = {}
+      // this.service_acct.service_bank = {}
       // this.holderBank = {}
       // this.tempEmail = []
       // this.singleEmail = ''
@@ -1263,15 +1407,6 @@ export default {
 
     removeGroupEmail(index) {
       this.tempEmail.splice(index, 1)
-    },
-
-    removeServiceAcct() {
-      this.bank_name = ''
-      this.bank_code = ''
-      this.account_no = ''
-      this.account_name = ''
-      this.serviceBank.name = ''
-      this.serviceBank.code = ''
     },
 
     ind() {
@@ -1318,6 +1453,7 @@ export default {
 
   mounted() {
     this.getBanks()
+    console.log(this.service_acct.bank_name)
   },
 
   computed: {},

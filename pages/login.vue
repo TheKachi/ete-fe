@@ -106,7 +106,7 @@
 <script>
 import AuthLayout from '~/components/AuthLayout'
 import Loader from '~/components/utils/Loader.vue'
-import fieldErrors from '~/components/input/validation'
+import FieldErrors from '~/components/input/validation'
 import {
   required,
   minLength,
@@ -117,7 +117,7 @@ import {
 } from 'vuelidate/lib/validators'
 export default {
   components: {
-    fieldErrors,
+    FieldErrors,
     AuthLayout,
     Loader,
   },

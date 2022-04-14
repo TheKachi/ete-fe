@@ -199,7 +199,7 @@
 
 <script>
 export default {
-  name: 'fieldError',
+  name: 'FieldErrors',
   props: {
     field: {
       type: Object,
