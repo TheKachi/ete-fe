@@ -288,6 +288,7 @@
                 id="acct-name"
                 aria-label="Account name"
                 v-model="serviceEdit.account_name"
+                disabled
               />
             </div>
           </div>
