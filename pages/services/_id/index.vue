@@ -487,7 +487,7 @@ export default {
   },
 
   data: () => ({
-    tab: 'stakeholder',
+    tab: 'transaction',
     txnTab: 'received',
     apiTab: 'staging',
     disabled: 1,
