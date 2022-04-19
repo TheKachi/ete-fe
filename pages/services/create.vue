@@ -288,7 +288,7 @@
             <div
               v-for="type in markUpTypes"
               :key="type"
-              class="flex gap-x-4 items-baseline"
+              class="flex gap-x-[6px] items-center"
               :class="{ 'form-group--error': $v.markUpType.$error }"
             >
               <input
@@ -296,9 +296,10 @@
                 :id="type"
                 :value="type"
                 v-model="markUpType"
+                :checked="markUpType === type"
               />
 
-              <label :for="type">{{ type }}</label>
+              <label :for="type" class="mt-[6px]">{{ type }}</label>
               <field-errors
                 v-if="$v.markUpType.$error"
                 :field="$v.markUpType"
@@ -314,7 +315,7 @@
           >
             <input
               type="number"
-              v-model="percent_formular"
+              v-model.number="percent_formular"
               aria-label="Enter percentage return"
               placeholder="Enter percentage return"
             />
@@ -332,7 +333,7 @@
           >
             <input
               type="number"
-              v-model="fixed_formular"
+              v-model.number="fixed_formular"
               placeholder="Enter Fixed Amount"
               aria-label="Enter Fixed Amount"
             />
@@ -420,7 +421,7 @@
               <div
                 v-for="type in disbursementTypes"
                 :key="type"
-                class="flex gap-x-4 items-center"
+                class="flex gap-x-[6px] items-center"
               >
                 <input
                   class="inline-block"
@@ -429,9 +430,10 @@
                   :value="type"
                   :name="type"
                   v-model="disbursementType"
+                  :checked="disbursementType === type"
                 />
 
-                <label :for="type">{{ type }}</label>
+                <label :for="type" class="mt-[6px]">{{ type }}</label>
               </div>
             </div>
             <field-errors
@@ -592,77 +594,6 @@
           </div>
         </div>
 
-<<<<<<< HEAD
-=======
-        <!-- Mark-Up Type - Fixed or Percentage  -->
-        <!-- :class="{ 'form-group--error': $v.markUpType.$error }" -->
-        <div class="mt-32">
-          <h5 class="text-base font-bold text-black">Mark-Up Type</h5>
-          <h6 class="text-sm lg:text-base font-medium text-grey">
-            Select how you would want to make disbursement
-          </h6>
-
-          <pre>{{ markUpType }}</pre>
-
-          <div class="flex gap-24 my-16">
-            <div
-              v-for="type in markUpTypes"
-              :key="type"
-              class="flex gap-x-4 items-baseline"
-            >
-              <input
-                type="radio"
-                :id="type"
-                :value="type"
-                v-model="markUpType"
-                :checked="markUpType === type"
-              />
-
-              <label :for="type">{{ type }}</label>
-              <!-- <field-errors
-                v-if="$v.markUpType.$error"
-                :field="$v.markUpType"
-                alt="Please choose a mark up type"
-              /> -->
-            </div>
-          </div>
-
-          <!-- Percentage return -->
-          <!-- :class="{ 'form-group--error': $v.shareFormula.$error }" -->
-          <div v-if="markUpType === 'Percentage'">
-            <input
-              type="text"
-              v-model="stakeDetailsEdit.share_formular"
-              aria-label="Enter percentage return"
-              placeholder="Enter percentage return"
-            />
-            <!-- <field-errors
-              v-if="$v.shareFormula.$error"
-              :field="$v.shareFormula"
-              alt="Please enter your share formula"
-            /> -->
-          </div>
-
-          <!-- Fixed Amount -->
-          <!-- :class="{ 'form-group--error': $v.shareFormula.$error }" -->
-          <div v-if="markUpType === 'Fixed'">
-            <input
-              type="text"
-              v-model="stakeDetailsEdit.share_formular"
-              placeholder="Enter Fixed Amount"
-              aria-label="Enter Fixed Amount"
-            />
-            <!-- <field-errors
-              v-if="$v.shareFormula.$error"
-              :field="$v.shareFormula"
-              alt="Please enter your share formula"
-            /> -->
-          </div>
-        </div>
-
-        <!-- <hr class="text-medium-grey my-24" /> -->
-
->>>>>>> ab345b0e9249db8a38b8eb6ea96573f79150f611
         <!-- Bank details  -->
         <div class="mt-32">
           <h5 class="text-base font-bold text-black">Bank details</h5>
@@ -753,6 +684,7 @@
                 :id="type"
                 :value="type"
                 v-model="markUpType"
+                :checked="markUpType === type"
               />
 
               <label :for="type">{{ type }}</label>
@@ -771,7 +703,7 @@
           >
             <input
               type="number"
-              v-model="percent_formular"
+              v-model.number="percent_formular"
               aria-label="Enter percentage return"
               placeholder="Enter percentage return"
             />
@@ -789,7 +721,7 @@
           >
             <input
               type="number"
-              v-model="fixed_formular"
+              v-model.number="fixed_formular"
               placeholder="Enter Fixed Amount"
               aria-label="Enter Fixed Amount"
             />
@@ -823,6 +755,7 @@
                   :value="type"
                   :name="type"
                   v-model="disbursementType"
+                  :checked="disbursementType === type"
                 />
 
                 <label :for="type">{{ type }}</label>
@@ -1059,14 +992,14 @@
               class="text-base text-[#7445C7]"
               v-if="holder.is_percentage === true"
             >
-              {{ formatNum(holder.share_formular) }} %
+              {{ holder.share_formular }} %
             </p>
 
             <p
               class="text-base text-blue"
               v-if="holder.is_percentage === false"
             >
-              ₦{{ formatNum(holder.share_formular) }}
+              ₦{{ holder.share_formular }}
             </p>
 
             <p class="text-purple text-sm">{{ titleCase(holder.type) }}</p>
@@ -1120,8 +1053,8 @@ export default {
 
     holderBank: {},
 
-    percent_formular: null,
-    fixed_formular: null,
+    percent_formular: 0,
+    fixed_formular: 0,
 
     tempEmail: [],
     singleEmail: '',
@@ -1131,7 +1064,7 @@ export default {
       name: 'Onyedikachi Nze',
       is_percentage: false,
       is_automated: true,
-      share_formular: null,
+      share_formular: 0,
       type: '',
       account_no: '0238686550',
       account_name: 'Kachi Individual',
@@ -1307,8 +1240,8 @@ export default {
     },
 
     async createService() {
-      this.$v.$touch()
-      if (this.$v.$pending || this.$v.$error) return
+      // this.$v.$touch()
+      // if (this.$v.$pending || this.$v.$error) return
 
       try {
         const data = {
@@ -1321,6 +1254,7 @@ export default {
           stakeholders: this.stakeholders,
           account: this.$auth.user._id,
         }
+
         this.isLoading = true
 
         let token = this.$auth.token
@@ -1448,8 +1382,8 @@ export default {
       this.singleEmail = ''
       this.markUpType = ''
       this.disbursementType = ''
-      this.fixed_formular = null
-      this.percent_formular = null
+      this.fixed_formular = 0
+      this.percent_formular = 0
       console.log(this.stakeholders)
 
       this.stakeholderModal.isActive = false

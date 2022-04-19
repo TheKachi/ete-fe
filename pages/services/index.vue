@@ -56,9 +56,9 @@
         <div class="h-[70vh] flex flex-col items-center justify-center" v-else>
           <svg-loader path="img" icon="no-service" />
           <p class="text-sm lg:text-base font-medium text-grey my-28">
-            You do not have any service created yet
+            You do not have any service yet.
           </p>
-          <LgBtn url="/services/create">Create Services</LgBtn>
+          <LgBtn url="/services/create">Create Service</LgBtn>
         </div>
       </div>
       <div v-if="tab === 'merchant'">
@@ -76,7 +76,7 @@
           <p class="text-sm lg:text-base font-medium text-grey my-28">
             You do not have any service created yet
           </p>
-          <LgBtn url="/services/create">Create Services</LgBtn>
+          <LgBtn url="/services/create">Create Service</LgBtn>
         </div>
       </div>
 
