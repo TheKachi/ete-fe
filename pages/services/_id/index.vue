@@ -1,5 +1,7 @@
 <template>
   <div>
+    <!-- <pre>{{ service }}</pre> -->
+
     <div class="fixed top-[80px] z-[50]">
       <!-- Back button  -->
       <nuxt-link to="/services"
@@ -176,10 +178,7 @@
             </tr>
           </thead>
 
-          <tbody
-            v-for="(holder, i) in service.stakeholders.people_pending"
-            :key="i"
-          >
+          <tbody v-for="(holder, i) in service.stakeholders" :key="i">
             <tr>
               <td class="rounded-l-xl">
                 <div
@@ -238,11 +237,7 @@
           >
 
           <div class="lg:col-span-6">
-            <textarea
-              rows="5"
-              id="desc"
-              v-model.lazy="serviceEdit.description"
-            />
+            <textarea rows="5" id="desc" v-model="serviceEdit.description" />
           </div>
 
           <!-- Receiving account  -->
@@ -264,7 +259,11 @@
                 <option selected :value="JSON.stringify(bank)">
                   {{ bank.name }}
                 </option>
-                <option v-for="(bank, i) in banks" :key="i" :value="JSON.stringify(bank)">
+                <option
+                  v-for="(bank, i) in banks"
+                  :key="i"
+                  :value="JSON.stringify(bank)"
+                >
                   {{ bank.name }}
                 </option>
               </select>
@@ -277,7 +276,7 @@
                 type="number"
                 id="acct-no"
                 aria-label="Account number"
-                v-model.lazy="serviceEdit.account_no"
+                v-model="serviceEdit.account_no"
               />
             </div>
 
@@ -288,7 +287,7 @@
                 type="text"
                 id="acct-name"
                 aria-label="Account name"
-                v-model.lazy="serviceEdit.account_name"
+                v-model="serviceEdit.account_name"
               />
             </div>
           </div>
@@ -341,7 +340,7 @@
                     id="staging-public-key"
                     aria-label="Staging Public key"
                     v-model="service.api_public_key_test"
-                    :disabled="disabled == 1"
+                    disabled
                   />
 
                   <button
@@ -364,7 +363,7 @@
                     id="staging-private-key"
                     aria-label="Staging private key"
                     v-model="service.api_private_key_test"
-                    :disabled="disabled == 1"
+                    disabled
                   />
 
                   <button
@@ -403,7 +402,7 @@
                     id="live-public-key"
                     aria-label="live Public key"
                     v-model="service.api_public_key"
-                    :disabled="disabled == 1"
+                    disabled
                   />
 
                   <button
@@ -426,7 +425,7 @@
                     id="live-private-key"
                     aria-label="live private key"
                     v-model="service.api_private_key"
-                    :disabled="disabled == 1"
+                    disabled
                   />
 
                   <button
@@ -488,7 +487,7 @@ export default {
   },
 
   data: () => ({
-    tab: 'transaction',
+    tab: 'stakeholder',
     txnTab: 'received',
     apiTab: 'staging',
     disabled: 1,
@@ -547,34 +546,34 @@ export default {
 
     async updateServiceDetails() {
       try {
-        console.log(this.bank);
         this.serviceEdit.bank_name = this.bank.name
         this.serviceEdit.bank_code = this.bank.code
+
         let token = this.$auth.token
         let account = this.$auth.user._id
+
         const obj = { account }
-
         const data = { ...obj, ...this.serviceEdit }
-        console.log(data)
-        // let res = await this.$axios.post(
-        //   '/services/update',
 
-        //   data,
+        await this.$axios.post(
+          '/services/update',
 
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   }
-        // )
+          data,
 
-        // this.service = this.serviceEdit
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
 
-        // this.$notify({
-        //   type: 'success',
-        //   text: 'Details Edited Successfully!',
-        //   duration: 5000,
-        // })
+        this.service = this.serviceEdit
+
+        this.$notify({
+          type: 'success',
+          text: 'Details Edited Successfully!',
+          duration: 5000,
+        })
       } catch (error) {
         this.$notify({
           type: 'error',
@@ -584,9 +583,9 @@ export default {
       }
     },
 
-    updateSelectedBank(e){
-      let data = this.$refs['bank-inp'].value;
-      this.bank = JSON.parse(data);
+    updateSelectedBank(e) {
+      let data = this.$refs['bank-inp'].value
+      this.bank = JSON.parse(data)
     },
 
     copyString(str) {
@@ -630,10 +629,8 @@ export default {
             },
           }
         )
-        // this.service.api_public_key_test = res.data.api_public_key_test
-        // this.service.api_private_key_test = res.data.api_private_key_test
-
-        console.log(res)
+        this.service.api_public_key_test = res.data.data.public_key
+        this.service.api_private_key_test = res.data.data.private_key
 
         this.$notify({
           type: 'success',
@@ -644,6 +641,40 @@ export default {
         this.$notify({
           type: 'error',
           text: 'There was an error regenerating Staging API keys',
+          duration: 5000,
+        })
+      }
+    },
+    async regenLiveApi() {
+      try {
+        let token = this.$auth.token
+        let account = this.$auth.user._id
+
+        let res = await this.$axios.post(
+          '/services/updatekeys/live',
+          {
+            account,
+            id: this.service.id,
+          },
+
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        this.service.api_public_key = res.data.data.public_key
+        this.service.api_private_key = res.data.data.private_key
+
+        this.$notify({
+          type: 'success',
+          text: 'Live API Keys have been regenerated successfully',
+          duration: 5000,
+        })
+      } catch (error) {
+        this.$notify({
+          type: 'error',
+          text: 'There was an error regenerating Live API keys',
           duration: 5000,
         })
       }
