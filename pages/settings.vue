@@ -241,9 +241,9 @@
                 Add new account
               </button>
 
-              <submit-btn @click="create" class="mt-32 lg:mt-80 ml-auto"
-                >Save Changes</submit-btn
-              >
+              <button class="click-btn my-32 lg:my-60" @click.prevent="create">
+                Save Changes
+              </button>
             </div>
           </div>
         </div>
@@ -313,7 +313,6 @@
 </template>
 
 <script>
-import SubmitBtn from '../components/SubmitBtn.vue'
 export default {
   layout: 'dashboard',
   data: () => ({
@@ -390,9 +389,7 @@ export default {
     changeUserMgtTab(tab) {
       this.userTab = tab
     },
-    create() {
-      alert('Updated profile')
-    },
+    create() {},
     addBank() {
       this.accounts.push({
         acctNo: '',
@@ -404,9 +401,7 @@ export default {
     getProfile() {},
   },
 
-  components: {
-    SubmitBtn,
-  },
+  components: {},
 }
 </script>
 
