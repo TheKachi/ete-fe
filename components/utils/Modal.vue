@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed top-60 z-10 inset-0 overflow-y-auto"
+    class="fixed top-60 z-[100] inset-0 overflow-y-auto"
     aria-labelledby="modal-title"
     role="dialog"
     aria-modal="true"
