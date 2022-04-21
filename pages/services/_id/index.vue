@@ -1,6 +1,345 @@
 <template>
   <div>
-    <!-- <pre>{{ service }}</pre> -->
+    <!-- Edit stakeholder  modal  -->
+    <modal v-if="editStakeholderModal" @close="editStakeholderModal = false">
+      <div slot="header">
+        <div class="flex justify-between items-start pr-28">
+          <h5 class="text-lg lg:text-2xl font-bold text-black">
+            Edit Stakeholder Details
+          </h5>
+        </div>
+      </div>
+
+      <div slot="body">
+        <!-- Full name and Role - Individual  -->
+        <div
+          class="grid grid-cols-2 gap-x-16 mb-16"
+          v-if="holder.type === 'individual'"
+        >
+          <!-- Full Name -->
+          <div
+            :class="{
+              'form-group--error': $v.holder.name.$error,
+            }"
+          >
+            <label for="stakeholder-name">Full name</label>
+            <input
+              id="stakeholder-name"
+              type="text"
+              v-model.trim="holder.name"
+            />
+
+            <field-errors
+              v-if="$v.holder.name.$error"
+              :field="$v.holder.name"
+              alt="Please enter this stakeholder's Full Name"
+            />
+          </div>
+
+          <!--Role - Individual -->
+          <div>
+            <label for="role">Role</label>
+            <select id="role" name="role" v-model="holder.role">
+              <option value="stakeholder">Stakeholder</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Group Name -->
+        <div
+          v-if="holder.type === 'group'"
+          class="mb-24"
+          :class="{
+            'form-group--error': $v.holder.name.$error,
+          }"
+        >
+          <label for="stakeholder-name">Group name</label>
+          <input id="stakeholder-name" type="text" v-model.trim="holder.name" />
+
+          <field-errors
+            v-if="$v.holder.name.$error"
+            :field="$v.holder.name"
+            alt="Please enter stakeholder Name"
+          />
+        </div>
+
+        <!-- Add members - Group  -->
+        <h5
+          class="text-base font-bold text-black mb-16"
+          v-if="holder.type === 'group'"
+        >
+          Add members
+        </h5>
+
+        <!-- Email  -->
+        <div
+          class="mb-16"
+          :class="{ 'form-group--error': $v.singleEmail.$error }"
+        >
+          <label for="stakeholder-email" v-if="holder.type === 'individual'"
+            >Email</label
+          >
+          <input
+            type="email"
+            id="stakeholder-email"
+            name="stakeholder-email"
+            v-model="singleEmail"
+            v-if="holder.type === 'individual'"
+          />
+          <input
+            type="email"
+            placeholder="Email, space seperated"
+            aria-label="Email, space seperated"
+            v-model="singleEmail"
+            v-if="holder.type === 'group'"
+            @keyup.space="addEmail"
+          />
+          <field-errors
+            v-if="$v.singleEmail.$error"
+            :field="$v.singleEmail"
+            alt="We're going to need a correct stakeholder's email to invite them!"
+          />
+        </div>
+
+        <!-- Members emails list - Group  -->
+        <div
+          class="flex flex-wrap gap-x-4 gap-y-8 mb-24"
+          v-if="holder.type === 'group' && tempEmail.length > 0"
+        >
+          <div
+            v-for="(i, index) in tempEmail"
+            :key="index"
+            class="bg-white justify-center border border-grey rounded p-8 text-xs"
+          >
+            {{ i }}
+            <i class="fas fa-times ml-12" @click="removeGroupEmail(index)"></i>
+          </div>
+        </div>
+
+        <!-- Bank details  -->
+        <div class="mt-32">
+          <h5 class="text-base font-bold text-black">Bank details</h5>
+
+          <!-- Bank name and Account number  -->
+          <div class="grid grid-cols-2 gap-x-16 my-16">
+            <!-- Bank Name -->
+            <div :class="{ 'form-group--error': $v.holderBank.$error }">
+              <label for="holder-bank-name">Bank name</label>
+              <select
+                v-model="holderBank"
+                id="holder-bank-name"
+                class="form-select"
+              >
+                <option disabled selected :value="{}">Select Bank</option>
+                <option v-for="(bank, i) in banks" :key="i" :value="bank">
+                  {{ bank.name }}
+                </option>
+              </select>
+              <field-errors
+                v-if="$v.holderBank.$error"
+                :field="$v.holderBank"
+                alt="Please enter a bank for your stakeholder"
+              />
+            </div>
+
+            <!-- Account number -->
+            <div
+              :class="{
+                'form-group--error': $v.holder.account_no.$error,
+              }"
+            >
+              <label for="holder-acct-no">Account number</label>
+              <input
+                type="number"
+                class="lg:w-50"
+                id="holder-acct-no"
+                placeholder="Enter Account number"
+                aria-label="Account number"
+                v-model="holder.account_no"
+              />
+              <field-errors
+                v-if="$v.holder.account_no.$error"
+                :field="$v.holder.account_no"
+                alt="Please enter an account number for your stakeholder"
+              />
+            </div>
+          </div>
+
+          <!-- Account name -->
+          <div
+            :class="{
+              'form-group--error': $v.holder.account_name.$error,
+            }"
+          >
+            <label for="holder-acct-name">Account name</label>
+            <input
+              type="text"
+              id="holder-acct-name"
+              placeholder="Enter Account name"
+              aria-label="Account name"
+              v-model="holder.account_name"
+            />
+            <field-errors
+              v-if="$v.holder.account_name.$error"
+              :field="$v.holder.account_name"
+              alt="Please enter an account name for your stakeholder"
+            />
+          </div>
+        </div>
+
+        <!-- Mark-Up Type - Fixed or Percentage  -->
+        <div class="mt-32">
+          <h5 class="text-base font-bold text-black">Mark-Up Type</h5>
+          <h6 class="text-sm lg:text-base font-medium text-grey">
+            Select how you would want to make disbursement
+          </h6>
+
+          <div class="flex gap-24 my-16">
+            <div
+              v-for="type in markUpTypes"
+              :key="type"
+              class="flex gap-x-4 items-baseline"
+              :class="{ 'form-group--error': $v.markUpType.$error }"
+            >
+              <input
+                type="radio"
+                :id="type"
+                :value="type"
+                v-model="markUpType"
+                :checked="markUpType === type"
+              />
+
+              <label :for="type">{{ type }}</label>
+              <field-errors
+                v-if="$v.markUpType.$error"
+                :field="$v.markUpType"
+                alt="Please choose a mark up type"
+              />
+            </div>
+          </div>
+
+          <!-- Percentage return -->
+          <div
+            v-if="markUpType === 'Percentage'"
+            :class="{ 'form-group--error': $v.percent_formular.$error }"
+          >
+            <input
+              type="number"
+              v-model.number="percent_formular"
+              aria-label="Enter percentage return"
+              placeholder="Enter percentage return"
+            />
+            <field-errors
+              v-if="$v.percent_formular.$error"
+              :field="$v.percent_formular"
+              alt="Please enter your share formular"
+            />
+          </div>
+
+          <!-- Fixed Amount -->
+          <div
+            v-if="markUpType === 'Fixed'"
+            :class="{ 'form-group--error': $v.fixed_formular.$error }"
+          >
+            <input
+              type="number"
+              v-model.number="fixed_formular"
+              placeholder="Enter Fixed Amount"
+              aria-label="Enter Fixed Amount"
+            />
+            <field-errors
+              v-if="$v.fixed_formular.$error"
+              :field="$v.fixed_formular"
+              alt="Please enter your share formular"
+            />
+          </div>
+        </div>
+
+        <!-- Disbursement schedule -->
+        <div class="mt-32">
+          <h5 class="text-base font-bold text-black">Disbursement schedule</h5>
+
+          <!-- Disbursement Type - Automated or Scheduled -->
+          <div
+            class="my-16"
+            :class="{ 'form-group--error': $v.disbursementType.$error }"
+          >
+            <div class="flex gap-x-24 items-center">
+              <div
+                v-for="type in disbursementTypes"
+                :key="type"
+                class="flex gap-x-4 items-center"
+              >
+                <input
+                  class="inline-block"
+                  type="radio"
+                  :id="type"
+                  :value="type"
+                  :name="type"
+                  v-model="disbursementType"
+                  :checked="disbursementType === type"
+                />
+
+                <label :for="type">{{ type }}</label>
+              </div>
+            </div>
+            <field-errors
+              v-if="$v.disbursementType.$error"
+              :field="$v.disbursementType"
+              alt="Please select a disbursement type for your stakeholder"
+            />
+          </div>
+
+          <!-- Schedule  -->
+          <div
+            v-if="disbursementType === 'Scheduled'"
+            class="mb-24"
+            :class="{
+              'form-group--error': $v.holder.schedule.$error,
+            }"
+          >
+            <label for="schedule">Schedule disbursement period</label>
+
+            <select id="schedule" v-model="holder.schedule">
+              <option
+                v-for="option in schedules"
+                :key="option"
+                :value="option.value"
+              >
+                {{ option.text }}
+              </option>
+            </select>
+
+            <field-errors
+              v-if="$v.holder.schedule.$error"
+              :field="$v.holder.schedule"
+              alt="Please select a schedule"
+            />
+          </div>
+        </div>
+
+        <button class="click-btn my-32" @click.prevent="updateStakeholder">
+          Save changes
+        </button>
+      </div>
+    </modal>
+
+    <!-- Delete stakeholder  modal  -->
+    <modal v-if="delStakeholderModal" @close="delStakeholderModal = false">
+      <div slot="header">
+        <h5 class="text-lg lg:text-2xl font-bold text-black">
+          Delete Stakeholder
+        </h5>
+      </div>
+
+      <div slot="body">
+        <p>Are you sure you want to delete this stakeholder?</p>
+
+        <button class="click-btn my-32" @click.prevent="delStakeholder()">
+          Delete
+        </button>
+      </div>
+    </modal>
 
     <div class="fixed top-[80px] z-[50]">
       <!-- Back button  -->
@@ -166,7 +505,7 @@
 
       <!-- Stakeholders  -->
       <div v-if="tab === 'stakeholder'">
-        <table class="table-auto">
+        <table class="table-auto" v-if="service.stakeholders.length > 0">
           <thead>
             <tr>
               <td></td>
@@ -196,12 +535,12 @@
                 <span v-if="holder.is_percentage === true">%</span>
               </td>
               <td class="flex gap-x-28 rounded-r-xl">
-                <button @click="editHolderModal">
+                <button @click="editStakeholder(holder)">
                   <!-- open modal and edit immediately -->
                   <i class="far fa-edit text-[#FB1731]"></i>
                 </button>
 
-                <button @click="delHolderModal">
+                <button @click="delHolderModal(holder)">
                   <!-- open modal and click on delHolder to delete -->
                   <i class="fas fa-trash text-[#FB1731]"></i>
                 </button>
@@ -209,6 +548,14 @@
             </tr>
           </tbody>
         </table>
+
+        <div class="h-[70vh] flex flex-col items-center justify-center" v-else>
+          <svg-loader path="img" icon="no-service" />
+          <p class="text-sm lg:text-base font-medium text-grey my-28">
+            You do not have any stakeholders
+          </p>
+          <LgBtn url="/">Add Stakeholder</LgBtn>
+        </div>
       </div>
 
       <!-- Settings  -->
@@ -464,14 +811,27 @@
 
 <script>
 import SvgLoader from '~/components/utils/SvgLoader'
+import Modal from '~/components/utils/Modal.vue'
 import TransactionCard from '~/components/services/TransactionCard'
+import FieldErrors from '@/components/input/validation'
+import {
+  required,
+  minLength,
+  maxLength,
+  sameAs,
+  email,
+  numeric,
+  minValue,
+} from 'vuelidate/lib/validators'
 const psSecKey = 'sk_test_9cb75be4f634e009d84825fa5fefa0393a57e09b'
 
 export default {
   layout: 'dashboard',
   components: {
     SvgLoader,
+    Modal,
     TransactionCard,
+    FieldErrors,
   },
 
   async asyncData({ $axios, params }) {
@@ -479,7 +839,6 @@ export default {
       const res = await $axios.$post('/services/details', {
         id: params.id,
       })
-      console.log(res.data)
       const service = res.data
       return { service }
     } catch (error) {
@@ -487,30 +846,58 @@ export default {
     }
   },
 
+  validations: {
+    singleEmail: { required, email },
+    markUpType: { required },
+    disbursementType: { required },
+    holderBank: { required },
+    percent_formular: { required },
+    fixed_formular: { required },
+    holder: {
+      name: { required, minLength: minLength(2) },
+      account_no: {
+        required,
+        minLength: minLength(10),
+        maxLength: maxLength(10),
+      },
+      account_name: { required },
+      schedule: { required },
+    },
+  },
+
   data: () => ({
     tab: 'transaction',
     txnTab: 'received',
     apiTab: 'staging',
+
     disabled: 1,
-    // serviceDetailsEdit: {},
+
     isShowEdit: false,
     serviceEdit: {},
 
-    banks: [
-      // {
-      // }
-    ],
+    banks: [],
     bank: {},
     serviceBank: {},
+
+    editStakeholderModal: false,
+    delStakeholderModal: false,
+    holder: {},
+
+    markUpTypes: ['Fixed', 'Percentage'],
+    disbursementTypes: ['Automated', 'Scheduled'],
+
+    markUpType: '', // fixed or %
+    disbursementType: '', //automated or scheduled
+    holderBank: {},
+
+    percent_formular: 0,
+    fixed_formular: 0,
+
+    tempEmail: [],
+    singleEmail: '',
   }),
 
   methods: {
-    // show(details) {
-    //   this.isShowEdit = true
-    //   this.serviceDetailsEdit = details
-    //   // I don't want the v-model updating the Ui until Saved changes
-    // },
-
     async getBanks() {
       try {
         let url = 'https://api.paystack.co/bank'
@@ -541,6 +928,7 @@ export default {
     changeTxnTab(tab) {
       this.txnTab = tab
     },
+
     changeApiTab(tab) {
       this.apiTab = tab
     },
@@ -646,6 +1034,7 @@ export default {
         })
       }
     },
+
     async regenLiveApi() {
       try {
         let token = this.$auth.token
@@ -680,6 +1069,54 @@ export default {
         })
       }
     },
+
+    editStakeholder(holder) {
+      this.holder = holder
+      this.editStakeholderModal = true
+    },
+
+    delHolderModal(holder) {
+      this.holder = holder
+      this.delStakeholderModal = true
+    },
+
+    async delStakeholder() {
+      try {
+        let token = this.$auth.token
+
+        await this.$axios.post(
+          '/services/delete-stakeholder',
+
+          {
+            service_id: this.service.id,
+            account: this.$auth.user._id,
+            id: this.holder.id,
+          },
+
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+
+        this.delStakeholderModal = false
+
+        this.$notify({
+          type: 'success',
+          text: 'Stakeholder deleted successfully!',
+          duration: 5000,
+        })
+
+        this.service.stakeholders.splice(this.holder, 1)
+      } catch (error) {
+        this.$notify({
+          type: 'error',
+          text: 'There was an error deleting stakeholder. Please try again!',
+          duration: 5000,
+        })
+      }
+    },
   },
 
   computed: {
@@ -697,6 +1134,7 @@ export default {
   mounted() {
     this.getBanks()
     this.serviceEdit = Object.assign({}, this.service)
+    console.log(this.service)
     // this.serviceNew = [...this.serviceEdit, ...this.service]
   },
 }
