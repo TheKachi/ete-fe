@@ -561,7 +561,7 @@
       <!-- Settings  -->
       <div v-if="tab === 'setting'">
         <div
-          class="grid grid-cols-1 lg:grid-cols-12 gap-y-32 gap-x-60 settings overflow-y-scroll h-[60vh]"
+          class="grid grid-cols-1 lg:grid-cols-12 gap-y-32 gap-x-60 mt-36 settings overflow-y-scroll h-[60vh]"
         >
           <!-- {{ serviceDetailsEdit }} -->
           <label class="lg:col-span-4 text-lg text-left" for="service-name"

@@ -3,7 +3,7 @@
     <loader v-if="isLoading" />
 
     <div v-else>
-      <div class="flex items-center gap-x-20 mt-60 lg:mt-0">
+      <div class="flex items-center gap-x-20">
         <!-- <i
         v-if="user.avatar == undefined"
         class="fas fa-user-plus rounded-full p-12 bg-medium-grey"
@@ -22,7 +22,7 @@
 
       <!-- Analytics -->
       <div
-        class="flex flex-nowrap gap-x-20 my-36 overflow-x-auto overflow-y-hidden"
+        class="flex flex-nowrap gap-x-20 my-36 overflow-x-auto overflow-y-hidden -mx-20 lg:mx-0"
       >
         <div
           class="bg-white bg-[url('~assets/img/dashboard/stake-bg.png')] card"
@@ -66,12 +66,16 @@
 
       <div v-if="merchantServices.length > 0">
         <div class="grid grid-cols-12 lg:mt-60">
-          <div class="col-span-7 border-[#f4f4f4] rounded-3xl">
+          <div
+            class="col-span-12 lg:col-span-7 border-[#f4f4f4] rounded-3xl lg:order-1 order-last"
+          >
             <h4 class="text-xl text-black font-medium">Recent transactions</h4>
             <div class="text-center mt-120">No recent transactions</div>
           </div>
 
-          <div class="col-span-4 col-end-13">
+          <div
+            class="col-span-12 lg:col-span-4 lg:col-end-13 order-1 lg:order-last"
+          >
             <div class="flex justify-between items-center mb-28">
               <h4 class="text-xl text-black font-medium">Services</h4>
               <nuxt-link
@@ -198,6 +202,6 @@ export default {
 
 <style lang="postcss" scoped>
 .card {
-  @apply rounded-xl lg:w-[330px] lg:h-[130px] shadow-[0_4px_50px_rgba(0,0,0,0.1)] bg-no-repeat bg-right-top;
+  @apply rounded-xl w-[330px] h-[130px] shadow-[0_4px_50px_rgba(0,0,0,0.1)] bg-no-repeat bg-right-top;
 }
 </style>

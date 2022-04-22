@@ -1,7 +1,7 @@
 <template>
   <div class="h-full">
     <!-- Tabs  -->
-    <div class="fixed top-[110px] z-[50] h-120">
+    <div class="fixed top-[110px] z-[50]">
       <div class="flex gap-x-24 tab">
         <button
           @click.prevent="changeTab('profile')"
@@ -28,9 +28,11 @@
       </div>
     </div>
 
-    <div class="lg:mt-[200px] h-calc overflow-y-scroll">
+    <div class="lg:mt-[90px] settings h-[80vh] overflow-y-scroll">
       <div v-if="tab === 'profile'">
-        <div class="grid lg:grid-cols-12 gap-y-32 gap-x-60">
+        <div
+          class="grid lg:grid-cols-12 gap-y-32 gap-x-60 mt-28 mb-36 settings overflow-y-scroll h-[70vh]"
+        >
           <div class="lg:col-span-5">
             <h1 class="text-lg lg:text-2xl font-bold text-black">Profile</h1>
             <h2 class="text-sm lg:text-base font-medium text-grey">
@@ -182,7 +184,9 @@
       </div>
 
       <div v-if="tab === 'bank'">
-        <div class="grid lg:grid-cols-12 gap-y-32 gap-x-60">
+        <div
+          class="grid lg:grid-cols-12 gap-y-32 gap-x-60 mt-28 mb-36 settings overflow-y-scroll h-[70vh]"
+        >
           <div class="lg:col-span-5">
             <h1 class="text-lg lg:text-2xl font-bold text-black">
               Bank Details
@@ -250,7 +254,9 @@
       </div>
 
       <div v-if="tab === 'user'">
-        <div class="grid lg:grid-cols-12">
+        <div
+          class="grid lg:grid-cols-12 mt-28 mb-36 settings overflow-y-scroll h-[70vh]"
+        >
           <div class="col-span-12 lg:col-span-4">
             <div class="flex gap-0 user-tab">
               <button
@@ -352,10 +358,6 @@ export default {
       },
     ],
 
-    create() {
-      alert('Changes saved')
-    },
-
     isResetActive: false,
   }),
 
@@ -399,6 +401,45 @@ export default {
     },
 
     getProfile() {},
+
+    async updateProfile() {
+      try {
+        this.serviceEdit.bank_name = this.bank.name
+        this.serviceEdit.bank_code = this.bank.code
+
+        let token = this.$auth.token
+        let account = this.$auth.user._id
+
+        const obj = { account }
+        const data = { ...obj, ...this.serviceEdit }
+
+        await this.$axios.post(
+          '/services/update',
+
+          data,
+
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+
+        this.service = this.serviceEdit
+
+        this.$notify({
+          type: 'success',
+          text: 'Details Edited Successfully!',
+          duration: 5000,
+        })
+      } catch (error) {
+        this.$notify({
+          type: 'error',
+          text: 'There was an error editing service details. Please try again!',
+          duration: 5000,
+        })
+      }
+    },
   },
 
   components: {},
@@ -406,7 +447,7 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-.h-calc {
+/* .h-calc {
   height: calc(100%-120px);
-}
+} */
 </style>
