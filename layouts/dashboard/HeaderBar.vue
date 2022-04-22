@@ -1,7 +1,7 @@
 <template>
-  <nav class="h-64 z-50">
+  <nav class="h-48 lg:h-56 z-50">
     <div class="fixed top-0 inset-x-0 h-inherit z-50 nav-too">
-      <div class="flex items-center justify-end lg:px-64 pt-8 pb-16 z-50">
+      <div class="flex items-center justify-end pr-32 lg:px-64 pt-8 pb-16 z-50">
         <!-- Notification -->
         <button @click="toggleDropdown(notifList)" class="mr-36">
           <i class="fas fa-bell"></i>
@@ -9,7 +9,7 @@
 
         <div class="relative">
           <div
-            class="flex items-center lg:gap-x-8"
+            class="flex items-center gap-x-8"
             @click="toggleDropdown(menuList)"
           >
             <!-- Avatar  -->
