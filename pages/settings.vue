@@ -45,87 +45,37 @@
             <div class="grid grid-cols-2 gap-x-16 mb-24">
               <!-- First Name -->
               <div>
-                <label>First name</label>
-                <div class="form-control lg:w-50">
-                  {{ $auth.user.firstname }}
-                </div>
+                <label for="firstname">First name</label>
+                <input
+                  type="text"
+                  v-model="profile.firstname"
+                  id="firstname"
+                  class="lg:w-50"
+                />
               </div>
 
               <!-- Last Name -->
               <div>
-                <label>Last name</label>
-                <div class="form-control lg:w-50">
-                  {{ $auth.user.lastname }}
-                </div>
+                <label for="lastname">Last name</label>
+                <input
+                  type="text"
+                  v-model="profile.lastname"
+                  id="lastname"
+                  class="lg:w-50"
+                />
               </div>
             </div>
 
             <!-- Email -->
             <div class="mb-24">
-              <label>Email Address</label>
-              <div class="form-control">{{ $auth.user.email }}</div>
+              <label for="email">Email address</label>
+              <input type="text" v-model="profile.email" id="email" />
             </div>
 
             <!-- Phone number -->
             <div class="mb-24">
-              <label>Phone number</label>
-              <div class="form-control">{{ $auth.user.phone }}</div>
-
-              <!-- <input
-              type="number"
-              placeholder="Enter your phone number"
-              aria-label="Phone number"
-              v-model="profile.phone"
-            /> -->
-            </div>
-
-            <!-- Gender  -->
-            <!-- <div class="mb-24 flex gap-x-24 items-center">
-            <label class="">Gender</label>
-            <div class="mr-8 flex gap-4 items-baseline">
-              <input
-                type="radio"
-                name="gender"
-                id="male"
-                v-model="profile.gender"
-                value="male"
-              />
-              <label for="male"> Male </label>
-            </div>
-
-            <div class="flex gap-4 items-baseline">
-              <input
-                type="radio"
-                name="gender"
-                id="female"
-                v-model="profile.gender"
-                value="female"
-              />
-              <label for="female"> Female </label>
-            </div>
-          </div> -->
-
-            <!-- Company name  -->
-            <!-- <div v-if="!profile.isUpdated">
-          <label for="company">Company name (optional)</label>
-          <input
-            type="text"
-            id="companyName"
-            v-model.trim="profile.companyname"
-            placeholder="Enter the name of your company"
-            aria-label="Company name"
-          />-->
-
-            <!-- company name  -->
-            <div class="mb-24">
-              <label for="company">Company name (optional)</label>
-              <input
-                type="text"
-                id="companyName"
-                v-model.trim="profile.companyname"
-                aria-label="Company name"
-                placeholder="Enter your company name"
-              />
+              <label for="phone">Phone number</label>
+              <input type="text" v-model="profile.phone" id="phone" />
             </div>
           </div>
 
@@ -158,7 +108,7 @@
                   type="password"
                   id="oldPassword"
                   placeholder="Old Password"
-                  v-model="oldPassword"
+                  v-model="password"
                 />
               </div>
 
@@ -169,16 +119,19 @@
                 <input
                   type="password"
                   id="password"
-                  v-model="newPassword"
+                  v-model="new_password"
                   placeholder="New Password"
                   aria-label="New Password"
                 />
               </div>
             </div>
 
-            <submit-btn @click="create" class="float-right mt-32 lg:mt-80"
-              >Save Changes</submit-btn
+            <button
+              @click="updateProfile"
+              class="click-btn float-right mt-32 lg:mt-80"
             >
+              Save Changes
+            </button>
           </div>
         </div>
       </div>
@@ -325,14 +278,8 @@ export default {
     tab: 'profile',
     userTab: 'users',
     searchQuery: '',
-    profile: {
-      firstname: '',
-      lastname: '',
-      email: '',
-      phone: '',
-      companyname: '',
-      gender: '',
-    },
+    profile: {},
+    serviceEdit: {},
     accounts: [
       {
         acctNo: '',
@@ -340,6 +287,7 @@ export default {
         bank: {},
       },
     ],
+    isLoading: false,
 
     bankDetails: {
       bank: 'GT Bank',
@@ -400,23 +348,39 @@ export default {
       })
     },
 
-    getProfile() {},
+    async getProfile() {
+      try {
+        this.isLoading = true
+        let token = this.$auth.token
+
+        let res = await this.$axios.get(
+          '/account/token',
+
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        this.profile = res.data.data.user
+        console.log(this.profile)
+        this.isLoading = false
+        console.log(res)
+      } catch (error) {
+        this.isLoading = false
+        console.log({ error })
+      }
+    },
 
     async updateProfile() {
       try {
-        this.serviceEdit.bank_name = this.bank.name
-        this.serviceEdit.bank_code = this.bank.code
-
         let token = this.$auth.token
-        let account = this.$auth.user._id
+        let profile = this.profile
 
-        const obj = { account }
-        const data = { ...obj, ...this.serviceEdit }
+        let res = await this.$axios.post(
+          '/account/update',
 
-        await this.$axios.post(
-          '/services/update',
-
-          data,
+          profile,
 
           {
             headers: {
@@ -425,8 +389,8 @@ export default {
           }
         )
 
-        this.service = this.serviceEdit
-
+        // this.profile = res.data.profile
+        console.log(this.profile)
         this.$notify({
           type: 'success',
           text: 'Details Edited Successfully!',
@@ -443,6 +407,11 @@ export default {
   },
 
   components: {},
+
+  mounted() {
+    this.getProfile()
+    // this.serviceEdit = this.profile
+  },
 }
 </script>
 
