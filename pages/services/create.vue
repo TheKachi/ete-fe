@@ -486,7 +486,6 @@
       </div>
 
       <div slot="body">
-        {{ stakeDetailsEdit }}
         <!-- Full name and Role - Individual  -->
         <div
           class="grid grid-cols-2 gap-x-16 mb-16"
@@ -1029,6 +1028,7 @@ import {
   numeric,
   minValue,
 } from 'vuelidate/lib/validators'
+import maxValue from 'vuelidate/lib/validators/maxValue'
 const psSecKey = 'sk_test_9cb75be4f634e009d84825fa5fefa0393a57e09b'
 
 export default {
@@ -1036,8 +1036,8 @@ export default {
   components: { HolderCard, ClickBtn, FieldErrors, Modal, Loader },
 
   data: () => ({
-    title: 'Test title',
-    description: 'Test description',
+    title: '',
+    description: '',
     bank_name: '',
     bank_code: '',
     account_no: '',
@@ -1053,21 +1053,21 @@ export default {
 
     holderBank: {},
 
-    percent_formular: 0,
-    fixed_formular: 0,
+    percent_formular: null,
+    fixed_formular: null,
 
     tempEmail: [],
     singleEmail: '',
 
     holder: {
-      email: 'nzebenflorence@gmail.com',
-      name: 'Onyedikachi Nze',
+      email: '',
+      name: '',
       is_percentage: false,
       is_automated: true,
-      share_formular: 0,
+      share_formular: null,
       type: '',
-      account_no: '0238686550',
-      account_name: 'Kachi Individual',
+      account_no: '',
+      account_name: '',
       bank_name: '',
       bank_code: '',
       schedule: '',
@@ -1154,8 +1154,16 @@ export default {
     markUpType: { required },
     disbursementType: { required },
     holderBank: { required },
-    percent_formular: { required },
-    fixed_formular: { required },
+    percent_formular: {
+      required,
+      minValue: minValue(1),
+      maxValue: maxValue(100),
+    },
+    fixed_formular: {
+      required,
+      minValue: minValue(1),
+      maxValue: maxValue(100000000),
+    },
     holder: {
       name: { required, minLength: minLength(2) },
       account_no: {
