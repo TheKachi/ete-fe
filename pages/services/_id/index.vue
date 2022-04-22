@@ -1134,8 +1134,6 @@ export default {
   mounted() {
     this.getBanks()
     this.serviceEdit = Object.assign({}, this.service)
-    console.log(this.service)
-    // this.serviceNew = [...this.serviceEdit, ...this.service]
   },
 }
 </script>
