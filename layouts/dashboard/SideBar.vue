@@ -26,10 +26,15 @@
         </ul>
       </div>
     </aside>
-    <aside class="h-screen lg:hidden" v-if="mobileNavShowing">
+    <aside class="h-screen block lg:hidden" v-if="mobileNavShowing">
       <div class="fixed w-inherit h-inherit bg-black p-32">
-        <!-- logo -->
-        <svg-loader path="img" icon="ete-logo" />
+        <div class="flex justify-between items-center">
+          <!-- logo -->
+          <svg-loader path="img" icon="ete-logo" />
+          <button @click="mobileNavShowing === false" class="cursor-pointer">
+            <i class="fas fa-bars text-white"></i>
+          </button>
+        </div>
 
         <!-- Navs -->
         <ul class="flex flex-col gap-y-36 mt-48">
@@ -54,8 +59,9 @@
     </aside>
 
     <button
-      @click.prevent="mobileNavShowing = !mobileNavShowing"
-      class="ml-24 mt-28"
+      @click="toggleMobileNav"
+      class="fixed ml-24 mt-8 cursor-pointer"
+      v-if="!mobileNavShowing"
     >
       <i class="fas fa-bars"></i>
     </button>
@@ -103,6 +109,11 @@ export default {
       if (name.toLowerCase() === path && re.test(link)) return true
 
       return false
+    },
+
+    toggleMobileNav() {
+      this.mobileNavShowing = !this.mobileNavShowing
+      console.log(this.mobileNavShowing)
     },
   },
 
