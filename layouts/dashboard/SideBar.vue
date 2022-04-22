@@ -64,7 +64,6 @@
 
 <script>
 import SvgLoader from '~/components/utils/SvgLoader'
-// import modal from '~/components/utils/modal'
 export default {
   data() {
     return {
@@ -96,15 +95,15 @@ export default {
   },
 
   methods: {
-    activePage(link, title){
-      let path = link.split('/')[1];
-      let name = title === 'Contact us' ? 'support' : title;
+    activePage(link, title) {
+      let path = link.split('/')[1]
+      let name = title === 'Contact us' ? 'support' : title
 
-      let re = new RegExp(path, "g");
-      if(name.toLowerCase() === path && re.test(link)) return true;
+      let re = new RegExp(path, 'g')
+      if (name.toLowerCase() === path && re.test(link)) return true
 
       return false
-    }
+    },
   },
 
   components: {

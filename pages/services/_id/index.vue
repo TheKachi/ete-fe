@@ -392,11 +392,11 @@
       </div>
     </div>
 
-    <div class="lg:mt-[200px] settings h-calc overflow-y-scroll">
+    <div class="lg:mt-[200px] settings h-[60vh] overflow-y-scroll">
       <!-- Transactions  -->
       <div v-if="tab === 'transaction'">
         <!-- <div v-if="service.transactions.length > 0"> -->
-        <div class="grid grid-cols-3 gap-x-20 mb-40">
+        <div class="grid grid-cols-3 gap-x-20 mt-28 mb-36 ml-4">
           <transaction-card
             :avatar="require('~/assets/img/services/amtReceived.svg')"
             title="Amount Received"
@@ -561,7 +561,7 @@
       <!-- Settings  -->
       <div v-if="tab === 'setting'">
         <div
-          class="grid grid-cols-1 lg:grid-cols-12 gap-y-32 gap-x-60 settings overflow-y-scroll h-calc"
+          class="grid grid-cols-1 lg:grid-cols-12 gap-y-32 gap-x-60 settings overflow-y-scroll h-[60vh]"
         >
           <!-- {{ serviceDetailsEdit }} -->
           <label class="lg:col-span-4 text-lg text-left" for="service-name"
@@ -1150,9 +1150,5 @@ export default {
 .settings {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-}
-
-.h-calc {
-  height: 60vh;
 }
 </style>
