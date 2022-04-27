@@ -1,9 +1,9 @@
 <template>
-  <nav class="h-48 lg:h-56 z-[1000]">
+  <nav class="h-48 lg:h-56 z-[100]">
     <div
       class="fixed top-0 inset-x-0 h-inherit z-50 shadow-[0_4px_50px_rgba(0,0,0,0.07)]"
     >
-      <div class="flex items-center justify-end pr-16 lg:px-64 pt-8 pb-16 z-50">
+      <div class="flex items-center justify-end pr-16 lg:px-64 pt-8 pb-16 z-50 ml-[30em]">
         <!-- Notification -->
         <button @click="toggleDropdown(notifList)" class="mr-36">
           <i class="fas fa-bell"></i>
