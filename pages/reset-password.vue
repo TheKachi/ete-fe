@@ -41,7 +41,7 @@
         >
           <label for="new-password">Password</label>
           <!-- Hidden -->
-          <div class="flex items-center" v-if="password.hide">
+          <div class="relative" v-if="password.hide">
             <input
               type="password"
               id="new-password"
@@ -53,7 +53,7 @@
 
             <!-- Show password button  -->
             <a
-              class="eye py-[9px] px-8"
+              class="absolute top-[9px] right-8"
               type="button"
               @click="show(password)"
               v-show="password.hide"
@@ -64,7 +64,7 @@
           </div>
 
           <!-- Showing  -->
-          <div class="flex items-center password" v-else>
+          <div class="relative" v-else>
             <input
               type="text"
               id="new-password"
@@ -76,7 +76,7 @@
 
             <!-- Hide password button  -->
             <a
-              class="eye py-[9px] px-8"
+              class="absolute top-[9px] right-8"
               href="#"
               type="button"
               @click="show(password)"
@@ -101,7 +101,7 @@
         >
           <label for="confirm-password">Confirm Password</label>
           <!-- Hidden -->
-          <div class="flex items-center" v-if="confirmPassword.hide">
+          <div class="relative" v-if="confirmPassword.hide">
             <input
               type="password"
               id="confirm-password"
@@ -112,7 +112,7 @@
 
             <!-- Show password button  -->
             <a
-              class="eye py-[9px] px-8"
+              class="absolute top-[9px] right-8"
               type="button"
               @click="show(confirmPassword)"
               v-show="confirmPassword.hide"
@@ -123,7 +123,7 @@
           </div>
 
           <!-- Showing  -->
-          <div class="flex items-center password" v-else>
+          <div class="relative" v-else>
             <input
               type="text"
               placeholder="Confirm password"
@@ -134,7 +134,7 @@
 
             <!-- Hide password button  -->
             <a
-              class="eye py-[9px] px-8"
+              class="absolute top-[9px] right-8"
               href="#"
               type="button"
               @click="show(confirmPassword)"
