@@ -49,7 +49,7 @@ export default {
   ],
 
   axios: {
-    baseURL: 'https://ete-api.yebox.net/v1',
+    baseURL: process.env.BASE_URL,
   },
 
   auth: {
@@ -76,6 +76,5 @@ export default {
       home: '/dashboard',
     },
   },
-  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 }
