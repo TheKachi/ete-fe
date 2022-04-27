@@ -1,5 +1,5 @@
 <template>
-  <nav class="h-48 lg:h-56 z-50">
+  <nav class="h-48 lg:h-56 z-[1000]">
     <div class="fixed top-0 inset-x-0 h-inherit z-50 nav-too">
       <div class="flex items-center justify-end pr-32 lg:px-64 pt-8 pb-16 z-50">
         <!-- Notification -->
@@ -14,12 +14,14 @@
           >
             <!-- Avatar  -->
             <i
-              class="fas fa-user-alt rounded-full p-4 lg:p-12 bg-medium-grey"
+              class="fas fa-user-alt rounded-full p-8 lg:p-12 lg:bg-medium-grey"
             ></i>
 
             <div class="flex items-center gap-x-8 cursor-pointer">
               <!-- User name  -->
-              <span class="text-base text-black">{{ username }}</span>
+              <span class="text-base text-black hidden lg:block">{{
+                username
+              }}</span>
 
               <i class="fas fa-chevron-down hidden lg:block"></i>
             </div>
