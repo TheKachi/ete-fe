@@ -468,7 +468,7 @@ export default {
         this.isLoading = false
         this.$notify({
           type: 'error',
-          text: 'err',
+          text: 'There was an error signing up',
           duration: 5000,
         })
       }
