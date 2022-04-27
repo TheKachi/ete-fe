@@ -1,7 +1,7 @@
 <template>
   <nuxt-link :to="`/services/${service.id}`">
     <div class="card h-full">
-      <div class="flex gap-x-[18px] items-center mb-24">
+      <div class="flex gap-x-[18px] items-center mb-16">
         <span
           class="rounded-[50%] h-[46px] w-[46px] leading-[46px] bg-[#D8DDFD] text-blue font-bold text-center"
         >
