@@ -145,7 +145,6 @@ export default {
             password: this.password,
           },
         })
-        console.log({ res })
         this.isLoading = false
         this.$router.push('/dashboard')
       } catch (error) {
