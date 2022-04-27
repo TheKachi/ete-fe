@@ -1,7 +1,9 @@
 <template>
   <nav class="h-48 lg:h-56 z-[1000]">
-    <div class="fixed top-0 inset-x-0 h-inherit z-50 nav-too">
-      <div class="flex items-center justify-end pr-32 lg:px-64 pt-8 pb-16 z-50">
+    <div
+      class="fixed top-0 inset-x-0 h-inherit z-50 shadow-[0_4px_50px_rgba(0,0,0,0.07)]"
+    >
+      <div class="flex items-center justify-end pr-16 lg:px-64 pt-8 pb-16 z-50">
         <!-- Notification -->
         <button @click="toggleDropdown(notifList)" class="mr-36">
           <i class="fas fa-bell"></i>
@@ -236,9 +238,3 @@ export default {
   // },
 }
 </script>
-
-<style lang="postcss" scoped>
-.nav-too {
-  box-shadow: 0 4px 50px rgba(0, 0, 0, 0.07);
-}
-</style>
