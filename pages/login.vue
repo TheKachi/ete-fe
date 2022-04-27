@@ -1,9 +1,6 @@
 <template>
   <auth-layout>
-    <h1 slot="greeting">
-      Welcome back <br />
-      to Ete
-    </h1>
+    <h1 slot="greeting">Welcome back to Ete</h1>
 
     <!-- -->
     <p slot="cta">Please enter your login&nbsp;details</p>
@@ -32,7 +29,7 @@
       <div class="my-12" :class="{ 'form-group--error': $v.password.$error }">
         <label for="password">Password</label>
         <!-- Hidden -->
-        <div class="flex items-center" v-if="hidePassword">
+        <div class="flex items-center relative" v-if="hidePassword">
           <input
             type="password"
             id="password"
@@ -44,7 +41,7 @@
 
           <!-- Show password button  -->
           <a
-            class="eye py-[9px] px-8"
+            class="absolute right-8 top-[9px]"
             type="button"
             @click="showPassword"
             v-show="hidePassword"
@@ -55,7 +52,7 @@
         </div>
 
         <!-- Showing  -->
-        <div class="flex items-center password" v-else>
+        <div class="flex items-center relative" v-else>
           <input
             type="text"
             id="password"
@@ -67,7 +64,7 @@
 
           <!-- Hide password button  -->
           <a
-            class="eye py-[9px] px-8"
+            class="absolute right-8 top-[9px]"
             type="button"
             @click="showPassword"
             v-show="!hidePassword"
