@@ -1029,7 +1029,6 @@ import HolderCard from '@/components/services/HolderCard'
 import FieldErrors from '@/components/input/validation'
 import ClickBtn from '~/components/ClickBtn.vue'
 import Modal from '~/components/utils/Modal.vue'
-import Selecter from '~/components/utils/Selecter.vue'
 import Loader from '~/components/utils/Loader.vue'
 import {
   required,
@@ -1045,7 +1044,7 @@ const psSecKey = process.env.PS_SECRET_KEY
 
 export default {
   layout: 'dashboard',
-  components: { HolderCard, ClickBtn, FieldErrors, Modal, Selecter, Loader },
+  components: { HolderCard, ClickBtn, FieldErrors, Modal, Loader },
 
   data: () => ({
     bankname: ['GTB', 'First Bank'],
