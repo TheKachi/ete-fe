@@ -341,21 +341,21 @@
       </div>
     </modal>
 
-    <div class="fixed top-[80px] z-[50]">
+    <div class="z-[50]">
       <!-- Back button  -->
       <nuxt-link to="/services"
         ><i class="fas fa-arrow-left text-grey"></i>
       </nuxt-link>
       <!-- title -->
-      <h1 class="text-lg lg:text-2xl font-bold text-black mt-28">
+      <h1 class="text-lg lg:text-2xl font-bold text-black mt-16 lg:mt-24">
         {{ service.title }}
       </h1>
       <!-- description -->
-      <p class="text-base text-grey mb-40">
+      <p class="text-sm md:text-base text-grey mb-40">
         {{ service.description }}
       </p>
       <!-- Tabs  -->
-      <div class="flex gap-x-16 tab mb-40">
+      <div class="flex flex-nowrap overflow-x-auto gap-x-16 tab mb-28 -mr-20">
         <button
           @click.prevent="changeTab('transaction')"
           :class="[
@@ -387,68 +387,65 @@
           @click.prevent="changeTab('api')"
           :class="[tab === 'api' ? 'bg-dark text-white' : 'bg-tab text-grey']"
         >
-          API Credentials
+          API&nbsp;Credentials
         </button>
       </div>
     </div>
 
-    <div class="lg:mt-[200px] settings h-[60vh] overflow-y-scroll">
-      <!-- Transactions  -->
-      <div v-if="tab === 'transaction'">
-        <!-- <div v-if="service.transactions.length > 0"> -->
-        <div class="grid grid-cols-3 gap-x-20 mt-28 mb-36 ml-4">
-          <transaction-card
-            :avatar="require('~/assets/img/services/amtReceived.svg')"
-            title="Amount Received"
-            :figure="amtReceived"
-          />
+    <!-- Transactions  -->
+    <div v-if="tab === 'transaction'">
+      <!-- <div v-if="service.transactions.length > 0"> -->
+      <div
+        class="flex flex-nowrap items-center gap-x-20 mb-20 lg:mb-36 p-8 overflow-x-auto overflow-y-hidden -mr-20 lg:mx-0"
+      >
+        <transaction-card
+          :avatar="require('~/assets/img/services/amtReceived.svg')"
+          title="Amount Received"
+          :figure="amtReceived"
+        />
 
-          <transaction-card
-            :avatar="require('~/assets/img/services/amtDisbursed.svg')"
-            title="Amount Disbursed"
-            :figure="amtDisbursed"
-          />
+        <transaction-card
+          :avatar="require('~/assets/img/services/amtDisbursed.svg')"
+          title="Amount Disbursed"
+          :figure="amtDisbursed"
+        />
 
-          <transaction-card
-            :avatar="require('~/assets/img/services/amtPending.svg')"
-            title="Pending Disbursement"
-            :figure="amtPending"
-          />
-        </div>
+        <transaction-card
+          :avatar="require('~/assets/img/services/amtPending.svg')"
+          title="Pending Disbursement"
+          :figure="amtPending"
+        />
+      </div>
 
-        <h2 class="text-xl text-black font-medium mb-24">
-          Transaction History
-        </h2>
+      <h2 class="text-xl text-black font-medium mb-24">Transaction History</h2>
 
-        <!-- <div class="grid lg:grid-cols-12 mt-96"> -->
-        <!-- <div class="col-span-12 lg:col-span-4"> -->
-        <div class="flex gap-0 user-tab mb-16">
-          <button
-            @click.prevent="changeTxnTab('received')"
-            :class="[
-              txnTab === 'received'
-                ? 'bg-[#ECEEFE] text-purple border-b-4 border-purple'
-                : 'bg-tab text-grey',
-            ]"
-          >
-            Received Transactions
-          </button>
+      <div class="flex flex-nowrap overflow-x-auto gap-0 user-tab mb-16">
+        <button
+          @click.prevent="changeTxnTab('received')"
+          :class="[
+            txnTab === 'received'
+              ? 'bg-[#ECEEFE] text-purple border-b-4 border-purple'
+              : 'bg-tab text-grey',
+          ]"
+        >
+          Received&nbsp;Transactions
+        </button>
 
-          <button
-            @click.prevent="changeTxnTab('disbursed')"
-            :class="[
-              txnTab === 'disbursed'
-                ? 'bg-[#ECEEFE] text-purple border-b-4 border-purple'
-                : 'bg-tab text-grey',
-            ]"
-          >
-            Disbursed Transactions
-          </button>
-        </div>
+        <button
+          @click.prevent="changeTxnTab('disbursed')"
+          :class="[
+            txnTab === 'disbursed'
+              ? 'bg-[#ECEEFE] text-purple border-b-4 border-purple'
+              : 'bg-tab text-grey',
+          ]"
+        >
+          Disbursed&nbsp;Transactions
+        </button>
+      </div>
 
-        <div class="text-center mt-120">No transactions yet</div>
+      <div class="text-center mt-120">No transactions yet</div>
 
-        <!-- <div class="table" v-if="txnTab === 'received' && service.transactions">
+      <!-- <div class="table" v-if="txnTab === 'received' && service.transactions">
         <div class="thead">
           <div class="th"></div>
           <div class="th">Date</div>
@@ -495,310 +492,379 @@
         </div>
       </div> -->
 
-        <!-- </div> -->
-        <!-- </div> -->
+      <!-- </div> -->
+      <!-- </div> -->
 
-        <!-- <div v-else>
+      <!-- <div v-else>
         No transactions yet
       </div> -->
-      </div>
+    </div>
 
-      <!-- Stakeholders  -->
-      <div v-if="tab === 'stakeholder'">
-        <table class="table-auto" v-if="service.stakeholders.length > 0">
-          <thead>
-            <tr>
-              <td></td>
-              <th>Name</th>
-              <th>Email adress</th>
-              <th>Acct. number</th>
-              <th>Mark-up</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+    <!-- Stakeholders  -->
+    <div v-if="tab === 'stakeholder'">
+      <div v-if="service.stakeholders.length > 0">
+        <!-- desktop  -->
+        <div class="hidden md:block">
+          <table class="table-auto">
+            <thead>
+              <tr>
+                <td></td>
+                <th>Name</th>
+                <th>Email&nbsp;adress</th>
+                <th>Acct.&nbsp;number</th>
+                <th>Mark-up</th>
+                <th>Action</th>
+              </tr>
+            </thead>
 
-          <tbody v-for="(holder, i) in service.stakeholders" :key="i">
-            <tr>
-              <td class="rounded-l-xl">
-                <div
-                  class="rounded-[50%] h-28 w-28 flex items-center justify-center bg-[#D8DDFD] text-blue text-center text-sm font-bold"
+            <tbody v-for="(holder, i) in service.stakeholders" :key="i">
+              <tr>
+                <td class="rounded-l-xl">
+                  <div
+                    class="rounded-[50%] h-28 w-28 flex items-center justify-center bg-[#D8DDFD] text-blue text-center text-sm font-bold"
+                  >
+                    {{ holder.name.charAt(0) }}
+                  </div>
+                </td>
+                <td>{{ holder.name }}</td>
+                <td>{{ holder.email }}</td>
+                <td>{{ holder.account_no }}</td>
+                <td>
+                  <span v-if="holder.is_percentage === false">₦</span>
+                  {{ holder.share_formular }}
+                  <span v-if="holder.is_percentage === true">%</span>
+                </td>
+                <td class="flex gap-x-28 rounded-r-xl">
+                  <button @click="editStakeholder(holder)">
+                    <!-- open modal and edit immediately -->
+                    <i class="far fa-edit text-[#FB1731]"></i>
+                  </button>
+
+                  <button @click="delHolderModal(holder)">
+                    <!-- open modal and click on delHolder to delete -->
+                    <i class="fas fa-trash text-[#FB1731]"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- mobile -->
+        <div class="grid grid-cols-1 md:hidden gap-y-16">
+          <div v-for="(holder, i) in service.stakeholders" :key="i">
+            <!-- <holder-card :holder="holder" /> -->
+            <div
+              class="h-full bg-white p-20 rounded-md shadow-[0_4px_50px_rgba(0,0,0,0.1)]"
+            >
+              <div class="flex gap-x-[18px] items-start mb-28">
+                <span
+                  class="rounded-[50%] h-28 w-28 leading-[28px] bg-[#D8DDFD] text-blue text-center text-sm font-bold"
                 >
                   {{ holder.name.charAt(0) }}
+                </span>
+
+                <div>
+                  <h5 class="text-base text-black font-medium">
+                    {{ holder.name }}
+                  </h5>
+                  <p
+                    class="text-sm text-grey"
+                    v-if="holder.type === 'individual'"
+                  >
+                    {{ holder.email }}
+                  </p>
+                  <p class="text-sm text-grey" v-if="holder.type === 'group'">
+                    {{ holder.email.split(',').length }} members
+                  </p>
                 </div>
-              </td>
-              <td>{{ holder.name }}</td>
-              <td>{{ holder.email }}</td>
-              <td>{{ holder.account_no }}</td>
-              <td>
-                <span v-if="holder.is_percentage === false">₦</span>
-                {{ holder.share_formular }}
-                <span v-if="holder.is_percentage === true">%</span>
-              </td>
-              <td class="flex gap-x-28 rounded-r-xl">
-                <button @click="editStakeholder(holder)">
-                  <!-- open modal and edit immediately -->
-                  <i class="far fa-edit text-[#FB1731]"></i>
-                </button>
 
-                <button @click="delHolderModal(holder)">
-                  <!-- open modal and click on delHolder to delete -->
-                  <i class="fas fa-trash text-[#FB1731]"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <div class="flex gap-x-16 ml-auto">
+                  <!-- Edit  -->
+                  <button
+                    class="text-xs text-grey"
+                    @click.prevent="editStakeholderModal(holder)"
+                  >
+                    <i class="fas fa-pen"></i>
+                  </button>
+                  <!-- Delete  -->
+                  <button @click.prevent="removeStakeholder(holder)">
+                    <i class="fas fa-times text-grey"></i>
+                  </button>
+                </div>
+              </div>
 
-        <div class="h-[70vh] flex flex-col items-center justify-center" v-else>
-          <svg-loader path="img" icon="no-service" />
-          <p class="text-sm lg:text-base font-medium text-grey my-28">
-            You do not have any stakeholders
-          </p>
-          <LgBtn url="/">Add Stakeholder</LgBtn>
+              <div class="flex justify-between items-baseline">
+                <p
+                  class="text-base text-[#7445C7]"
+                  v-if="holder.is_percentage === true"
+                >
+                  {{ holder.share_formular }} %
+                </p>
+
+                <p
+                  class="text-base text-blue"
+                  v-if="holder.is_percentage === false"
+                >
+                  ₦{{ holder.share_formular }}
+                </p>
+
+                <p class="text-purple text-sm">{{ holder.type }}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Settings  -->
-      <div v-if="tab === 'setting'">
-        <div
-          class="grid grid-cols-1 lg:grid-cols-12 gap-y-32 gap-x-60 mt-36 settings overflow-y-scroll h-[60vh]"
+      <div class="h-[70vh] flex flex-col items-center justify-center" v-else>
+        <svg-loader path="img" icon="no-service" />
+        <p class="text-sm lg:text-base font-medium text-grey my-28">
+          You do not have any stakeholders
+        </p>
+        <LgBtn url="/">Add Stakeholder</LgBtn>
+      </div>
+    </div>
+
+    <!-- Settings  -->
+    <div v-if="tab === 'setting'">
+      <div
+        class="grid grid-cols-1 lg:grid-cols-12 gap-y-4 lg:gap-y-32 gap-x-60 lg:mt-36 settings overflow-y-scroll h-[60vh]"
+      >
+        <!-- {{ serviceDetailsEdit }} -->
+        <label class="lg:col-span-4 lg:text-lg text-left" for="service-name"
+          >Service name</label
         >
-          <!-- {{ serviceDetailsEdit }} -->
-          <label class="lg:col-span-4 text-lg text-left" for="service-name"
-            >Service name</label
-          >
 
-          <div class="lg:col-span-6">
-            <input
-              type="text"
-              id="service-name"
-              aria-label="Service name"
-              placeholder="Enter your service name"
-              v-model="serviceEdit.title"
-            />
-          </div>
+        <div class="lg:col-span-6">
+          <input
+            type="text"
+            id="service-name"
+            aria-label="Service name"
+            placeholder="Enter your service name"
+            v-model="serviceEdit.title"
+          />
+        </div>
 
-          <!-- Description  -->
-          <label class="lg:col-span-4 text-lg text-left" for="desc"
-            >Description</label
-          >
+        <!-- Description  -->
+        <label
+          class="lg:col-span-4 lg:text-lg text-left mt-20 lg:mt-0"
+          for="desc"
+          >Description</label
+        >
 
-          <div class="lg:col-span-6">
-            <textarea rows="5" id="desc" v-model="serviceEdit.description" />
-          </div>
+        <div class="lg:col-span-6">
+          <textarea rows="5" id="desc" v-model="serviceEdit.description" />
+        </div>
 
-          <!-- Receiving account  -->
-          <label class="lg:col-span-4 text-lg text-left" for="acct">
-            Receiving account
-          </label>
+        <!-- Receiving account  -->
+        <label class="lg:col-span-4 lg:text-lg text-left" for="acct">
+          <span class="hidden lg:block"> Receiving account</span>
+        </label>
 
-          <div class="lg:col-span-6">
-            <!-- Bank name   -->
-            <div>
-              <label for="bank-name" class="text-left">Bank name</label>
-              <!-- <input
+        <div class="lg:col-span-6">
+          <!-- Bank name   -->
+          <div>
+            <label for="bank-name" class="text-left">Bank name</label>
+            <!-- <input
                 type="text"
                 id="bank-name"
                 aria-label="Service Bank name"
                 v-model="serviceEdit.bank_name"
               /> -->
-              <select id="bank" @change="updateSelectedBank" ref="bank-inp">
-                <option selected :value="JSON.stringify(bank)">
-                  {{ bank.name }}
-                </option>
-                <option
-                  v-for="(bank, i) in banks"
-                  :key="i"
-                  :value="JSON.stringify(bank)"
-                >
-                  {{ bank.name }}
-                </option>
-              </select>
-            </div>
-
-            <!-- Account number -->
-            <div class="my-24">
-              <label for="acct-no" class="text-left">Account number</label>
-              <input
-                type="number"
-                id="acct-no"
-                aria-label="Account number"
-                v-model="serviceEdit.account_no"
-              />
-            </div>
-
-            <!-- Account name -->
-            <div>
-              <label for="acct-name" class="text-left">Account name</label>
-              <input
-                type="text"
-                id="acct-name"
-                aria-label="Account name"
-                v-model="serviceEdit.account_name"
-                disabled
-              />
-            </div>
+            <select id="bank" @change="updateSelectedBank" ref="bank-inp">
+              <option selected :value="JSON.stringify(bank)">
+                {{ bank.name }}
+              </option>
+              <option
+                v-for="(bank, i) in banks"
+                :key="i"
+                :value="JSON.stringify(bank)"
+              >
+                {{ bank.name }}
+              </option>
+            </select>
           </div>
 
-          <div class="lg:col-span-3 lg:col-end-11 mt-32 lg:mt-80">
-            <button @click.prevent="updateServiceDetails" class="click-btn">
-              Save Changes
-            </button>
+          <!-- Account number -->
+          <div class="my-24">
+            <label for="acct-no" class="text-left">Account number</label>
+            <input
+              type="number"
+              id="acct-no"
+              aria-label="Account number"
+              v-model="serviceEdit.account_no"
+            />
           </div>
+
+          <!-- Account name -->
+          <div>
+            <label for="acct-name" class="text-left">Account name</label>
+            <input
+              type="text"
+              id="acct-name"
+              aria-label="Account name"
+              v-model="serviceEdit.account_name"
+              disabled
+            />
+          </div>
+        </div>
+
+        <div class="lg:col-span-3 lg:col-end-11 mt-32 lg:mt-80">
+          <button @click.prevent="updateServiceDetails" class="click-btn">
+            Save Changes
+          </button>
         </div>
       </div>
+    </div>
 
-      <!-- API Credentials  -->
-      <div v-if="tab === 'api'">
-        <div class="flex gap-0 user-tab mb-32">
-          <button
-            @click.prevent="changeApiTab('staging')"
-            :class="[
-              apiTab === 'staging'
-                ? 'bg-[#ECEEFE] text-purple border-b-4 border-purple'
-                : 'bg-tab text-grey',
-            ]"
-          >
-            Staging API Keys
-          </button>
+    <!-- API Credentials  -->
+    <div v-if="tab === 'api'">
+      <div class="flex gap-0 user-tab mb-32">
+        <button
+          @click.prevent="changeApiTab('staging')"
+          :class="[
+            apiTab === 'staging'
+              ? 'bg-[#ECEEFE] text-purple border-b-4 border-purple'
+              : 'bg-tab text-grey',
+          ]"
+        >
+          Staging API Keys
+        </button>
 
-          <button
-            @click.prevent="changeApiTab('live')"
-            :class="[
-              apiTab === 'live'
-                ? 'bg-[#ECEEFE] text-purple border-b-4 border-purple'
-                : 'bg-tab text-grey',
-            ]"
-          >
-            Live API Keys
-          </button>
-        </div>
+        <button
+          @click.prevent="changeApiTab('live')"
+          :class="[
+            apiTab === 'live'
+              ? 'bg-[#ECEEFE] text-purple border-b-4 border-purple'
+              : 'bg-tab text-grey',
+          ]"
+        >
+          Live API Keys
+        </button>
+      </div>
 
-        <div class="grid grid-cols-12">
-          <div class="col-span-12 lg:col-span-9 mb-48">
-            <div v-if="apiTab === 'staging'">
-              <!-- Public key -->
-              <div>
-                <label for="staging-public-key" class="text-left"
-                  >Public key</label
-                >
-                <div class="flex items-center">
-                  <input
-                    type="text"
-                    id="staging-public-key"
-                    aria-label="Staging Public key"
-                    v-model="service.api_public_key_test"
-                    disabled
-                  />
+      <div class="grid grid-cols-12">
+        <div class="col-span-12 lg:col-span-9 mb-48">
+          <div v-if="apiTab === 'staging'">
+            <!-- Public key -->
+            <div>
+              <label for="staging-public-key" class="text-left"
+                >Public key</label
+              >
+              <div class="flex items-center relative">
+                <input
+                  type="text"
+                  id="staging-public-key"
+                  aria-label="Staging Public key"
+                  v-model="service.api_public_key_test"
+                  disabled
+                />
 
-                  <button
-                    class="rounded-xl px-24 py-8 bg-purple text-white"
-                    @click="copyString(service.api_public_key_test)"
-                  >
-                    Copy
-                  </button>
-                </div>
-              </div>
-
-              <!-- private key -->
-              <div class="mt-32">
-                <label for="staging-private-key" class="text-left"
-                  >private key</label
-                >
-                <div class="flex items-center">
-                  <input
-                    type="text"
-                    id="staging-private-key"
-                    aria-label="Staging private key"
-                    v-model="service.api_private_key_test"
-                    disabled
-                  />
-
-                  <button
-                    class="rounded-xl px-24 py-8 bg-purple text-white"
-                    @click="copyString(service.api_private_key_test)"
-                  >
-                    Copy
-                  </button>
-                </div>
-              </div>
-
-              <div class="flex justify-between items-center mt-48">
                 <button
-                  class="text-xs text-grey underline underline-offset-2"
-                  @click="openPdf"
+                  class="rounded-md px-32 bg-purple text-white absolute right-0 inset-y-0"
+                  @click="copyString(service.api_public_key_test)"
                 >
-                  Go to document
-                </button>
-                <button
-                  class="text-xs text-grey underline underline-offset-2"
-                  @click="regenTestApi"
-                >
-                  Regenerate APIs
+                  Copy
                 </button>
               </div>
             </div>
-            <div v-else>
-              <!-- Public key -->
-              <div>
-                <label for="live-public-key" class="text-left"
-                  >Public key</label
-                >
-                <div class="flex items-center">
-                  <input
-                    type="text"
-                    id="live-public-key"
-                    aria-label="live Public key"
-                    v-model="service.api_public_key"
-                    disabled
-                  />
 
-                  <button
-                    class="rounded-xl px-24 py-8 bg-purple text-white"
-                    @click="copyString(service.api_public_key)"
-                  >
-                    Copy
-                  </button>
-                </div>
-              </div>
+            <!-- private key -->
+            <div class="mt-32">
+              <label for="staging-private-key" class="text-left"
+                >private key</label
+              >
+              <div class="flex items-center relative">
+                <input
+                  type="text"
+                  id="staging-private-key"
+                  aria-label="Staging private key"
+                  v-model="service.api_private_key_test"
+                  disabled
+                />
 
-              <!-- private key -->
-              <div class="mt-32">
-                <label for="live-private-key" class="text-left"
-                  >private key</label
-                >
-                <div class="flex items-center">
-                  <input
-                    type="text"
-                    id="live-private-key"
-                    aria-label="live private key"
-                    v-model="service.api_private_key"
-                    disabled
-                  />
-
-                  <button
-                    class="rounded-xl px-24 py-8 bg-purple text-white"
-                    @click="copyString(service.api_private_key)"
-                  >
-                    Copy
-                  </button>
-                </div>
-              </div>
-
-              <div class="flex justify-between items-center mt-48">
                 <button
-                  class="text-xs text-grey underline underline-offset-2"
-                  @click="openPdf"
+                  class="rounded-xl px-32 bg-purple text-white absolute right-0 inset-y-0"
+                  @click="copyString(service.api_private_key_test)"
                 >
-                  Go to document
-                </button>
-                <button
-                  class="text-xs text-grey underline underline-offset-2"
-                  @click="regenLiveApi"
-                >
-                  Regenerate APIs
+                  Copy
                 </button>
               </div>
+            </div>
+
+            <div class="flex justify-between items-center mt-48">
+              <button
+                class="text-xs text-grey underline underline-offset-2"
+                @click="openPdf"
+              >
+                Go to document
+              </button>
+              <button
+                class="text-xs text-grey underline underline-offset-2"
+                @click="regenTestApi"
+              >
+                Regenerate APIs
+              </button>
+            </div>
+          </div>
+          <div v-else>
+            <!-- Public key -->
+            <div>
+              <label for="live-public-key" class="text-left">Public key</label>
+              <div class="flex items-center relative">
+                <input
+                  type="text"
+                  id="live-public-key"
+                  aria-label="live Public key"
+                  v-model="service.api_public_key"
+                  disabled
+                />
+
+                <button
+                  class="rounded-md px-32 bg-purple text-white absolute right-0 inset-y-0"
+                  @click="copyString(service.api_public_key)"
+                >
+                  Copy
+                </button>
+              </div>
+            </div>
+
+            <!-- private key -->
+            <div class="mt-32">
+              <label for="live-private-key" class="text-left"
+                >private key</label
+              >
+              <div class="flex items-center relative">
+                <input
+                  type="text"
+                  id="live-private-key"
+                  aria-label="live private key"
+                  v-model="service.api_private_key"
+                  disabled
+                />
+
+                <button
+                  class="rounded-xl px-32 bg-purple text-white absolute right-0 inset-y-0"
+                  @click="copyString(service.api_private_key)"
+                >
+                  Copy
+                </button>
+              </div>
+            </div>
+
+            <div class="flex justify-between items-center mt-48">
+              <button
+                class="text-xs text-grey underline underline-offset-2"
+                @click="openPdf"
+              >
+                Go to document
+              </button>
+              <button
+                class="text-xs text-grey underline underline-offset-2"
+                @click="regenLiveApi"
+              >
+                Regenerate APIs
+              </button>
             </div>
           </div>
         </div>
@@ -823,7 +889,7 @@ import {
   numeric,
   minValue,
 } from 'vuelidate/lib/validators'
-const psSecKey = 'sk_test_9cb75be4f634e009d84825fa5fefa0393a57e09b'
+const psSecKey = process.env.PS_SECRET_KEY
 
 export default {
   layout: 'dashboard',
