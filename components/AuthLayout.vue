@@ -68,12 +68,4 @@ button {
 span {
   @apply mx-auto;
 }
-
-[type='password'],
-.password [type='text'] {
-  @apply border-r-0 rounded-r-none;
-}
-.eye {
-  @apply border border-l-0 border-medium-grey rounded-r-md;
-}
 </style>
