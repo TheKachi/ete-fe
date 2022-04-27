@@ -22,7 +22,7 @@
 
       <!-- Analytics -->
       <div
-        class="flex flex-nowrap gap-x-20 my-36 overflow-x-auto overflow-y-hidden -mx-20 lg:mx-0"
+        class="flex flex-nowrap gap-x-20 my-36 overflow-x-auto overflow-y-hidden -mr-20 lg:mx-0 p-8"
       >
         <div
           class="bg-white bg-[url('~assets/img/dashboard/stake-bg.png')] card"
@@ -65,7 +65,7 @@
       </div>
 
       <div v-if="merchantServices.length > 0">
-        <div class="grid grid-cols-12 lg:mt-60">
+        <div class="grid grid-cols-12 gap-y-40 lg:mt-60">
           <div
             class="col-span-12 lg:col-span-7 border-[#f4f4f4] rounded-3xl lg:order-1 order-last"
           >
@@ -148,6 +148,7 @@ export default {
     merchantServices: [],
     stakeholderServices: [],
     allServices: [],
+    isLoading: false,
   }),
 
   methods: {
@@ -202,6 +203,6 @@ export default {
 
 <style lang="postcss" scoped>
 .card {
-  @apply rounded-xl w-[330px] h-[130px] shadow-[0_4px_50px_rgba(0,0,0,0.1)] bg-no-repeat bg-right-top;
+  @apply rounded-xl min-w-[80vw] sm:min-w-[330px] h-[130px] shadow-[0_4px_20px_0_#0000001A] bg-no-repeat bg-right-top;
 }
 </style>
