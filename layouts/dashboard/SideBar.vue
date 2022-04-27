@@ -26,12 +26,13 @@
         </ul>
       </div>
     </aside>
+
     <aside class="h-screen block lg:hidden" v-if="mobileNavShowing">
       <div class="fixed w-inherit h-inherit bg-black p-32">
         <div class="flex justify-between items-center">
           <!-- logo -->
           <svg-loader path="img" icon="ete-logo" />
-          <button @click="mobileNavShowing === false" class="cursor-pointer">
+          <button @click.prevent="mobileNavShowing = false" class="z-[1000]">
             <i class="fas fa-bars text-white"></i>
           </button>
         </div>
@@ -58,10 +59,7 @@
       </div>
     </aside>
 
-    <button
-      @click.prevent="toggleMobileNav"
-      class="fixed ml-24 mt-8 cursor-pointer"
-    >
+    <button @click.prevent="toggleMobileNav" class="fixed ml-24 mt-8 z-[1000]">
       <i class="fas fa-bars"></i>
     </button>
   </div>
@@ -111,8 +109,7 @@ export default {
     },
 
     toggleMobileNav() {
-      this.mobileNavShowing = true
-      console.log(this.mobileNavShowing)
+      this.mobileNavShowing = !this.mobileNavShowing
     },
   },
 
