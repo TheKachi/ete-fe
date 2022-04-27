@@ -59,9 +59,8 @@
     </aside>
 
     <button
-      @click="toggleMobileNav"
+      @click.prevent="toggleMobileNav"
       class="fixed ml-24 mt-8 cursor-pointer"
-      v-if="!mobileNavShowing"
     >
       <i class="fas fa-bars"></i>
     </button>
@@ -112,7 +111,7 @@ export default {
     },
 
     toggleMobileNav() {
-      this.mobileNavShowing = !this.mobileNavShowing
+      this.mobileNavShowing = true
       console.log(this.mobileNavShowing)
     },
   },
