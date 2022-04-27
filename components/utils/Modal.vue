@@ -6,7 +6,7 @@
     aria-modal="true"
   >
     <div
-      class="flex items-end justify-center min-h-screen pt-24 px-24 pb-20 text-center sm:block sm:p-0"
+      class="flex items-end justify-center min-h-screen lg:pt-24 lg:px-24 lg:pb-20 text-center sm:block sm:p-0"
     >
       <div class="fixed inset-0" aria-hidden="true"></div>
       <span
