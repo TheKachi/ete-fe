@@ -4,16 +4,16 @@
 
     <div v-else>
       <div class="flex justify-between items-center">
-        <div>
-          <h1 class="text-lg lg:text-2xl font-bold text-black">Services</h1>
-          <h2 class="text-sm lg:text-base font-medium text-grey">
-            Create and monitor your disbursement settlement among stakeholders
-          </h2>
-        </div>
+        <h1 class="col-span-2 text-lg lg:text-2xl font-bold text-black">
+          Services
+        </h1>
         <LgBtn url="/services/create" v-if="merchantServices.length > 0"
           >Create Services</LgBtn
         >
       </div>
+      <h2 class="col-span-12 text-base lg:text-base text-grey mt-16 lg:mt-4">
+        Create and monitor your disbursement settlement among stakeholders
+      </h2>
 
       <!-- Tabs  -->
       <div class="flex gap-x-24 tab mt-32">
