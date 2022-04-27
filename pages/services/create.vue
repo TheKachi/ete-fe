@@ -17,19 +17,27 @@
         <div
           :class="{ 'form-group--error': $v.service_acct.service_bank.$error }"
         >
-          <label for="bank">Bank name</label>
-          <select v-model="service_acct.service_bank" id="bank">
+          <label for="bank-name">Bank name</label>
+          <select
+            v-model="service_acct.service_bank"
+            id="bank"
+            @change="getAccountName"
+          >
             <option disabled selected :value="{}">Select Bank</option>
             <option v-for="(bank, i) in banks" :key="i" :value="bank">
               {{ bank.name }}
             </option>
           </select>
-
           <field-errors
             v-if="$v.service_acct.service_bank.$error"
             :field="$v.service_acct.service_bank"
             alt="Please provide a bank for your service"
           />
+          <!-- <select
+            title="Select Bank"
+            :list="bankname"
+            v-model="service_acct.service_bank"
+          /> -->
         </div>
 
         <!-- Account number -->
@@ -44,6 +52,8 @@
             id="acct-no"
             placeholder="Enter Account number"
             aria-label="Account number"
+            minlength="10"
+            @keyup="getAccountName"
             v-model="service_acct.account_no"
           />
           <field-errors
@@ -74,7 +84,7 @@
         </div>
 
         <button
-          class="click-btn float-right my-32"
+          class="click-btn float-right my-20 lg:my-32"
           @click.prevent="addServiceAcct"
         >
           Add
@@ -180,7 +190,7 @@
       <div slot="body">
         <!-- Full name and Role - Individual  -->
         <div
-          class="grid grid-cols-2 gap-x-16 mb-16"
+          class="grid lg:grid-cols-2 gap-16 my-16"
           v-if="holder.type === 'individual'"
         >
           <!-- Full Name -->
@@ -277,6 +287,69 @@
           </div>
         </div>
 
+        <!-- Bank details  -->
+        <div class="mt-32">
+          <h5 class="text-base font-bold text-black">Bank details</h5>
+
+          <!-- Bank name and Account number  -->
+          <div class="grid lg:grid-cols-2 gap-16 my-16">
+            <!-- Bank Name -->
+            <div :class="{ 'form-group--error': $v.holderBank.$error }">
+              <label for="holder-bank-name">Bank name</label>
+              <select
+                v-model="holderBank"
+                id="holder-bank-name"
+                class="form-select"
+              >
+                <option disabled selected :value="{}">Select Bank</option>
+                <option v-for="(bank, i) in banks" :key="i" :value="bank">
+                  {{ bank.name }}
+                </option>
+              </select>
+              <field-errors
+                v-if="$v.holderBank.$error"
+                :field="$v.holderBank"
+                alt="Please enter a bank for your stakeholder"
+              />
+            </div>
+
+            <!-- Account number -->
+            <div :class="{ 'form-group--error': $v.holder.account_no.$error }">
+              <label for="holder-acct-no">Account number</label>
+              <input
+                type="number"
+                class="lg:w-50"
+                id="holder-acct-no"
+                placeholder="Enter Account number"
+                aria-label="Account number"
+                v-model="holder.account_no"
+              />
+              <field-errors
+                v-if="$v.holder.account_no.$error"
+                :field="$v.holder.account_no"
+                alt="Please enter an account number for your stakeholder"
+              />
+            </div>
+          </div>
+
+          <!-- Account name -->
+          <div :class="{ 'form-group--error': $v.holder.account_name.$error }">
+            <label for="holder-acct-name">Account name</label>
+            <input
+              type="text"
+              id="holder-acct-name"
+              placeholder="Enter Account name"
+              aria-label="Account name"
+              v-model="holder.account_name"
+            />
+            <field-errors
+              v-if="$v.holder.account_name.$error"
+              :field="$v.holder.account_name"
+              alt="Please enter an account name for your stakeholder"
+            />
+          </div>
+        </div>
+
         <!-- Mark-Up Type - Fixed or Percentage  -->
         <div class="mt-32">
           <h5 class="text-base font-bold text-black">Mark-Up Type</h5>
@@ -341,69 +414,6 @@
               v-if="$v.fixed_formular.$error"
               :field="$v.fixed_formular"
               alt="Please enter your share formular"
-            />
-          </div>
-        </div>
-
-        <!-- Bank details  -->
-        <div class="mt-32">
-          <h5 class="text-base font-bold text-black">Bank details</h5>
-
-          <!-- Bank name and Account number  -->
-          <div class="grid grid-cols-2 gap-x-16 my-16">
-            <!-- Bank Name -->
-            <div :class="{ 'form-group--error': $v.holderBank.$error }">
-              <label for="holder-bank-name">Bank name</label>
-              <select
-                v-model="holderBank"
-                id="holder-bank-name"
-                class="form-select"
-              >
-                <option disabled selected :value="{}">Select Bank</option>
-                <option v-for="(bank, i) in banks" :key="i" :value="bank">
-                  {{ bank.name }}
-                </option>
-              </select>
-              <field-errors
-                v-if="$v.holderBank.$error"
-                :field="$v.holderBank"
-                alt="Please enter a bank for your stakeholder"
-              />
-            </div>
-
-            <!-- Account number -->
-            <div :class="{ 'form-group--error': $v.holder.account_no.$error }">
-              <label for="holder-acct-no">Account number</label>
-              <input
-                type="number"
-                class="lg:w-50"
-                id="holder-acct-no"
-                placeholder="Enter Account number"
-                aria-label="Account number"
-                v-model="holder.account_no"
-              />
-              <field-errors
-                v-if="$v.holder.account_no.$error"
-                :field="$v.holder.account_no"
-                alt="Please enter an account number for your stakeholder"
-              />
-            </div>
-          </div>
-
-          <!-- Account name -->
-          <div :class="{ 'form-group--error': $v.holder.account_name.$error }">
-            <label for="holder-acct-name">Account name</label>
-            <input
-              type="text"
-              id="holder-acct-name"
-              placeholder="Enter Account name"
-              aria-label="Account name"
-              v-model="holder.account_name"
-            />
-            <field-errors
-              v-if="$v.holder.account_name.$error"
-              :field="$v.holder.account_name"
-              alt="Please enter an account name for your stakeholder"
             />
           </div>
         </div>
@@ -853,32 +863,32 @@
         </div>
 
         <!-- <hr class="text-medium-grey mb-24" /> -->
-        <div class="flex justify-between items-center">
-          <div>
-            <h3 class="text-base lg:text-lg font-bold text-black">
-              Receiving account
-            </h3>
+        <!-- <div class="flex justify-between items-center"> -->
+        <div>
+          <h3 class="text-base lg:text-lg font-bold text-black">
+            Receiving account
+          </h3>
 
-            <h4 class="text-sm font-medium text-grey">
-              Enter account details to receive money
-            </h4>
-          </div>
-
-          <!--  Add Account  -->
-          <button
-            class="lg:col-span-3 text-purple"
-            @click.prevent="serviceAcctModal.isActive = true"
-            v-if="bank_name === ''"
-          >
-            + Add Account
-          </button>
+          <h4 class="text-sm font-medium text-grey">
+            Enter account details to receive money
+          </h4>
         </div>
 
+        <!--  Add Account  -->
+        <button
+          class="lg:col-span-3 text-purple"
+          @click.prevent="serviceAcctModal.isActive = true"
+          v-if="bank_name === ''"
+        >
+          + Add Account
+        </button>
+        <!-- </div> -->
+
         <!-- Added Account card  -->
-        <div class="grid grid-cols-3 my-40">
+        <div class="grid grid-cols-3 my-20 lg:my-40">
           <div
             v-if="bank_name !== ''"
-            class="col-span-2 px-24 py-16 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.1)] rounded-[10px]"
+            class="col-span-3 lg:col-span-2 px-24 py-16 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.1)] rounded-[10px]"
           >
             <div class="flex justify-between items-start">
               <div>
@@ -915,12 +925,12 @@
           <!--Icon-->
           <i class="fas fa-user text-purple"></i>
 
-          <h3>Stakeholder</h3>
+          <h3 class="text-base lg:text-lg">Stakeholder</h3>
 
           <div class="relative">
             <button
               @click.prevent="toggleStakeDropdown"
-              class="bg-[#D8DDFD] rounded-md text-blue px-20 py-12 flex items-center gap-x-8"
+              class="bg-[#D8DDFD] rounded-md text-blue px-20 py-[6px] lg:py-12 flex items-center gap-x-8"
             >
               Add <i class="fas fa-chevron-down"></i>
             </button>
@@ -991,14 +1001,14 @@
               class="text-base text-[#7445C7]"
               v-if="holder.is_percentage === true"
             >
-              {{ holder.share_formular }} %
+              {{ formatNum(holder.share_formular) }} %
             </p>
 
             <p
               class="text-base text-blue"
               v-if="holder.is_percentage === false"
             >
-              ₦{{ holder.share_formular }}
+              ₦{{ formatNum(holder.share_formular) }}
             </p>
 
             <p class="text-purple text-sm">{{ titleCase(holder.type) }}</p>
@@ -1006,8 +1016,9 @@
         </div>
       </div>
     </div>
-    <button @click="createService" class="click-btn float-right mt-60">
-      Create Services
+
+    <button @click="createService" class="click-btn float-right mt-36 lg:mt-60">
+      Create Service
     </button>
     <notifications position="top center" classes="notif" />
   </div>
@@ -1018,6 +1029,7 @@ import HolderCard from '@/components/services/HolderCard'
 import FieldErrors from '@/components/input/validation'
 import ClickBtn from '~/components/ClickBtn.vue'
 import Modal from '~/components/utils/Modal.vue'
+import Selecter from '~/components/utils/Selecter.vue'
 import Loader from '~/components/utils/Loader.vue'
 import {
   required,
@@ -1029,13 +1041,14 @@ import {
   minValue,
 } from 'vuelidate/lib/validators'
 import maxValue from 'vuelidate/lib/validators/maxValue'
-const psSecKey = 'sk_test_9cb75be4f634e009d84825fa5fefa0393a57e09b'
+const psSecKey = process.env.PS_SECRET_KEY
 
 export default {
   layout: 'dashboard',
-  components: { HolderCard, ClickBtn, FieldErrors, Modal, Loader },
+  components: { HolderCard, ClickBtn, FieldErrors, Modal, Selecter, Loader },
 
   data: () => ({
+    bankname: ['GTB', 'First Bank'],
     title: '',
     description: '',
     bank_name: '',
@@ -1214,6 +1227,7 @@ export default {
           },
         })
         this.banks = res.data.data
+        // console.log(psSecKey)
       } catch (error) {
         console.log(error)
       }
@@ -1228,7 +1242,7 @@ export default {
         // this.mgs = "Verifying account details...";
 
         try {
-          let url = `https://api.paystack.co/bank/resolve?account_number=${this.service_acct.account_no}&bank_code=${this.bank.code}`
+          let url = `https://api.paystack.co/bank/resolve?account_number=${this.service_acct.account_no}&bank_code=${this.service_acct.service_bank.code}`
           let res = await this.$axios.get(url, {
             headers: {
               Authorization: 'Bearer ' + psSecKey,
@@ -1237,6 +1251,7 @@ export default {
           // console.log('account number: ' + this.service_acct.account_no)
           // console.log('bank code: ' + this.bank.code)
           console.log(res)
+          console.log(psSecKey)
           this.service_acct.account_name = res.data.data.account_name
 
           //  this.isLoading = false;
@@ -1390,8 +1405,8 @@ export default {
       this.singleEmail = ''
       this.markUpType = ''
       this.disbursementType = ''
-      this.fixed_formular = 0
-      this.percent_formular = 0
+      this.fixed_formular = null
+      this.percent_formular = null
       console.log(this.stakeholders)
 
       this.stakeholderModal.isActive = false
