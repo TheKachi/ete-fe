@@ -90,4 +90,3 @@ sw.*
 *.swp
 .vercel
 package-lock.json
-yarn.lock
