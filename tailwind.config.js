@@ -8,26 +8,11 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
-    colors: {
-      transparent: 'transparent',
-      current: 'currentColor',
-      // white: '#E6E1E7',
-      white: '#FFF',
-      'footer-black': '#121212',
-      black: '#0B1344',
-      grey: '#716969',
-      tab: '#f2f5f7',
-      'light-grey': 'rgba(113, 105, 105, 0.1)',
-      'medium-grey': '#ccc',
-      blue: '#374EF4',
-      dark: '#1A277E',
-      // purple: '#7445C7',
-      purple: '#5164F6',
-
-      // green: '#7445C7',
-      coral: '#EF9491',
-      lemon: '#DBD599',
-      yellow: '#FFBC0D',
+    screens: {
+      sm: '480px',
+      md: '768px',
+      lg: '1200px',
+      xl: '1440px',
     },
 
     spacing: {
@@ -72,24 +57,25 @@ module.exports = {
       '5xl': '60px',
     },
 
-    // Font weights
-    // 300 - font-light
-    // 600 - font-semibold
-    // 800 - font-extrabold
-
-    extend: {},
+    extend: {
+      colors: {
+        'footer-black': '#121212',
+        black: '#0B1344',
+        grey: '#716969',
+        tab: '#f2f5f7',
+        'light-grey': 'rgba(113, 105, 105, 0.1)',
+        'medium-grey': '#ccc',
+        blue: '#374EF4',
+        dark: '#1A277E',
+        purple: '#5164F6',
+        // purple: '#7445C7',
+        // green: '#7445C7',
+        coral: '#EF9491',
+        lemon: '#DBD599',
+        yellow: '#FFBC0D',
+      },
+    },
   },
 
   plugins: [],
-
-  // variants: {
-  //   backgroundColor: [
-  //     "dark-hover",
-  //     "dark-group-hover",
-  //     "dark-even",
-  //     "dark-odd",
-  //   ],
-  //   borderColor: ["dark-focus", "dark-focus-within"],
-  //   textColor: ["dark-hover", "dark-active"],
-  // },
 }

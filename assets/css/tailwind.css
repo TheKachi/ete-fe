@@ -76,12 +76,13 @@ button {
   @apply text-base bg-white hover:bg-tab px-24 py-12 w-full;
 }
 
-.tab button {
-  @apply rounded-xl px-24 py-8;
+.tab button,
+.user-tab button {
+  @apply px-[14px] py-[6px] md:px-24 md:py-8 text-sm md:text-base;
 }
 
-.user-tab button {
-  @apply px-24 py-8;
+.tab button {
+  @apply rounded-xl;
 }
 
 .search [type='text'] {
