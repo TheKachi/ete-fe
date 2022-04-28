@@ -3,6 +3,7 @@
     <div class="w-64 mx-auto">
       <loader />
     </div>
+
     <!-- Add account modal  -->
     <modal
       v-if="serviceAcctModal.isActive"
