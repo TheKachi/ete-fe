@@ -55,25 +55,74 @@
       <nuxt-link to="/login" class="px-36 py-12 hover:text-yellow"
         >Login</nuxt-link
       >
-      <!-- :class="loginHoverClass" -->
-      <!-- Get Started -->
-      <!-- <nuxt-link
-        to="/signup"
-        class="bg-transparent border border-purple rounded px-36 py-12 transition duration-150 ease-out"
-        :class="signUpHoverClass"
-        >Get Started</nuxt-link
-      > -->
+
       <transparent-btn url="signup">Get Started</transparent-btn>
     </div>
 
-    <div class="lg:hidden">
+    <!-- <button
+      @click.prevent="toggleMobileNav"
+      class="lg:hidden"
+      :class=""
+      v-if="mobileNavShowing = false"
+    >
       <i class="fas fa-bars h-12 w-16"></i>
-    </div>
+    </button> -->
+
+    <nav
+      class="h-screen w-full block lg:hidden bg-white p-32"
+      v-if="mobileNavShowing"
+    >
+      <!-- <div class="flex justify-between items-center">
+        <svg-loader path="img" icon="ete-logo" />
+        <button @click.prevent="mobileNavShowing = false">
+          <i class="fas fa-times text-white"></i>
+        </button>
+      </div> -->
+
+      <!-- Navs -->
+      <ul class="flex flex-col justify-center items-center gap-y-36 mt-48">
+        <li
+          v-for="(nav, i) in menu"
+          :key="i"
+          class="px-24 py-16 text-base rounded"
+          :class="[
+            $route.path === nav.link
+              ? 'bg-blue text-white'
+              : 'bg-white text-grey',
+          ]"
+        >
+          <nuxt-link
+            :to="nav.link"
+            class="flex items-center gap-x-16"
+            @click.prevent="mobileNavShowing = false"
+          >
+            <span class="">
+              {{ nav.name }}
+            </span>
+          </nuxt-link>
+        </li>
+      </ul>
+
+      <!-- Login  -->
+      <div class="flex flex-col gap-20 items-center justify-center">
+        <nuxt-link to="/login" class="px-36 py-12 hover:text-yellow"
+          >Login</nuxt-link
+        >
+        <nuxt-link
+          to="/signup"
+          class="px-36 py-12 text-[#000] hover:text-yellow"
+          >Get Started</nuxt-link
+        >
+      </div>
+    </nav>
+
+    <!-- <div v-if="mobileNavShowing" @click="mobileNavShowing=false" tabindex="0" class="fixed top-0 left-0 right-0 bottom-0 z-[5000]"></div> -->
   </nav>
 </template>
 
 <script>
 import TransparentBtn from '~/components/TransparentBtn.vue'
+import SvgLoader from '~/components/utils/SvgLoader.vue'
 export default {
   data: () => ({
     menu: [
@@ -95,10 +144,13 @@ export default {
     ],
 
     index: 0,
+
+    mobileNavShowing: false,
   }),
 
   components: {
     TransparentBtn,
+    SvgLoader,
   },
 
   methods: {
@@ -108,6 +160,9 @@ export default {
       this.index = i
       this.menu.map((item) => (item.isActive = false))
       this.menu[i].isActive = !this.menu[i].isActive
+    },
+    toggleMobileNav() {
+      this.mobileNavShowing = !this.mobileNavShowing
     },
   },
 
