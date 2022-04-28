@@ -48,7 +48,11 @@
                 'bg-blue': $route.path === nav.link,
               }"
             >
-              <nuxt-link :to="nav.link" class="flex items-center gap-x-16">
+              <nuxt-link
+                :to="nav.link"
+                class="flex items-center gap-x-16"
+                @click.prevent="mobileNavShowing = false"
+              >
                 <svg-loader path="img/nav" :icon="nav.icon" />
 
                 <span class="">
@@ -67,7 +71,12 @@
         <i class="fas fa-bars"></i>
       </button>
     </div>
-    <div v-if="mobileNavShowing" @click="mobileNavShowing=false" tabindex="0" class="fixed top-0 left-0 right-0 bottom-0 z-[5000]"></div>
+    <div
+      v-if="mobileNavShowing"
+      @click="mobileNavShowing = false"
+      tabindex="0"
+      class="fixed top-0 left-0 right-0 bottom-0 z-[5000]"
+    ></div>
   </div>
 </template>
 
