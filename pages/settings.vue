@@ -245,13 +245,13 @@
             class="outline-none w-full"
           />
 
-          <button
+          <!-- <button
             v-show="searchQuery !== ''"
             @click="clearSearch"
             class="absolute right-20"
           >
             <i class="fas fa-times text-grey"></i>
-          </button>
+          </button> -->
         </div>
 
         <!-- Add user  -->

@@ -762,9 +762,9 @@
 
                 <button
                   class="rounded-md px-32 bg-purple text-white absolute right-0 inset-y-0"
-                  @click="copyString(service.api_public_key_test)"
+                  @click="copyString(service.api_public_key_test), pk_copied=true, after(() => pk_copied=false)"
                 >
-                  Copy
+                  {{ pk_copied ? 'Copied' : 'Copy' }}
                 </button>
               </div>
             </div>
@@ -961,9 +961,15 @@ export default {
 
     tempEmail: [],
     singleEmail: '',
+
+    pk_copied: false,
   }),
 
   methods: {
+    after(func){
+      window.setTimeout(func, 4000)
+    },
+    openPdf: () => {},
     async getBanks() {
       try {
         let url = 'https://api.paystack.co/bank'

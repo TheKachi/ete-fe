@@ -42,6 +42,7 @@
           <ul class="flex flex-col gap-y-36 mt-48">
             <li
               v-for="(nav, i) in navs"
+              @click.prevent="mobileNavShowing = false"
               :key="i"
               class="px-24 py-16 text-base text-white rounded"
               :class="{
@@ -51,7 +52,6 @@
               <nuxt-link
                 :to="nav.link"
                 class="flex items-center gap-x-16"
-                @click.prevent="mobileNavShowing = false"
               >
                 <svg-loader path="img/nav" :icon="nav.icon" />
 
