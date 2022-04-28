@@ -1,67 +1,73 @@
 <template>
-  <div>
-    <aside class="h-screen hidden lg:block">
-      <div class="fixed w-inherit h-inherit bg-black p-32">
-        <!-- logo -->
-        <svg-loader path="img" icon="ete-logo" />
-
-        <!-- Navs -->
-        <ul class="flex flex-col gap-y-36 mt-48">
-          <li
-            v-for="(nav, i) in navs"
-            :key="i"
-            class="px-24 py-16 text-base text-white rounded"
-            :class="{
-              'bg-blue': activePage($route.path, nav.title),
-            }"
-          >
-            <nuxt-link :to="nav.link" class="flex items-center gap-x-16">
-              <svg-loader path="img/nav" :icon="nav.icon" />
-
-              <span class="">
-                {{ nav.title }}
-              </span>
-            </nuxt-link>
-          </li>
-        </ul>
-      </div>
-    </aside>
-
-    <aside class="h-screen block lg:hidden" v-if="mobileNavShowing">
-      <div class="fixed w-inherit h-inherit bg-black p-32">
-        <div class="flex justify-between items-center">
+  <div class="">
+    <div class="sidebar z-[9999] fixed lg:static">
+      <aside class="h-screen hidden lg:block">
+        <div class="fixed w-inherit h-inherit bg-black p-32">
           <!-- logo -->
           <svg-loader path="img" icon="ete-logo" />
-          <button @click.prevent="mobileNavShowing = false" class="z-[1000]">
-            <i class="fas fa-bars text-white"></i>
-          </button>
+
+          <!-- Navs -->
+          <ul class="flex flex-col gap-y-36 mt-48">
+            <li
+              v-for="(nav, i) in navs"
+              :key="i"
+              class="px-24 py-16 text-base text-white rounded"
+              :class="{
+                'bg-blue': activePage($route.path, nav.title),
+              }"
+            >
+              <nuxt-link :to="nav.link" class="flex items-center gap-x-16">
+                <svg-loader path="img/nav" :icon="nav.icon" />
+
+                <span class="">
+                  {{ nav.title }}
+                </span>
+              </nuxt-link>
+            </li>
+          </ul>
         </div>
+      </aside>
 
-        <!-- Navs -->
-        <ul class="flex flex-col gap-y-36 mt-48">
-          <li
-            v-for="(nav, i) in navs"
-            :key="i"
-            class="px-24 py-16 text-base text-white rounded"
-            :class="{
-              'bg-blue': $route.path === nav.link,
-            }"
-          >
-            <nuxt-link :to="nav.link" class="flex items-center gap-x-16">
-              <svg-loader path="img/nav" :icon="nav.icon" />
+      <aside class="h-screen block lg:hidden" v-if="mobileNavShowing">
+        <div class="fixed w-inherit h-inherit bg-black p-32">
+          <div class="flex justify-between items-center">
+            <!-- logo -->
+            <svg-loader path="img" icon="ete-logo" />
+            <button @click.prevent="mobileNavShowing = false" class="z-[1000]">
+              <i class="fas fa-bars text-white"></i>
+            </button>
+          </div>
 
-              <span class="">
-                {{ nav.title }}
-              </span>
-            </nuxt-link>
-          </li>
-        </ul>
-      </div>
-    </aside>
+          <!-- Navs -->
+          <ul class="flex flex-col gap-y-36 mt-48">
+            <li
+              v-for="(nav, i) in navs"
+              :key="i"
+              class="px-24 py-16 text-base text-white rounded"
+              :class="{
+                'bg-blue': $route.path === nav.link,
+              }"
+            >
+              <nuxt-link :to="nav.link" class="flex items-center gap-x-16">
+                <svg-loader path="img/nav" :icon="nav.icon" />
 
-    <button @click.prevent="toggleMobileNav" class="fixed ml-24 mt-8 z-[1000]">
-      <i class="fas fa-bars"></i>
-    </button>
+                <span class="">
+                  {{ nav.title }}
+                </span>
+              </nuxt-link>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <button
+        @click.prevent="toggleMobileNav"
+        class="fixed ml-24 mt-8 z-[1000]"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div v-if="mobileNavShowing" @click="mobileNavShowing=false" tabindex="0" class="fixed top-0 left-0 right-0 bottom-0 z-[5000]"></div>
   </div>
 </template>
 
